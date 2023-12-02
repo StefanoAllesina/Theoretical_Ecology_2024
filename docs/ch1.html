@@ -199,6 +199,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#a-simple-model-for-non-overlapping-generations" id="toc-a-simple-model-for-non-overlapping-generations" class="nav-link" data-scroll-target="#a-simple-model-for-non-overlapping-generations">A simple model for non-overlapping generations</a></li>
   <li><a href="#overlapping-generations-exponential-growth" id="toc-overlapping-generations-exponential-growth" class="nav-link" data-scroll-target="#overlapping-generations-exponential-growth">Overlapping generations: exponential growth</a></li>
+  <li><a href="#logistic-equation" id="toc-logistic-equation" class="nav-link" data-scroll-target="#logistic-equation">Logistic equation</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -228,6 +229,26 @@ x_{n} = \rho^n x_0
 </section>
 <section id="overlapping-generations-exponential-growth" class="level2">
 <h2 class="anchored" data-anchor-id="overlapping-generations-exponential-growth">Overlapping generations: exponential growth</h2>
+<p>Take the population at time <span class="math inline">\(t\)</span> and <span class="math inline">\(t + \Delta t\)</span>; in the time interval <span class="math inline">\(\Delta t\)</span> the change in population size is <span class="math inline">\(x(t + \Delta t) - x(t)\)</span>, and the average change per unit of time is <span class="math inline">\((x(t + \Delta t) - x(t))/\Delta t\)</span>. We can consider the limit in which the interval <span class="math inline">\(\Delta t\)</span> shrinks to zero:</p>
+<p><span class="math display">\[
+\lim_{\Delta t \to 0} \dfrac{x(t + \Delta t) - x(t)}{\Delta t} = \frac{dx(t)}{dt}
+\]</span></p>
+<p>In fact, this is exactly the definition of the derivative with respect to (w.r.t.) time of the function <span class="math inline">\(x(t)\)</span>. A great contribution of Newton and Leibniz was to recognize that many natural phenomena can be described by simple differential equations—even though the equations describing the rate of change <span class="math inline">\(dx(t)/dt\)</span> are simple, the behavior of the solutions <span class="math inline">\(x(t)\)</span> can be incredibly complex.</p>
+<p>In ecology and evolutionary biology, one encounters two main types of differential equations:</p>
+<ul>
+<li><p>Ordinary differential equations (ODEs) describe the rate of change of a quantity (in our case, population densities, <span class="math inline">\(x(t)\)</span>) as a function of an independent variable (in our case, the time <span class="math inline">\(t\)</span>), and can contain functions of the quantity, and its derivatives. If only the first derivative (<span class="math inline">\(dx(t)/dt\)</span>) is included, they are called first-order ODEs.</p></li>
+<li><p>Partial differential equations (PDEs) contain more than one independent variable (e.g., time and coordinates in space). Therefore, the quantity of interest is a multivariate function, such as <span class="math inline">\(q(x,y,t)\)</span>, denoting the density of a population at the coordinates <span class="math inline">\(x,y\)</span> and time <span class="math inline">\(t\)</span>. The partial derivatives with respect to the independent variables are considered, hence the name.</p></li>
+</ul>
+<p>Many other types of differential equations (stochastic differential equations, SDEs; integro-differential equations, IDEs; etc.) are found in certain technical areas.</p>
+<p>In this class, we will deal exclusively with ODEs of the form:</p>
+<p><span class="math display">\[
+\dfrac{dx(t)}{dt} = f(x(t))
+\]</span></p>
+<p>where the function <span class="math inline">\(f(x(t))\)</span> will model different ecological phenomena determining the growth and decline of populations. For example, take populations growing thanks to the per-capita birth rate <span class="math inline">\(\beta\)</span>, and declining due to the death rate <span class="math inline">\(\delta\)</span>:</p>
+<p><span class="math display">\[
+\dfrac{dx(t)}{dt} = \beta x(t) - \delta x(t) = (\beta - \delta) x(t) = \rho\, x(t)
+\]</span></p>
+<p>here the <em>intrinsic growth rate</em> <span class="math inline">\(\rho\)</span> represents the difference between birth and death rates. The parameter is taken to be independent of time, yielding an <em>autonomous</em> differential equation. An ODE is autonomous if it does not depend explicitly on the independent variable (in our case, time). I.e., if <span class="math inline">\(dx/dt = f(x(t))\)</span> the system is autonomous, while <span class="math inline">\(dx/dt = g(x(t),t)\)</span> is not.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -268,7 +289,8 @@ d x(t) &amp;= \alpha\, dt\\
 \int d x(t) &amp;= \alpha \int dt + \mathcal c\\
 x(t) &amp;= \alpha t + \mathcal c
 \end{aligned}
-\]</span> Now substitute the initial condition:</p>
+\]</span></p>
+<p>Now substitute the initial condition:</p>
 <p><span class="math display">\[
 x(0) = x_0 = \alpha 0 + c  = c
 \]</span></p>
@@ -312,7 +334,7 @@ x(t) = x(0) e^{\rho\, t}
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Integrating differential equations
+Integrating differential equations numerically
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
@@ -364,8 +386,92 @@ Integrating differential equations
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
+</section>
+<section id="logistic-equation" class="level2">
+<h2 class="anchored" data-anchor-id="logistic-equation">Logistic equation</h2>
+<p>We have a population that grows exponentially when at very low densities, but experience a slow down in growth when densities are higher. The logistic growth equation is typically written as:</p>
+<p><span class="math display">\[
+\frac{d X}{d \tau} = X\left(\rho - \alpha X\right)
+\]</span></p>
+<p>where <span class="math inline">\(\rho&gt;0\)</span> is the intrinsic growth rate of the population, and <span class="math inline">\(\alpha&gt;0\)</span> that regulates the amount by which growth is decreased as <span class="math inline">\(X\)</span> increases. The equation has two equilibria: <span class="math inline">\(X=0\)</span> (absence of the population), and <span class="math inline">\(\rho = \alpha X\)</span>, <span class="math inline">\(X = \rho / \alpha = \kappa\)</span>, called the carrying capacity of the population.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Chain rule
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>One of the most useful formulas from calculus. It relates the derivative of the composition of two differentiable functions with the derivatives of the functions. If <span class="math inline">\(h(x) = g(u)\)</span> and <span class="math inline">\(u = f(x)\)</span>, then:</p>
+<p><span class="math display">\[
+\dfrac{dh}{dx} = \dfrac{dg}{du}\dfrac{du}{dx}
+\]</span></p>
+<p>As put by George Simmons [Calculus with Analytic Geometry (1985)]: <em>If a car travels twice as fast as a bicycle and the bicycle is four times as fast as a walking man, then the car travels 2 × 4 = 8 times as fast as the man.</em></p>
+<p><strong>Example</strong></p>
+<p>Take</p>
+<p><span class="math display">\[
+\dfrac{dx(t)}{dt} = x(t) f(x(t))
+\]</span></p>
+<p>write the ODE <span class="math inline">\(d \log x(t) /dt\)</span>. We can write this as the derivative of the composition <span class="math inline">\(\log x(t) = \log u\)</span> and <span class="math inline">\(u = x(t)\)</span>. Then, by chain rule:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{d \log x(t)}{dt} &amp;= \dfrac{d \log u}{du} \dfrac{du}{dt}\\
+&amp;= \dfrac{1}{u} \dfrac{du}{dt}\\
+&amp;= \dfrac{1}{x(t)} \dfrac{d x(t)}{dt}\\
+&amp;= \dfrac{1}{x(t)}  x(t) f(x(t))\\
+&amp;= f(x(t))
+\end{aligned}
+\]</span> showing that the per-capita rate of change:</p>
+<p><span class="math display">\[
+\dfrac{1}{x(t)} \dfrac{dx(t)}{dt} = \dfrac{\log x(t)}{dt}
+\]</span></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Nondimensionalization
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Ecological models can have many parameters, and the goal of nondimensionalization is to rewrite the equations using as few parameters as possible, via a change of variables. Importantly, the new system and the original one are equivalent, and share the same dynamics. In fact, the trajectories of the original system can be reconstructed from those of the simpler system by inverting the transformation.</p>
+<p>To perform nondimensionalization:</p>
+<ul>
+<li>identify all the variables that depend on time (<span class="math inline">\(X(\tau)\)</span>, <span class="math inline">\(Y(\tau)\)</span>, etc.), as well as the independent variable (the time, <span class="math inline">\(\tau\)</span>)</li>
+<li>replace each of them by a scaled version: <span class="math inline">\(X = c_x x\)</span>, <span class="math inline">\(Y = c_y y\)</span>, <span class="math inline">\(t = c_t \tau\)</span>, in which <span class="math inline">\(c_i\)</span> are constants to be determined, and rewrite the equations for the new variables</li>
+<li>choose the values for the constants to eliminate as many parameters as possible. Generally, one should be able to remove one parameter for each dependent variable, plus one parameter by scaling the time.</li>
+</ul>
+<section id="examples" class="level2">
+<h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<p>The exponential growth equation has a single parameter:</p>
+<p><span class="math display">\[
+\frac{dx}{d\tau} = \rho x
+\]</span></p>
+<p>one can define <span class="math inline">\(t = c_1 \tau\)</span>, obtaining:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{1}{c_1}\frac{dx}{dt} &amp;= \rho x\\
+\frac{dx}{dt} &amp;= c_1 \rho x\\
+\frac{dx}{dt} &amp;= x
+\end{aligned}
+\]</span> where we have chosen <span class="math inline">\(c_1 = 1/\rho\)</span>.</p>
+</section>
+</div>
+</div>
+</div>
+<p>We rewrite the equation for the logistic growth by choosing <span class="math inline">\(x = c_1 X\)</span> and <span class="math inline">\(t = c_2 \tau\)</span>. Our equations become (use the chain rule):</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -374,7 +480,7 @@ Exercise 1
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Take the equation for the logistic growth:</p>
 <p><span class="math display">\[
