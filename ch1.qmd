@@ -10,13 +10,13 @@ library(deSolve) # integrate differential equations
 
 ## A simple model for non-overlapping generations
 
-Consider a population reproducing annually, with non-overlapping generations. Each individual produces $\rho$ individuals, which form the next generation. Then, we can write:
+Consider a population reproducing annually, with non-overlapping generations. Over its lifetime, each individual produces $\rho$ offspring, which form the next generation. Then, we can write:
 
 $$
 x_{k+1} = \rho x_k
 $$
 
-where $x_k$ is the number of individuals/area at generation $k$. Naturally, we can iterate again and find the population density at time $x_{k+2}$:
+where $x_k$ is the number of individuals/area at generation $k$. Naturally, we can iterate again, and find the population density at time $x_{k+2}$:
 
 $$
 x_{k+2} = \rho x_{k+1} = \rho^2 x_{k}
@@ -28,11 +28,11 @@ $$
 x_{n} = \rho^n x_0
 $$
 
-where $x_0$ is the initial population size, and $n$ is the number of generations since we started tracking the population. Naturally, we assume $x_0>0$, and thus the population grows whenever $\rho > 1$, shrinks whenever $\rho < 1$, and is constant whenever $\rho = 1$. Thus, armed with $x_0$ and $\rho$ we can project the population forward in time for an arbitrary number of generations. 
+where $x_0$ is the initial population size, and $n$ is the number of generations since we started tracking the population. We assume $x_0>0$, and thus the population grows whenever $\rho > 1$, declines whenever $\rho < 1$, and is constant whenever $\rho = 1$. Armed with $x_0$ and $\rho$ we can project the population forward in time for an arbitrary number of generations. 
 
 ## Overlapping generations: exponential growth
 
-Take the population at time $t$ and $t + \Delta t$; in the time interval $\Delta t$ the change in population size is $x(t + \Delta t) - x(t)$, and the average change per unit of time is $(x(t + \Delta t) - x(t))/\Delta t$. We can consider the limit in which the interval $\Delta t$ shrinks to zero:
+Take the population density at time $t$ and $t + \Delta t$; in the time interval $\Delta t$ the change in population density is $x(t + \Delta t) - x(t)$, and the average change per unit of time is $(x(t + \Delta t) - x(t))/\Delta t$. We can consider the limit in which the interval $\Delta t$ shrinks to zero:
 
 $$
 \lim_{\Delta t \to 0} \dfrac{x(t + \Delta t) - x(t)}{\Delta t} = \frac{dx(t)}{dt}
@@ -42,9 +42,9 @@ In fact, this is exactly the definition of the derivative with respect to (w.r.t
 
 In ecology and evolutionary biology, one encounters two main types of differential equations:
 
-- Ordinary differential equations (ODEs) describe the rate of change of a quantity (in our case, population densities, $x(t)$) as a function of an independent variable (in our case, the time $t$), and can contain functions of the quantity, and its derivatives. If only the first derivative ($dx(t)/dt$) is included, they are called first-order ODEs. 
+- *Ordinary differential equations* (ODEs) describe the rate of change of a quantity (in our case, population densities, $x(t)$) as a function of an independent variable (in our case, the time $t$), and can contain functions of the quantity, and its derivatives. If only the first derivative ($dx(t)/dt$) is included, they are called first-order ODEs. 
 
-- Partial differential equations (PDEs) contain more than one independent variable (e.g., time and coordinates in space). Therefore, the quantity of interest is a multivariate function, such as $q(x,y,t)$, denoting the density of a population at the coordinates $x,y$ and time $t$. The partial derivatives with respect to the independent variables are considered, hence the name.
+- *Partial differential equations* (PDEs) contain more than one independent variable (e.g., time and coordinates in space). Therefore, the quantity of interest is a multivariate function, such as $q(x,y,t)$, denoting the density of a population at the coordinates $x,y$ and time $t$. The partial derivatives with respect to the independent variables are considered, hence the name.
 
 Many other types of differential equations (stochastic differential equations, SDEs; integro-differential equations, IDEs; etc.) are found in certain technical areas.
 
@@ -54,7 +54,7 @@ $$
 \dfrac{dx(t)}{dt} = f(x(t))
 $$
 
-where the function $f(x(t))$ will model different ecological phenomena determining the growth and decline of populations. For example, take populations growing thanks to the per-capita birth rate $\beta$, and declining due to the death rate $\delta$:
+where the function $f(x(t))$ models different ecological phenomena influencing the growth and decline of populations. For example, take populations growing thanks to the per-capita birth rate $\beta$, and declining due to the death rate $\delta$:
 
 $$
 \dfrac{dx(t)}{dt} = \beta x(t) - \delta x(t) = (\beta - \delta) x(t) = \rho\, x(t)
@@ -112,11 +112,13 @@ $$
 x(0) = x_0 = \alpha 0 + c  = c
 $$
 
-Completing the solution:
+Yielding the solution:
 
 $$
 x(t) = x_0 + \alpha t
 $$
+
+A solution of an *initial-value* problem is an equation which, given the values of the parameters ($\alpha$, in this case) and the initial conditions ($x_0$, in this case), allows us to determine the value of the dependent variable ($x(t)$) for any value of the independent variable ($t$). Only relatively simple ODEs or systems of ODEs can be solved explicitly.
 :::
 
 We can solve the differential equation:
@@ -157,9 +159,9 @@ $$
 ::: {.callout-tip collapse="true"}
 ## Integrating differential equations numerically
 
-You can compute $x(t)$ for any differential equation (or system of differential equations) in `R` using numerical techniques. You need two parts:
+You can compute $x(t)$ for any differential equation (or system of differential equations) in `R` using numerical techniques. Your code needs to include two parts:
 
-First, we write a function defining the (system of) ODE(s). This function takes three arguments: `t`, the time, `x`, the state of the system, and `parms`, the parameters, and returns a `list` containing $dx/dt$. For the exponential growth, we can write:
+First, we write a function defining the (system of) ODE(s). This function takes three arguments: `t`, the time, `x`, the state of the system, and `parms`, a list of parameters, and returns a `list` containing $dx/dt$. For the exponential growth, we can write:
 
 ```{r}
 exponential_growth <- function(t, x, parms){
@@ -168,7 +170,7 @@ exponential_growth <- function(t, x, parms){
 }
 ```
 
-Because ecological models only make sense for positive population densities, we can set an arbitrarily small threshold, and consider the population extinct if it fall below the threshold:
+Because ecological models only make sense for positive population densities, we can set an arbitrarily small threshold, and consider the population extinct if it falls below the threshold:
 
 ```{r}
 THRESH <- 10^-10
@@ -185,7 +187,7 @@ The second part of the code invokes the numerical integration function `ode`. Fo
 ```{r}
 x0 <- 1 # initial conditions
 my_time <- seq(0, 5, by = 0.1) # we will observe the system at these times
-parms <- list(rho = 1.05) # this is always a list of parameters
+parms <- list(rho = 1.05) # list of parameters
 output <- ode(y = x0, # a) initial conditions
              times = my_time,  # b) time at which we observe the system
              func = exponential_growth, # c) function computing r.h.s. of ODEs
@@ -207,6 +209,36 @@ output %>%
 ```
 :::
 
+### Doubling time
+
+How long will it take for a growing population ($\rho > 0$) to double in density? We are looking for $\tau$ such that 
+$$
+\begin{aligned}
+x(\tau) &= 2 x_0\\
+x_0 e^{\rho \tau} &= 2 x_0\\
+e^{\rho \tau} &= 2\\
+\rho \tau &= \log 2\\
+\tau &= \dfrac{\log 2}{\rho}
+\end{aligned}
+$$
+
+Thus, the doubling time does not depend on the initial condition: the population will keep doubling every $\log 2 / \rho$ units of time. For example, take $\rho = 0.01$, then $\tau \approx 30$: a population growing exponentially with rate of 1% per year will double every 30 years or so. Then, a growth of 3% doubles every 10 years, etc. 
+
+::: {.callout-warning collapse="true"}
+## Exercise: Radiocarbon dating
+
+While at the University of Chicago, Willard Libby (Nobel Laureate in Chemistry, 1960) pioneered radiocarbon dating. The carbon isotope ${}^{14}$C is constantly being created in the Earth's atmosphere by the interaction of cosmic rays with atmospheric nitrogen. The carbon combines with oxygen, to form CO${}_2$ that is then absorbed by plants. When plants die, the isotope decays in their tissues. Radioactive decay follows the exponential model:
+
+$$
+N(t) = e^{\lambda t} N(0)
+$$
+
+where $\lambda < 0$ is the decay rate of the isotope. The half-life of a radioisotope is the time it takes to be reduced to half of the original concentration, and is 5,730 years for ${}^{14}$C. 
+
+- Find the value of $\lambda$ given the half-life
+- Express $t$ as a function of $\lambda$, and the ratio between $N(t)$ and $N(0)$
+- The concentration in the atmosphere is about 1 atom of ${}^{14}$C for every $10^{12}$ atoms of carbon. You have a collected sample that contains $1/16$ atoms of ${}^{14}$C for every $10^{12}$ atoms of carbon; date the sample.
+:::
 
 ## Logistic equation
 
@@ -216,13 +248,20 @@ $$
 \frac{d X}{d \tau} = X\left(\rho - \alpha X\right)
 $$
 
-where $\rho>0$ is the intrinsic growth rate of the population, and $\alpha>0$ that regulates the amount by which growth is decreased as $X$ increases. The equation has two equilibria: $X=0$ (absence of the population), and $\rho = \alpha X$, $X = \rho / \alpha = \kappa$, called the carrying capacity of the population.
+where $\rho>0$ is the intrinsic growth rate of the population, and $\alpha>0$ is a parameter that regulates the amount by which growth is decreased as $X$ increases. 
 
+An equilibrium (steady-state, fixed point) of a differential equation is a value of the dependent variable ($X$) that makes the right-hand side of the equation zero. We denote an equilibrium as $X^\star$. We can write:
+
+$$
+\left.\dfrac{dX}{d\tau}\right|_{X^\star} = 0
+$$
+
+i.e., the differential equation, evaluated at the point $X^\star$ is zero: the population will not grow nor decline, but rather will remain at $X^\star$. The logistic equation has two equilibria: $X=0$ (absence of the population), and $\rho = \alpha X$, $X = \rho / \alpha = \kappa$, called the carrying capacity of the population.
 
 ::: {.callout-note collapse="true"}
 ## Chain rule
 
-One of the most useful formulas from calculus. It relates the derivative of the composition of two differentiable functions with the derivatives of the functions. If $h(x) = g(u)$ and $u = f(x)$, then:
+This is one of the most useful formulas from calculus. It relates the derivative of the composition of two differentiable functions with the derivatives of the functions. If $h(x) = g(u)$ and $u = f(x)$, then:
 
 $$
 \dfrac{dh}{dx} = \dfrac{dg}{du}\dfrac{du}{dx}
@@ -238,7 +277,7 @@ $$
 \dfrac{dx(t)}{dt} = x(t) f(x(t))
 $$
 
-write the ODE $d \log x(t) /dt$. We can write this as the derivative of the composition $\log x(t) = \log u$ and $u = x(t)$. Then, by chain rule:
+and write the ODE describing $d \log x(t) /dt$. We can write this function as the derivative of the composition $\log x(t) = \log u$ and $u = x(t)$. Then, by chain rule:
 
 $$
 \begin{aligned}
@@ -249,13 +288,17 @@ $$
  &= f(x(t))
 \end{aligned}
 $$
+
 showing that the per-capita rate of change:
 
 $$
 \dfrac{1}{x(t)} \dfrac{dx(t)}{dt} = \dfrac{\log x(t)}{dt}
 $$
+
+is the derivative in time of the logarithm of the density of the population.
 :::
 
+We can simplify the analysis of the differential equation by rescaling all the variables by positive quantities, thus obtaining a simpler form that retains the behavior of the original equation.
 
 ::: {.callout-note collapse="true"}
 ## Nondimensionalization
@@ -268,7 +311,7 @@ To perform nondimensionalization:
 - replace each of them by a scaled version: $X = c_x x$, $Y = c_y y$, $t = c_t \tau$, in which $c_i$ are constants to be determined, and rewrite the equations for the new variables 
 - choose the values for the constants to eliminate as many parameters as possible. Generally, one should be able to remove one parameter for each dependent variable, plus one parameter by scaling the time. 
 
-## Examples
+**Example**
 
 The exponential growth equation has a single parameter:
 
@@ -285,10 +328,55 @@ $$
 \frac{dx}{dt} &= x
 \end{aligned}
 $$
+
 where we have chosen $c_1 = 1/\rho$.
 :::
 
 We rewrite the equation for the logistic growth by choosing $x = c_1 X$ and $t = c_2 \tau$. Our equations become (use the chain rule):
+
+$$
+\begin{aligned}
+\dfrac{c_1}{c_2}\dfrac{dx}{dt} &= c_1 x (\rho - \alpha c_1 x)\\
+\dfrac{dx}{dt} &= x (\rho c_2 - \alpha c_1 c_2 x)\\
+\end{aligned}
+$$
+We choose $c_2 = 1/\rho$ to make the first coefficient in parenthesis be equal to 1; then, we choose $c_1 = \rho/\alpha$ to make the second coefficient be 1:
+
+$$
+\dfrac{dx}{dt} = x (1 - x)
+$$
+
+Note that in practice we have chosen to rescale the variables using the intrinsic growth rate, $t = \tau / \rho$, and the carrying capacity, $x = X \alpha / \rho = X / \kappa$.
+
+The logistic equation can be solved, because it is separable:
+
+$$
+\begin{aligned}
+\dfrac{1}{x(1-x)} dx &= dt\\
+\left(\dfrac{1}{x}-\dfrac{1}{x-1}\right)dx &= dt\\
+\int \dfrac{1}{x} dx - \int \dfrac{1}{1-x} dx &= \int dt + \mathcal c\\
+\log x - \log(x-1)&= t + c\\
+\log \dfrac{x}{x-1}&= t + c\\
+\dfrac{x}{x-1} &= e^t e^c\\
+x &= \dfrac{e^t e^c}{e^t e^c - 1}\\
+x &= \dfrac{1}{1 - e^{-t}e^{-c}}
+\end{aligned}
+$$
+
+Plugging in $x_0$ when $t=0$, we find the value for the constant of proportionality:
+
+$$
+\begin{aligned}
+x_0 &= \frac{e^c}{e^c - 1}\\
+e^c &= \frac{x_0}{x_0 - 1}
+\end{aligned}
+$$
+
+Yielding the solution
+
+$$
+x(t) = \dfrac{x_0 e^t}{1 + (e^t - 1)x_0}
+$$
 
 
 

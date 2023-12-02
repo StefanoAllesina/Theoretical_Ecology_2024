@@ -198,7 +198,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#models-for-a-single-population" id="toc-models-for-a-single-population" class="nav-link active" data-scroll-target="#models-for-a-single-population">Models for a single population</a>
   <ul class="collapse">
   <li><a href="#a-simple-model-for-non-overlapping-generations" id="toc-a-simple-model-for-non-overlapping-generations" class="nav-link" data-scroll-target="#a-simple-model-for-non-overlapping-generations">A simple model for non-overlapping generations</a></li>
-  <li><a href="#overlapping-generations-exponential-growth" id="toc-overlapping-generations-exponential-growth" class="nav-link" data-scroll-target="#overlapping-generations-exponential-growth">Overlapping generations: exponential growth</a></li>
+  <li><a href="#overlapping-generations-exponential-growth" id="toc-overlapping-generations-exponential-growth" class="nav-link" data-scroll-target="#overlapping-generations-exponential-growth">Overlapping generations: exponential growth</a>
+  <ul class="collapse">
+  <li><a href="#doubling-time" id="toc-doubling-time" class="nav-link" data-scroll-target="#doubling-time">Doubling time</a></li>
+  </ul></li>
   <li><a href="#logistic-equation" id="toc-logistic-equation" class="nav-link" data-scroll-target="#logistic-equation">Logistic equation</a></li>
   </ul></li>
   </ul>
@@ -213,11 +216,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Models for a single population</h1>
 <section id="a-simple-model-for-non-overlapping-generations" class="level2">
 <h2 class="anchored" data-anchor-id="a-simple-model-for-non-overlapping-generations">A simple model for non-overlapping generations</h2>
-<p>Consider a population reproducing annually, with non-overlapping generations. Each individual produces <span class="math inline">\(\rho\)</span> individuals, which form the next generation. Then, we can write:</p>
+<p>Consider a population reproducing annually, with non-overlapping generations. Over its lifetime, each individual produces <span class="math inline">\(\rho\)</span> offspring, which form the next generation. Then, we can write:</p>
 <p><span class="math display">\[
 x_{k+1} = \rho x_k
 \]</span></p>
-<p>where <span class="math inline">\(x_k\)</span> is the number of individuals/area at generation <span class="math inline">\(k\)</span>. Naturally, we can iterate again and find the population density at time <span class="math inline">\(x_{k+2}\)</span>:</p>
+<p>where <span class="math inline">\(x_k\)</span> is the number of individuals/area at generation <span class="math inline">\(k\)</span>. Naturally, we can iterate again, and find the population density at time <span class="math inline">\(x_{k+2}\)</span>:</p>
 <p><span class="math display">\[
 x_{k+2} = \rho x_{k+1} = \rho^2 x_{k}
 \]</span></p>
@@ -225,26 +228,26 @@ x_{k+2} = \rho x_{k+1} = \rho^2 x_{k}
 <p><span class="math display">\[
 x_{n} = \rho^n x_0
 \]</span></p>
-<p>where <span class="math inline">\(x_0\)</span> is the initial population size, and <span class="math inline">\(n\)</span> is the number of generations since we started tracking the population. Naturally, we assume <span class="math inline">\(x_0&gt;0\)</span>, and thus the population grows whenever <span class="math inline">\(\rho &gt; 1\)</span>, shrinks whenever <span class="math inline">\(\rho &lt; 1\)</span>, and is constant whenever <span class="math inline">\(\rho = 1\)</span>. Thus, armed with <span class="math inline">\(x_0\)</span> and <span class="math inline">\(\rho\)</span> we can project the population forward in time for an arbitrary number of generations.</p>
+<p>where <span class="math inline">\(x_0\)</span> is the initial population size, and <span class="math inline">\(n\)</span> is the number of generations since we started tracking the population. We assume <span class="math inline">\(x_0&gt;0\)</span>, and thus the population grows whenever <span class="math inline">\(\rho &gt; 1\)</span>, declines whenever <span class="math inline">\(\rho &lt; 1\)</span>, and is constant whenever <span class="math inline">\(\rho = 1\)</span>. Armed with <span class="math inline">\(x_0\)</span> and <span class="math inline">\(\rho\)</span> we can project the population forward in time for an arbitrary number of generations.</p>
 </section>
 <section id="overlapping-generations-exponential-growth" class="level2">
 <h2 class="anchored" data-anchor-id="overlapping-generations-exponential-growth">Overlapping generations: exponential growth</h2>
-<p>Take the population at time <span class="math inline">\(t\)</span> and <span class="math inline">\(t + \Delta t\)</span>; in the time interval <span class="math inline">\(\Delta t\)</span> the change in population size is <span class="math inline">\(x(t + \Delta t) - x(t)\)</span>, and the average change per unit of time is <span class="math inline">\((x(t + \Delta t) - x(t))/\Delta t\)</span>. We can consider the limit in which the interval <span class="math inline">\(\Delta t\)</span> shrinks to zero:</p>
+<p>Take the population density at time <span class="math inline">\(t\)</span> and <span class="math inline">\(t + \Delta t\)</span>; in the time interval <span class="math inline">\(\Delta t\)</span> the change in population density is <span class="math inline">\(x(t + \Delta t) - x(t)\)</span>, and the average change per unit of time is <span class="math inline">\((x(t + \Delta t) - x(t))/\Delta t\)</span>. We can consider the limit in which the interval <span class="math inline">\(\Delta t\)</span> shrinks to zero:</p>
 <p><span class="math display">\[
 \lim_{\Delta t \to 0} \dfrac{x(t + \Delta t) - x(t)}{\Delta t} = \frac{dx(t)}{dt}
 \]</span></p>
 <p>In fact, this is exactly the definition of the derivative with respect to (w.r.t.) time of the function <span class="math inline">\(x(t)\)</span>. A great contribution of Newton and Leibniz was to recognize that many natural phenomena can be described by simple differential equations—even though the equations describing the rate of change <span class="math inline">\(dx(t)/dt\)</span> are simple, the behavior of the solutions <span class="math inline">\(x(t)\)</span> can be incredibly complex.</p>
 <p>In ecology and evolutionary biology, one encounters two main types of differential equations:</p>
 <ul>
-<li><p>Ordinary differential equations (ODEs) describe the rate of change of a quantity (in our case, population densities, <span class="math inline">\(x(t)\)</span>) as a function of an independent variable (in our case, the time <span class="math inline">\(t\)</span>), and can contain functions of the quantity, and its derivatives. If only the first derivative (<span class="math inline">\(dx(t)/dt\)</span>) is included, they are called first-order ODEs.</p></li>
-<li><p>Partial differential equations (PDEs) contain more than one independent variable (e.g., time and coordinates in space). Therefore, the quantity of interest is a multivariate function, such as <span class="math inline">\(q(x,y,t)\)</span>, denoting the density of a population at the coordinates <span class="math inline">\(x,y\)</span> and time <span class="math inline">\(t\)</span>. The partial derivatives with respect to the independent variables are considered, hence the name.</p></li>
+<li><p><em>Ordinary differential equations</em> (ODEs) describe the rate of change of a quantity (in our case, population densities, <span class="math inline">\(x(t)\)</span>) as a function of an independent variable (in our case, the time <span class="math inline">\(t\)</span>), and can contain functions of the quantity, and its derivatives. If only the first derivative (<span class="math inline">\(dx(t)/dt\)</span>) is included, they are called first-order ODEs.</p></li>
+<li><p><em>Partial differential equations</em> (PDEs) contain more than one independent variable (e.g., time and coordinates in space). Therefore, the quantity of interest is a multivariate function, such as <span class="math inline">\(q(x,y,t)\)</span>, denoting the density of a population at the coordinates <span class="math inline">\(x,y\)</span> and time <span class="math inline">\(t\)</span>. The partial derivatives with respect to the independent variables are considered, hence the name.</p></li>
 </ul>
 <p>Many other types of differential equations (stochastic differential equations, SDEs; integro-differential equations, IDEs; etc.) are found in certain technical areas.</p>
 <p>In this class, we will deal exclusively with ODEs of the form:</p>
 <p><span class="math display">\[
 \dfrac{dx(t)}{dt} = f(x(t))
 \]</span></p>
-<p>where the function <span class="math inline">\(f(x(t))\)</span> will model different ecological phenomena determining the growth and decline of populations. For example, take populations growing thanks to the per-capita birth rate <span class="math inline">\(\beta\)</span>, and declining due to the death rate <span class="math inline">\(\delta\)</span>:</p>
+<p>where the function <span class="math inline">\(f(x(t))\)</span> models different ecological phenomena influencing the growth and decline of populations. For example, take populations growing thanks to the per-capita birth rate <span class="math inline">\(\beta\)</span>, and declining due to the death rate <span class="math inline">\(\delta\)</span>:</p>
 <p><span class="math display">\[
 \dfrac{dx(t)}{dt} = \beta x(t) - \delta x(t) = (\beta - \delta) x(t) = \rho\, x(t)
 \]</span></p>
@@ -294,10 +297,11 @@ x(t) &amp;= \alpha t + \mathcal c
 <p><span class="math display">\[
 x(0) = x_0 = \alpha 0 + c  = c
 \]</span></p>
-<p>Completing the solution:</p>
+<p>Yielding the solution:</p>
 <p><span class="math display">\[
 x(t) = x_0 + \alpha t
 \]</span></p>
+<p>A solution of an <em>initial-value</em> problem is an equation which, given the values of the parameters (<span class="math inline">\(\alpha\)</span>, in this case) and the initial conditions (<span class="math inline">\(x_0\)</span>, in this case), allows us to determine the value of the dependent variable (<span class="math inline">\(x(t)\)</span>) for any value of the independent variable (<span class="math inline">\(t\)</span>). Only relatively simple ODEs or systems of ODEs can be solved explicitly.</p>
 </div>
 </div>
 </div>
@@ -340,15 +344,15 @@ Integrating differential equations numerically
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>You can compute <span class="math inline">\(x(t)\)</span> for any differential equation (or system of differential equations) in <code>R</code> using numerical techniques. You need two parts:</p>
-<p>First, we write a function defining the (system of) ODE(s). This function takes three arguments: <code>t</code>, the time, <code>x</code>, the state of the system, and <code>parms</code>, the parameters, and returns a <code>list</code> containing <span class="math inline">\(dx/dt\)</span>. For the exponential growth, we can write:</p>
+<p>You can compute <span class="math inline">\(x(t)\)</span> for any differential equation (or system of differential equations) in <code>R</code> using numerical techniques. Your code needs to include two parts:</p>
+<p>First, we write a function defining the (system of) ODE(s). This function takes three arguments: <code>t</code>, the time, <code>x</code>, the state of the system, and <code>parms</code>, a list of parameters, and returns a <code>list</code> containing <span class="math inline">\(dx/dt\)</span>. For the exponential growth, we can write:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>exponential_growth <span class="ot">&lt;-</span> <span class="cf">function</span>(t, x, parms){</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  dxdt <span class="ot">&lt;-</span> x <span class="sc">*</span> parms<span class="sc">$</span>rho</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(dxdt))</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Because ecological models only make sense for positive population densities, we can set an arbitrarily small threshold, and consider the population extinct if it fall below the threshold:</p>
+<p>Because ecological models only make sense for positive population densities, we can set an arbitrarily small threshold, and consider the population extinct if it falls below the threshold:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>THRESH <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">10</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -362,7 +366,7 @@ Integrating differential equations numerically
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>x0 <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="co"># initial conditions</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>my_time <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">by =</span> <span class="fl">0.1</span>) <span class="co"># we will observe the system at these times</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>parms <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">rho =</span> <span class="fl">1.05</span>) <span class="co"># this is always a list of parameters</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>parms <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">rho =</span> <span class="fl">1.05</span>) <span class="co"># list of parameters</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>output <span class="ot">&lt;-</span> <span class="fu">ode</span>(<span class="at">y =</span> x0, <span class="co"># a) initial conditions</span></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">times =</span> my_time,  <span class="co"># b) time at which we observe the system</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">func =</span> exponential_growth, <span class="co"># c) function computing r.h.s. of ODEs</span></span>
@@ -386,6 +390,44 @@ Integrating differential equations numerically
 </div>
 </div>
 </div>
+<section id="doubling-time" class="level3">
+<h3 class="anchored" data-anchor-id="doubling-time">Doubling time</h3>
+<p>How long will it take for a growing population (<span class="math inline">\(\rho &gt; 0\)</span>) to double in density? We are looking for <span class="math inline">\(\tau\)</span> such that <span class="math display">\[
+\begin{aligned}
+x(\tau) &amp;= 2 x_0\\
+x_0 e^{\rho \tau} &amp;= 2 x_0\\
+e^{\rho \tau} &amp;= 2\\
+\rho \tau &amp;= \log 2\\
+\tau &amp;= \dfrac{\log 2}{\rho}
+\end{aligned}
+\]</span></p>
+<p>Thus, the doubling time does not depend on the initial condition: the population will keep doubling every <span class="math inline">\(\log 2 / \rho\)</span> units of time. For example, take <span class="math inline">\(\rho = 0.01\)</span>, then <span class="math inline">\(\tau \approx 30\)</span>: a population growing exponentially with rate of 1% per year will double every 30 years or so. Then, a growth of 3% doubles every 10 years, etc.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Radiocarbon dating
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>While at the University of Chicago, Willard Libby (Nobel Laureate in Chemistry, 1960) pioneered radiocarbon dating. The carbon isotope <span class="math inline">\({}^{14}\)</span>C is constantly being created in the Earth’s atmosphere by the interaction of cosmic rays with atmospheric nitrogen. The carbon combines with oxygen, to form CO<span class="math inline">\({}_2\)</span> that is then absorbed by plants. When plants die, the isotope decays in their tissues. Radioactive decay follows the exponential model:</p>
+<p><span class="math display">\[
+N(t) = e^{\lambda t} N(0)
+\]</span></p>
+<p>where <span class="math inline">\(\lambda &lt; 0\)</span> is the decay rate of the isotope. The half-life of a radioisotope is the time it takes to be reduced to half of the original concentration, and is 5,730 years for <span class="math inline">\({}^{14}\)</span>C.</p>
+<ul>
+<li>Find the value of <span class="math inline">\(\lambda\)</span> given the half-life</li>
+<li>Express <span class="math inline">\(t\)</span> as a function of <span class="math inline">\(\lambda\)</span>, and the ratio between <span class="math inline">\(N(t)\)</span> and <span class="math inline">\(N(0)\)</span></li>
+<li>The concentration in the atmosphere is about 1 atom of <span class="math inline">\({}^{14}\)</span>C for every <span class="math inline">\(10^{12}\)</span> atoms of carbon. You have a collected sample that contains <span class="math inline">\(1/16\)</span> atoms of <span class="math inline">\({}^{14}\)</span>C for every <span class="math inline">\(10^{12}\)</span> atoms of carbon; date the sample.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="logistic-equation" class="level2">
 <h2 class="anchored" data-anchor-id="logistic-equation">Logistic equation</h2>
@@ -393,9 +435,14 @@ Integrating differential equations numerically
 <p><span class="math display">\[
 \frac{d X}{d \tau} = X\left(\rho - \alpha X\right)
 \]</span></p>
-<p>where <span class="math inline">\(\rho&gt;0\)</span> is the intrinsic growth rate of the population, and <span class="math inline">\(\alpha&gt;0\)</span> that regulates the amount by which growth is decreased as <span class="math inline">\(X\)</span> increases. The equation has two equilibria: <span class="math inline">\(X=0\)</span> (absence of the population), and <span class="math inline">\(\rho = \alpha X\)</span>, <span class="math inline">\(X = \rho / \alpha = \kappa\)</span>, called the carrying capacity of the population.</p>
+<p>where <span class="math inline">\(\rho&gt;0\)</span> is the intrinsic growth rate of the population, and <span class="math inline">\(\alpha&gt;0\)</span> is a parameter that regulates the amount by which growth is decreased as <span class="math inline">\(X\)</span> increases.</p>
+<p>An equilibrium (steady-state, fixed point) of a differential equation is a value of the dependent variable (<span class="math inline">\(X\)</span>) that makes the right-hand side of the equation zero. We denote an equilibrium as <span class="math inline">\(X^\star\)</span>. We can write:</p>
+<p><span class="math display">\[
+\left.\dfrac{dX}{d\tau}\right|_{X^\star} = 0
+\]</span></p>
+<p>i.e., the differential equation, evaluated at the point <span class="math inline">\(X^\star\)</span> is zero: the population will not grow nor decline, but rather will remain at <span class="math inline">\(X^\star\)</span>. The logistic equation has two equilibria: <span class="math inline">\(X=0\)</span> (absence of the population), and <span class="math inline">\(\rho = \alpha X\)</span>, <span class="math inline">\(X = \rho / \alpha = \kappa\)</span>, called the carrying capacity of the population.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -404,9 +451,9 @@ Chain rule
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>One of the most useful formulas from calculus. It relates the derivative of the composition of two differentiable functions with the derivatives of the functions. If <span class="math inline">\(h(x) = g(u)\)</span> and <span class="math inline">\(u = f(x)\)</span>, then:</p>
+<p>This is one of the most useful formulas from calculus. It relates the derivative of the composition of two differentiable functions with the derivatives of the functions. If <span class="math inline">\(h(x) = g(u)\)</span> and <span class="math inline">\(u = f(x)\)</span>, then:</p>
 <p><span class="math display">\[
 \dfrac{dh}{dx} = \dfrac{dg}{du}\dfrac{du}{dx}
 \]</span></p>
@@ -416,7 +463,7 @@ Chain rule
 <p><span class="math display">\[
 \dfrac{dx(t)}{dt} = x(t) f(x(t))
 \]</span></p>
-<p>write the ODE <span class="math inline">\(d \log x(t) /dt\)</span>. We can write this as the derivative of the composition <span class="math inline">\(\log x(t) = \log u\)</span> and <span class="math inline">\(u = x(t)\)</span>. Then, by chain rule:</p>
+<p>and write the ODE describing <span class="math inline">\(d \log x(t) /dt\)</span>. We can write this function as the derivative of the composition <span class="math inline">\(\log x(t) = \log u\)</span> and <span class="math inline">\(u = x(t)\)</span>. Then, by chain rule:</p>
 <p><span class="math display">\[
 \begin{aligned}
 \dfrac{d \log x(t)}{dt} &amp;= \dfrac{d \log u}{du} \dfrac{du}{dt}\\
@@ -425,15 +472,18 @@ Chain rule
 &amp;= \dfrac{1}{x(t)}  x(t) f(x(t))\\
 &amp;= f(x(t))
 \end{aligned}
-\]</span> showing that the per-capita rate of change:</p>
+\]</span></p>
+<p>showing that the per-capita rate of change:</p>
 <p><span class="math display">\[
 \dfrac{1}{x(t)} \dfrac{dx(t)}{dt} = \dfrac{\log x(t)}{dt}
 \]</span></p>
+<p>is the derivative in time of the logarithm of the density of the population.</p>
 </div>
 </div>
 </div>
+<p>We can simplify the analysis of the differential equation by rescaling all the variables by positive quantities, thus obtaining a simpler form that retains the behavior of the original equation.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -442,7 +492,7 @@ Nondimensionalization
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Ecological models can have many parameters, and the goal of nondimensionalization is to rewrite the equations using as few parameters as possible, via a change of variables. Importantly, the new system and the original one are equivalent, and share the same dynamics. In fact, the trajectories of the original system can be reconstructed from those of the simpler system by inverting the transformation.</p>
 <p>To perform nondimensionalization:</p>
@@ -451,8 +501,7 @@ Nondimensionalization
 <li>replace each of them by a scaled version: <span class="math inline">\(X = c_x x\)</span>, <span class="math inline">\(Y = c_y y\)</span>, <span class="math inline">\(t = c_t \tau\)</span>, in which <span class="math inline">\(c_i\)</span> are constants to be determined, and rewrite the equations for the new variables</li>
 <li>choose the values for the constants to eliminate as many parameters as possible. Generally, one should be able to remove one parameter for each dependent variable, plus one parameter by scaling the time.</li>
 </ul>
-<section id="examples" class="level2">
-<h2 class="anchored" data-anchor-id="examples">Examples</h2>
+<p><strong>Example</strong></p>
 <p>The exponential growth equation has a single parameter:</p>
 <p><span class="math display">\[
 \frac{dx}{d\tau} = \rho x
@@ -464,14 +513,48 @@ Nondimensionalization
 \frac{dx}{dt} &amp;= c_1 \rho x\\
 \frac{dx}{dt} &amp;= x
 \end{aligned}
-\]</span> where we have chosen <span class="math inline">\(c_1 = 1/\rho\)</span>.</p>
-</section>
+\]</span></p>
+<p>where we have chosen <span class="math inline">\(c_1 = 1/\rho\)</span>.</p>
 </div>
 </div>
 </div>
 <p>We rewrite the equation for the logistic growth by choosing <span class="math inline">\(x = c_1 X\)</span> and <span class="math inline">\(t = c_2 \tau\)</span>. Our equations become (use the chain rule):</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{c_1}{c_2}\dfrac{dx}{dt} &amp;= c_1 x (\rho - \alpha c_1 x)\\
+\dfrac{dx}{dt} &amp;= x (\rho c_2 - \alpha c_1 c_2 x)\\
+\end{aligned}
+\]</span> We choose <span class="math inline">\(c_2 = 1/\rho\)</span> to make the first coefficient in parenthesis be equal to 1; then, we choose <span class="math inline">\(c_1 = \rho/\alpha\)</span> to make the second coefficient be 1:</p>
+<p><span class="math display">\[
+\dfrac{dx}{dt} = x (1 - x)
+\]</span></p>
+<p>Note that in practice we have chosen to rescale the variables using the intrinsic growth rate, <span class="math inline">\(t = \tau / \rho\)</span>, and the carrying capacity, <span class="math inline">\(x = X \alpha / \rho = X / \kappa\)</span>.</p>
+<p>The logistic equation can be solved, because it is separable:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{1}{x(1-x)} dx &amp;= dt\\
+\left(\dfrac{1}{x}-\dfrac{1}{x-1}\right)dx &amp;= dt\\
+\int \dfrac{1}{x} dx - \int \dfrac{1}{1-x} dx &amp;= \int dt + \mathcal c\\
+\log x - \log(x-1)&amp;= t + c\\
+\log \dfrac{x}{x-1}&amp;= t + c\\
+\dfrac{x}{x-1} &amp;= e^t e^c\\
+x &amp;= \dfrac{e^t e^c}{e^t e^c - 1}\\
+x &amp;= \dfrac{1}{1 - e^{-t}e^{-c}}
+\end{aligned}
+\]</span></p>
+<p>Plugging in <span class="math inline">\(x_0\)</span> when <span class="math inline">\(t=0\)</span>, we find the value for the constant of proportionality:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_0 &amp;= \frac{e^c}{e^c - 1}\\
+e^c &amp;= \frac{x_0}{x_0 - 1}
+\end{aligned}
+\]</span></p>
+<p>Yielding the solution</p>
+<p><span class="math display">\[
+x(t) = \dfrac{x_0 e^t}{1 + (e^t - 1)x_0}
+\]</span></p>
 <div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -480,7 +563,7 @@ Exercise 1
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Take the equation for the logistic growth:</p>
 <p><span class="math display">\[
