@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Theoretical Ecology</title>
+<title>Theoretical Ecology – ch2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,40 +19,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -135,7 +101,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Lecture notes, Part 1: Population Dynamics</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./ch2.html">Models for two populations</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -157,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Lecture notes, Part 1: Population Dynamics</span></a>
   </div>
 </li>
@@ -169,7 +135,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./ch2.html" class="sidebar-item-text sidebar-link">
+  <a href="./ch2.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Models for two populations</span></a>
   </div>
 </li>
@@ -195,10 +161,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#lecture-notes-part-1-population-dynamics" id="toc-lecture-notes-part-1-population-dynamics" class="nav-link active" data-scroll-target="#lecture-notes-part-1-population-dynamics">Lecture notes, Part 1: Population Dynamics</a>
+  <li><a href="#models-for-two-populations" id="toc-models-for-two-populations" class="nav-link active" data-scroll-target="#models-for-two-populations">Models for two populations</a>
   <ul class="collapse">
-  <li><a href="#computing" id="toc-computing" class="nav-link" data-scroll-target="#computing">Computing</a></li>
-  <li><a href="#notation" id="toc-notation" class="nav-link" data-scroll-target="#notation">Notation</a></li>
+  <li><a href="#lotka-volterra-predator-prey-model" id="toc-lotka-volterra-predator-prey-model" class="nav-link" data-scroll-target="#lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -208,37 +173,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="lecture-notes-part-1-population-dynamics" class="level1">
-<h1>Lecture notes, Part 1: Population Dynamics</h1>
-<p>The class is divided in two parts. The first part of the class deals with models for population dynamics. We are going to explore:</p>
-<ul>
-<li>Models for a single population</li>
-<li>Models for two populations</li>
-<li>Models for many populations</li>
-<li>Models for disease dynamics</li>
-</ul>
-<section id="computing" class="level2">
-<h2 class="anchored" data-anchor-id="computing">Computing</h2>
-<p>The GitHub associated with the lecture notes contains the code to generate the lectures and all the figures and simulations. Crucially, these depend on the following <code>R</code> packages:</p>
+<section id="models-for-two-populations" class="level1">
+<h1>Models for two populations</h1>
+<section id="lotka-volterra-predator-prey-model" class="level2">
+<h2 class="anchored" data-anchor-id="lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</h2>
+<p>We have a prey who would grow exponentially when the predator is absent, and a predator that would decline exponentially when the prey is absent. The two species interact, thus allowing for their coexistence:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dX}{d\tau} = \rho X - \alpha X Y = X(\rho - \alpha Y)\\
+\dfrac{dY}{d\tau} = -\delta Y + \beta X Y = Y(-\delta + \beta X)
+\end{cases}
+\]</span></p>
+<p>where all parameters are positive. There are two equilibria: <span class="math inline">\((X, Y) = (0, 0)\)</span> and <span class="math inline">\((X, Y) = \left(\frac{\delta}{\beta}, \frac{\rho}{\alpha} \right)\)</span>.</p>
+<p><strong>Nondimensionalization</strong> To simplify the equation (but maintain all its important features), we can define two new variables and a new time scale:</p>
+<p><span class="math display">\[
+x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
+\]</span></p>
+<p>Using the new variables, we write:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{c_1}{c_3}\dfrac{dx}{dt} = c_1 x(\rho - \alpha c_2 y)\\
+\dfrac{c_2}{c_3}\dfrac{dy}{dt} = c_2 Y(-\delta + \beta c_1 x)
+\end{cases}
+\]</span> and thus</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dx}{dt} = x(c_3 \rho - \alpha c_2 c_3 y)\\
+\dfrac{dy}{dt} = y(-c_3 \delta + \beta c_1 c_3 x)
+\end{cases}
+\]</span></p>
+<p>It is convenient to take <span class="math inline">\(c_3 = 1/\rho\)</span>, <span class="math inline">\(c_2 = \rho / \alpha\)</span>, and <span class="math inline">\(c_1 = \rho / \beta\)</span>, thus simplifying the system to:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dx}{dt} = x(1 - y)\\
+\dfrac{dy}{dt} = y(-\frac{\delta}{\rho} + x) = y(-\alpha + x)
+\end{cases}
+\]</span></p>
+<p>We can therefore analyze the case in which we have only a single free parameter, <span class="math inline">\(\alpha = \rho / \delta &gt; 0\)</span>. The equilibria are <span class="math inline">\((x,y) = (0,0)\)</span> and <span class="math inline">\((x, y) = (\alpha, 1)\)</span>.</p>
+<p><strong>Isoclines of net zero growth</strong>. Clearly, the first equation is zero when either the prey is absent, or the predator is at <span class="math inline">\(y = 1\)</span>; the second equation is zero when either the predator is absent or the prey is at <span class="math inline">\(x = \alpha\)</span>; we can draw the two lines in a plane where we have <span class="math inline">\(x\)</span> on the x-axis and <span class="math inline">\(y\)</span> on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># plotting, data organization</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(deSolve) <span class="co"># integrate differential equations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
 </div>
-</section>
-<section id="notation" class="level2">
-<h2 class="anchored" data-anchor-id="notation">Notation</h2>
+</div>
+<p><strong>Direction of trajectories</strong></p>
+<p>We have four quadrants surrounding the equilibrium:</p>
 <ul>
-<li><p>We write <span class="math inline">\(x(t)\)</span> for the <strong>density</strong> of population <span class="math inline">\(x\)</span> at time <span class="math inline">\(t\)</span>. In many cases, we will write simply <span class="math inline">\(x\)</span>, as the dependency on time is always assumed. For discrete-time models, we write <span class="math inline">\(x_t\)</span> instead. Typically, <span class="math inline">\(x(t)\)</span> is measured in either <span class="math inline">\([\text{mass}]/[\text{area/volume}]\)</span> or <span class="math inline">\([\text{number of individuals}]/[\text{area/volume}]\)</span></p></li>
-<li><p>The density of a population typically changes in time, and the change is modulated by several parameters. We use <strong>Greek letters for scalars</strong>, <strong>lower-case Latin letters for vectors</strong>, and <strong>upper-case Latin letters for matrices</strong>.</p></li>
-<li><p>Other useful notation:</p>
-<ul>
-<li><span class="math inline">\(i\)</span> is the imaginary unit, such that <span class="math inline">\(i^2 = -1\)</span></li>
-<li><span class="math inline">\(0_n\)</span> is a vector of zeros of lenght <span class="math inline">\(n\)</span></li>
-<li><span class="math inline">\(1_n\)</span> is a vector of ones of lenght <span class="math inline">\(n\)</span></li>
-<li><span class="math inline">\(I\)</span> is the identity matrix (i.e., a matrix with <span class="math inline">\(1_n\)</span> on the diagonal, and zeros elsewhere)</li>
-<li><span class="math inline">\(D(a)\)</span> is a diagonal matrix with vector <span class="math inline">\(a\)</span> on the diagonal</li>
-</ul></li>
+<li><p><span class="math inline">\(x &lt; \alpha, y &lt; 1\)</span>: in the bottom-left corner, we have <span class="math inline">\(dx/dt &gt; 0\)</span> and <span class="math inline">\(dy/dt &lt; 0\)</span>; accordingly, the prey will grow and the predator decline.</p></li>
+<li><p><span class="math inline">\(x &gt; \alpha, y &lt; 1\)</span>: in the bottom-right corner, we have <span class="math inline">\(dx/dt &gt; 0\)</span> and <span class="math inline">\(dy/dt &gt; 0\)</span>; accordingly, both populations will grow</p></li>
+<li><p><span class="math inline">\(x &gt; \alpha, y &gt; 1\)</span>: in the top-right corner, we have <span class="math inline">\(dx/dt &lt; 0\)</span> and <span class="math inline">\(dy/dt &gt; 0\)</span>; the prey will decline, the predator grow</p></li>
+<li><p><span class="math inline">\(x &lt; \alpha, y &gt; 1\)</span>: in the top-left corner, we have <span class="math inline">\(dx/dt &lt; 0\)</span> and <span class="math inline">\(dy/dt &lt; 0\)</span>; both populations will decline</p></li>
 </ul>
+<p>We can show these directions visually, by computing <span class="math inline">\((dx/dt, dy/dt)\)</span> at different values of <span class="math inline">\((x, y)\)</span>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 
 
 </section>

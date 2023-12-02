@@ -1,0 +1,106 @@
+# Models for two populations
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+library(tidyverse) # plotting, data organization
+library(deSolve) # integrate differential equations
+```
+
+## Lotka-Volterra predator-prey model
+
+We have a prey who would grow exponentially when the predator is absent, and a predator that would decline exponentially when the prey is absent. The two species interact, thus allowing for their coexistence:
+
+$$
+\begin{cases}
+\dfrac{dX}{d\tau} = \rho X - \alpha X Y = X(\rho - \alpha Y)\\
+\dfrac{dY}{d\tau} = -\delta Y + \beta X Y = Y(-\delta + \beta X)
+\end{cases}
+$$
+
+where all parameters are positive. There are two equilibria: $(X, Y) = (0, 0)$ and $(X, Y) = \left(\frac{\delta}{\beta}, \frac{\rho}{\alpha} \right)$.
+
+**Nondimensionalization** To simplify the equation (but maintain all its important features), we can define two new variables and a new time scale:
+
+$$
+x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
+$$
+
+Using the new variables, we write:
+
+$$
+\begin{cases}
+\dfrac{c_1}{c_3}\dfrac{dx}{dt} = c_1 x(\rho - \alpha c_2 y)\\
+\dfrac{c_2}{c_3}\dfrac{dy}{dt} = c_2 y(-\delta + \beta c_1 x)
+\end{cases}
+$$
+and thus
+
+$$
+\begin{cases}
+\dfrac{dx}{dt} = x(c_3 \rho - \alpha c_2 c_3 y)\\
+\dfrac{dy}{dt} = y(-c_3 \delta + \beta c_1 c_3 x)
+\end{cases}
+$$
+
+It is convenient to take $c_3 = 1/\rho$, $c_2 = \rho / \alpha$, and $c_1 = \rho / \beta$, thus simplifying the system to:
+
+$$
+\begin{cases}
+\dfrac{dx}{dt} = x(1 - y)\\
+\dfrac{dy}{dt} = y(-\frac{\delta}{\rho} + x) = y(-\alpha + x)
+\end{cases}
+$$
+
+We can therefore analyze the case in which we have only a single free parameter, $\alpha = \rho / \delta > 0$. The equilibria are $(x,y) = (0,0)$ and $(x, y) = (\alpha, 1)$.
+
+**Isoclines of net zero growth**. Clearly, the first equation is zero when either the prey is absent, or the predator is at $y = 1$; the second equation is zero when either the predator is absent or the prey is at $x = \alpha$; we can draw the two lines in a plane where we have $x$ on the x-axis and $y$ on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:
+
+```{r}
+#| echo: false
+alpha <- 0.5
+ggplot(data = tibble(x = alpha, y = 1)) + 
+  aes(x = x, y = y) + 
+  xlim(c(0,1)) + 
+  ylim(c(0,2)) + 
+  geom_hline(yintercept = 1, linetype = 2)+ 
+  geom_vline(xintercept = alpha, linetype = 2) + 
+  geom_point() + 
+  theme_bw() + 
+  ggtitle("alpha=0.5")
+```
+
+**Direction of trajectories**
+
+We have four quadrants surrounding the equilibrium:
+
+- $x < \alpha, y < 1$: in the bottom-left corner, we have $dx/dt > 0$ and $dy/dt < 0$; accordingly, the prey will grow and the predator decline.
+
+- $x > \alpha, y < 1$: in the bottom-right corner, we have $dx/dt > 0$ and $dy/dt > 0$; accordingly, both populations will grow
+
+- $x > \alpha, y > 1$: in the top-right corner, we have $dx/dt < 0$ and $dy/dt > 0$; the prey will decline, the predator grow
+
+- $x < \alpha, y > 1$: in the top-left corner, we have $dx/dt < 0$ and $dy/dt < 0$; both populations will decline
+
+We can show these directions visually, by computing $(dx/dt, dy/dt)$ at different values of $(x, y)$:
+
+```{r}
+#| echo: false
+xx <- seq(0.25, 1.75, by = 0.1) * alpha
+yy <- seq(0.25, 1.75, by = 0.1) 
+dt <- expand.grid(xx, yy)
+dt <- as.data.frame(dt)
+colnames(dt) <- c("x", "y")
+dt <- dt %>% 
+  mutate(dxdt = x * (1 - y), dydt = y * (-alpha  + x)) %>% 
+  mutate(quadrant = as.factor((x < alpha) + 2 * (y < 1)))
+ggplot(data = dt) + 
+  geom_hline(yintercept = 1, linetype = 2)+ 
+  geom_vline(xintercept = alpha, linetype = 2) + 
+  aes(x = x, y = y, xend = x + 0.1 * dxdt, yend = y + 0.1 * dydt, color = quadrant) + 
+  geom_segment(arrow = arrow(length = unit(0.01, "npc"))) + 
+  geom_point(x = alpha, y = 1, color = "black") + 
+  theme_bw() + theme(legend.position = "none")
+```
+
+

@@ -1,11 +1,32 @@
----
-title: "Theoretical_Ecology_2024"
----
+# Lecture notes, Part 1: Population Dynamics
 
-This is a Quarto website.
+The class is divided in two parts. The first part of the class deals with models for population dynamics. We are going to explore:
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+- Models for a single population
+- Models for two populations
+- Models for many populations
+- Models for disease dynamics
+
+## Computing
+
+The GitHub associated with the lecture notes contains the code to generate the lectures and all the figures and simulations. Crucially, these depend on the following `R` packages:
 
 ```{r}
-1 + 1
+#| warning: false
+#| message: false
+library(tidyverse) # plotting, data organization
+library(deSolve) # integrate differential equations
 ```
+
+## Notation
+
+- We write $x(t)$ for the **density** of population $x$ at time $t$. In many cases, we will write simply $x$, as the dependency on time is always assumed. For discrete-time models, we write $x_t$ instead. Typically, $x(t)$ is measured in either $[\text{mass}]/[\text{area/volume}]$ or $[\text{number of individuals}]/[\text{area/volume}]$
+
+- The density of a population typically changes in time, and the change is modulated by several parameters. We use **Greek letters for scalars**, **lower-case Latin letters for vectors**, and **upper-case Latin letters for matrices**. 
+
+- Other useful notation: 
+  - $i$ is the imaginary unit, such that $i^2 = -1$
+  - $0_n$ is a vector of zeros of lenght $n$
+  - $1_n$ is a vector of ones of lenght $n$
+  - $I$ is the identity matrix (i.e., a matrix with $1_n$ on the diagonal, and zeros elsewhere)
+  - $D(a)$ is a diagonal matrix with vector $a$ on the diagonal

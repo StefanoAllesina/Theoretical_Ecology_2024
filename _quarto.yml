@@ -3,18 +3,25 @@ project:
   output-dir: docs
 
 website:
-  title: "Theoretical_Ecology_2024"
+  title: "Theoretical Ecology"
+  sidebar:
+    style: "docked"
+    search: true
+    contents:
+          - index.qmd
+          - ch1.qmd
+          - ch2.qmd
+          - ch3.qmd
+          - ch4.qmd
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: Lecture notes
       - about.qmd
 
 format:
   html:
-    theme: cosmo
+    theme: materia
     css: styles.css
     toc: true
-
-editor: visual
 

@@ -1,0 +1,245 @@
+# Models for a single population
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+library(tidyverse) # plotting, data organization
+library(deSolve) # integrate differential equations
+```
+
+## A simple model for non-overlapping generations
+
+Consider a population reproducing annually, with non-overlapping generations. Each individual produces $\rho$ individuals, which form the next generation. Then, we can write:
+
+$$
+x_{k+1} = \rho x_k
+$$
+
+where $x_k$ is the number of individuals/area at generation $k$. Naturally, we can iterate again and find the population density at time $x_{k+2}$:
+
+$$
+x_{k+2} = \rho x_{k+1} = \rho^2 x_{k}
+$$
+
+and in general:
+
+$$
+x_{n} = \rho^n x_0
+$$
+
+where $x_0$ is the initial population size, and $n$ is the number of generations since we started tracking the population. Naturally, we assume $x_0>0$, and thus the population grows whenever $\rho > 1$, shrinks whenever $\rho < 1$, and is constant whenever $\rho = 1$. Thus, armed with $x_0$ and $\rho$ we can project the population forward in time for an arbitrary number of generations. 
+
+## Overlapping generations: exponential growth
+
+
+::: {.callout-note collapse="true"}
+## Separation of variables
+
+A differential equation for $x(t)$ is called separable, if it can be written as:
+
+$$
+\frac{dx(t)}{dt} = g(t)\, h(x(t))
+$$
+
+where $g(t)$ is a function of $t$, and $h(x(t))$ a function of $x(t)$. As long as $h(x(t)) \neq 0$, we can formally write:
+
+$$
+\frac{1}{h(x(t))} dx(t) = g(t)\, dt
+$$
+
+We can now integrate both sides, obtaining 
+
+$$
+\begin{aligned}
+\int \frac{1}{h(x(t))} dx(t) + \mathcal c_1 &= \int g(t)\, dt + \mathcal c_2\\
+\int \frac{1}{h(x(t))} dx(t) &= \int g(t)\, dt + \mathcal c
+\end{aligned}
+$$
+
+where $\mathcal c_1, \mathcal c_2$ and $\mathcal  c = \mathcal c_2 - \mathcal c_1$ are constants of integration, whose value can be set by considering the initial conditions. 
+
+**Example** 
+
+Consider:
+
+$$
+\frac{dx(t)}{dt} = \alpha
+$$
+
+with initial condition $x(0) = x_0$. Separate the variables and integrate:
+
+$$
+\begin{aligned}
+d x(t) &= \alpha\, dt\\
+\int d x(t) &= \alpha \int dt + \mathcal c\\
+x(t) &= \alpha t + \mathcal c
+\end{aligned}
+$$
+Now substitute the initial condition:
+
+$$
+x(0) = x_0 = \alpha 0 + c  = c
+$$
+
+Completing the solution:
+
+$$
+x(t) = x_0 + \alpha t
+$$
+:::
+
+We can solve the differential equation:
+
+$$
+\begin{aligned}
+\dfrac{dx}{dt} &= \rho\, x\\
+\dfrac{1}{x}\,dx &= \rho\, dt
+\end{aligned}
+$$
+
+Integrate both sides
+
+$$
+\begin{aligned}
+\int \dfrac{1}{x}\,dx &= \int \rho\, dt\\
+\log x &= \rho\, t + \mathcal c\\
+x &= e^{\rho\, t  + \mathcal c}\\
+x &= e^{\rho\, t} e^\mathcal c\\
+\end{aligned}
+$$
+
+where $\mathcal c$ is a constant of integration. Then, we can plug in the initial condition: at $t=0$, the population is at density $x_0$:
+
+$$
+\begin{aligned}
+x_0 &= e^{\rho\, 0}e^{\mathcal c}\\
+x_0 &= e^\mathcal c
+\end{aligned}
+$$
+
+We obtain the solution:
+
+$$
+x(t) = x(0) e^{\rho\, t}
+$$
+
+::: {.callout-tip collapse="true"}
+## Integrating differential equations numerically
+
+You can compute $x(t)$ for any differential equation (or system of differential equations) in `R` using numerical techniques. You need two parts:
+
+First, we write a function defining the (system of) ODE(s). This function takes three arguments: `t`, the time, `x`, the state of the system, and `parms`, the parameters, and returns a `list` containing $dx/dt$. For the exponential growth, we can write:
+
+```{r}
+exponential_growth <- function(t, x, parms){
+  dxdt <- x * parms$rho
+  return(list(dxdt))
+}
+```
+
+Because ecological models only make sense for positive population densities, we can set an arbitrarily small threshold, and consider the population extinct if it fall below the threshold:
+
+```{r}
+THRESH <- 10^-10
+
+exponential_growth <- function(t, x, parms){
+  if(x < THRESH) x <- 0
+  dxdt <- x * parms$rho
+  return(list(dxdt))
+}
+```
+
+The second part of the code invokes the numerical integration function `ode`. For this function, we need to set a) initial conditions, b) determine at which times do we want to observe the state of the population, c) specify the name of the function to use, d) the parameters to use, and e) (optional) specify the method to use for the integration. The function `ode` is part of the package `deSolve`:
+
+```{r}
+x0 <- 1 # initial conditions
+my_time <- seq(0, 5, by = 0.1) # we will observe the system at these times
+parms <- list(rho = 1.05) # this is always a list of parameters
+output <- ode(y = x0, # a) initial conditions
+             times = my_time,  # b) time at which we observe the system
+             func = exponential_growth, # c) function computing r.h.s. of ODEs
+             parms = parms, # d) parameters of ODEs
+             method = "ode45") # e) more on this later; this is a good general-purpose choice
+```
+
+The output is a matrix of class `deSolve`, containing the time in the first column, and the values of $x(t)$ in the second. For plotting, it is best to convert this into a data frame:
+
+```{r}
+output %>% 
+  as.data.frame() %>% 
+  ggplot() + aes(x = time, y = `1`) + 
+  geom_point() + 
+  geom_line() + 
+  xlab("t") + 
+  ylab(expression(x(t))) + 
+  theme_bw()
+```
+:::
+
+
+## Logistic equation
+
+We have a population that grows exponentially when at very low densities, but experience a slow down in growth when densities are higher. The logistic growth equation is typically written as:
+
+$$
+\frac{d X}{d \tau} = X\left(\rho - \alpha X\right)
+$$
+
+where $\rho>0$ is the intrinsic growth rate of the population, and $\alpha>0$ that regulates the amount by which growth is decreased as $X$ increases. The equation has two equilibria: $X=0$ (absence of the population), and $\rho = \alpha X$, $X = \rho / \alpha = \kappa$, called the carrying capacity of the population.
+
+
+
+
+::: {.callout-note collapse="true"}
+## Nondimensionalization
+
+Ecological models can have many parameters, and the goal of nondimensionalization is to rewrite the equations using as few parameters as possible, via a change of variables. Importantly, the new system and the original one are equivalent, and share the same dynamics. In fact, the trajectories of the original system can be reconstructed from those of the simpler system by inverting the transformation. 
+
+To perform nondimensionalization:
+
+- identify all the variables that depend on time ($X(\tau)$, $Y(\tau)$, etc.), as well as the independent variable (the time, $\tau$)
+- replace each of them by a scaled version: $X = c_x x$, $Y = c_y y$, $t = c_t \tau$, in which $c_i$ are constants to be determined, and rewrite the equations for the new variables 
+- choose the values for the constants to eliminate as many parameters as possible. Generally, one should be able to remove one parameter for each dependent variable, plus one parameter by scaling the time. 
+
+## Examples
+
+The exponential growth equation has a single parameter:
+
+$$
+\frac{dx}{d\tau} = \rho x
+$$
+
+one can define $t = c_1 \tau$, obtaining:
+
+$$
+\begin{aligned}
+\frac{1}{c_1}\frac{dx}{dt} &= \rho x\\
+\frac{dx}{dt} &= c_1 \rho x\\
+\frac{dx}{dt} &= x
+\end{aligned}
+$$
+where we have chosen $c_1 = 1/\rho$.
+:::
+
+We rewrite the equation for the logistic growth by choosing $x = c_1 X$ and $t = c_2 \tau$. Our equations become (use the chain rule):
+
+
+
+
+::: {.callout-warning collapse="true"}
+## Exercise 1
+
+Take the equation for the logistic growth:
+
+$$
+\frac{dx}{dt} = x(1-x)
+$$
+
+- Solve the logistic growth model (the equation is separable). 
+- Determine the location of all equilibria and their stability. 
+- Write code to integrate the equation numerically.
+- What happens if $x(0) > 1$, $x(0) = 1$, $0 < x(0) < 1$?
+- (Bonus question) write a Lyapunov function for the logistic equation, and prove the global stability of the positive equilibrium.
+
+:::

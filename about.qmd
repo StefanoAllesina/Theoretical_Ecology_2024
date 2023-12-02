@@ -2,8 +2,28 @@
 title: "About"
 ---
 
-About this site
+These lecture notes were prepared by Stefano Allesina (`sallesina@uchicago.edu`) for the graduate class *ECEV 42900, Theoretical Ecology*, taught at the University of Chicago, Winter Quarter 2024. The notes grew out of other notes from Sarah Cobey.
 
-```{r}
-1 + 1
-```
+### Resources
+
+These are good introductions to theoretical ecology:
+
+
+These are good resources for the mathematics of dynamical systems:
+
+
+
+
+### Course policies
+
+The ethos of the course is collaborative rather than competitive. The instructors are happy to help with assignments and clarifications. Email Stefano Allesina `sallesina@uchicago.edu` or Greg Dwyer `gdwyer@uchicago.edu` to meet. 
+
+Students are expected to work in accordance with the University Policy of Academic Integrity, which can be found [here](https://college.uchicago.edu/student-services/academic-integrity-student-conduct).
+
+Students can collaborate, but graded homework should be completed by each student, and not copied from others or from online resources. Students ca use online resources (e.g. StackOverflow, ChatGPT, or other LLMs) to help with coding, but should explicitly acknowledge sources whenever this is the case.
+
+Late homework: TODO 
+
+
+
+
