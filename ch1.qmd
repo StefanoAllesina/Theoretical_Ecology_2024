@@ -583,8 +583,8 @@ $$
 \begin{aligned}
 \dfrac{dV(t)}{dt} &= \dfrac{dV(t)}{dx(t)}\dfrac{dx(t)}{dt}\\
 &= 2(x(t) - x^\star)\dfrac{dx(t)}{dt}\\
-&=2(x-1) x(x-1)\\
-&=2 x (x-1)^2 \geq 0
+&=2(x(t)-1) x(t)(x(t)-1)\\
+&=2 x(t) (x(t)-1)^2 \geq 0
 \end{aligned}
 $$
 :::
@@ -594,7 +594,7 @@ $$
 
 Show that $V(x(t)) = x(t) - 1 - \log x(t)$ is a Lyapunov function that can be used to prove the global stability of $x^\star = 1$ for the logistic growth model $dx/dt = x(1-x)$. 
 
-- Prove that $V \geq 0$ with equality only at equilibrium
-- Prove that $dV/dt \leq 0$ with equality only at equilibrium
+- Prove that $V \geq 0$, with equality only at equilibrium
+- Prove that $dV/dt \leq 0$, with equality only at equilibrium
 :::
 

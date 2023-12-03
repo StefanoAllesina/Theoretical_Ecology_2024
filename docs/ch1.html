@@ -756,8 +756,8 @@ Lyapunov functions
 \begin{aligned}
 \dfrac{dV(t)}{dt} &amp;= \dfrac{dV(t)}{dx(t)}\dfrac{dx(t)}{dt}\\
 &amp;= 2(x(t) - x^\star)\dfrac{dx(t)}{dt}\\
-&amp;=2(x-1) x(x-1)\\
-&amp;=2 x (x-1)^2 \geq 0
+&amp;=2(x(t)-1) x(t)(x(t)-1)\\
+&amp;=2 x(t) (x(t)-1)^2 \geq 0
 \end{aligned}
 \]</span></p>
 </div>
@@ -777,8 +777,8 @@ Exercise: Global stability of logistic growth
 <div class="callout-body-container callout-body">
 <p>Show that <span class="math inline">\(V(x(t)) = x(t) - 1 - \log x(t)\)</span> is a Lyapunov function that can be used to prove the global stability of <span class="math inline">\(x^\star = 1\)</span> for the logistic growth model <span class="math inline">\(dx/dt = x(1-x)\)</span>.</p>
 <ul>
-<li>Prove that <span class="math inline">\(V \geq 0\)</span> with equality only at equilibrium</li>
-<li>Prove that <span class="math inline">\(dV/dt \leq 0\)</span> with equality only at equilibrium</li>
+<li>Prove that <span class="math inline">\(V \geq 0\)</span>, with equality only at equilibrium</li>
+<li>Prove that <span class="math inline">\(dV/dt \leq 0\)</span>, with equality only at equilibrium</li>
 </ul>
 </div>
 </div>
