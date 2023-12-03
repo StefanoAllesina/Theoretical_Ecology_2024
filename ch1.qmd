@@ -256,7 +256,7 @@ $$
 \left.\dfrac{dX}{d\tau}\right|_{X^\star} = 0
 $$
 
-i.e., the differential equation, evaluated at the point $X^\star$ is zero: the population will not grow nor decline, but rather will remain at $X^\star$. The logistic equation has two equilibria: $X=0$ (absence of the population), and $\rho = \alpha X$, $X = \rho / \alpha = \kappa$, called the carrying capacity of the population.
+i.e., the differential equation, evaluated at the point $X^\star$ is zero: the population will not grow nor decline, but rather will remain at $X^\star$. The logistic equation has two equilibria: $X^\star=0$ (absence of the population), and $\rho = \alpha X^\star$, $X^\star = \rho / \alpha = \kappa$, called the *carrying capacity* of the population.
 
 ::: {.callout-note collapse="true"}
 ## Chain rule
@@ -308,7 +308,7 @@ Ecological models can have many parameters, and the goal of nondimensionalizatio
 To perform nondimensionalization:
 
 - identify all the variables that depend on time ($X(\tau)$, $Y(\tau)$, etc.), as well as the independent variable (the time, $\tau$)
-- replace each of them by a scaled version: $X = c_x x$, $Y = c_y y$, $t = c_t \tau$, in which $c_i$ are constants to be determined, and rewrite the equations for the new variables 
+- replace each of them by a scaled version: $X = c_x x$, $Y = c_y y$, $t = c_t \tau$, in which $c_i$ are positive constants to be determined, and rewrite the equations for the new variables 
 - choose the values for the constants to eliminate as many parameters as possible. Generally, one should be able to remove one parameter for each dependent variable, plus one parameter by scaling the time. 
 
 **Example**
@@ -340,13 +340,14 @@ $$
 \dfrac{dx}{dt} &= x (\rho c_2 - \alpha c_1 c_2 x)\\
 \end{aligned}
 $$
+
 We choose $c_2 = 1/\rho$ to make the first coefficient in parenthesis be equal to 1; then, we choose $c_1 = \rho/\alpha$ to make the second coefficient be 1:
 
 $$
 \dfrac{dx}{dt} = x (1 - x)
 $$
 
-Note that in practice we have chosen to rescale the variables using the intrinsic growth rate, $t = \tau / \rho$, and the carrying capacity, $x = X \alpha / \rho = X / \kappa$.
+Note that, in practice, we have chosen to rescale the variables using the intrinsic growth rate, $t = \tau / \rho$, and the carrying capacity, $x = X \alpha / \rho = X / \kappa$.
 
 The logistic equation can be solved, because it is separable:
 
@@ -378,8 +379,55 @@ $$
 x(t) = \dfrac{x_0 e^t}{1 + (e^t - 1)x_0}
 $$
 
+## Qualitative analysis
+
+As shown for the logistic growth, solving ODEs can be very hard, and for most equations found in ecology a closed-form solution cannot be found. Moreover, even when we can solve the equations, the solution might be difficult to interpret or overly complex. Important information on the behavior of the system can be found by performing a qualitative analysis of the system. Here we concentrate on the location of equilibria, and their stability. 
+
+### A graphical method
+
+For any first-order ODE with a single dependent variable, one can understand the behavior of the system by simply plotting $x(t)$ (x-axis) vs $dx(t)/dt$ (y-axis). For example, for the logisitic model:
+
+$$
+\dfrac{dx}{dt} = x(1-x)
+$$
+
+```{r}
+logistic <- function(x) x * (1-x)
+
+graphical_method <- function(x_range, x_step, dxdt, equilibria, stability){
+  my_x <- seq(x_range[1], x_range[2], by = x_step)
+  my_dxdt <- dxdt(my_x)
+  pl <- ggplot(tibble(x = my_x, y = my_dxdt)) + 
+    geom_hline(yintercept = 0) + 
+    aes(x = x, y = y, colour = as.factor(sign(y)), group = 1) + 
+    geom_line()
+  pl <- pl + 
+    geom_point(data = tibble(x = equilibria, y = 0, stability = stability), 
+               aes(shape = as.character(stability)), colour = "black", size = 4) + 
+    xlab(expression(x(t))) + 
+    ylab(expression(dx(t)/dt)) + 
+    theme_bw() + theme(legend.position = "none") + 
+    scale_shape_manual(values = c("0" = 10, "1" = 16))
+  return(pl)
+}
+graphical_method(c(0, 1.25), 0.01, logistic, c(0,1), c(0, 1))
+```
 
 
+Allee effect
+
+$$
+\dfrac{dX}{dt} = X\left(\dfrac{u X}{v + X} - c X \right)
+$$
+
+```{r}
+u <- 1
+v <- 2.5
+c <- 0.35
+
+allee <- function(x) {x * (u * x / (v + x) - c * x)}
+graphical_method(c(0, 1), 0.01, allee, c(0,1), c(0, 1))
+```
 
 ::: {.callout-warning collapse="true"}
 ## Exercise 1
