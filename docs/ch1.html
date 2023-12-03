@@ -203,6 +203,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#doubling-time" id="toc-doubling-time" class="nav-link" data-scroll-target="#doubling-time">Doubling time</a></li>
   </ul></li>
   <li><a href="#logistic-equation" id="toc-logistic-equation" class="nav-link" data-scroll-target="#logistic-equation">Logistic equation</a></li>
+  <li><a href="#qualitative-analysis" id="toc-qualitative-analysis" class="nav-link" data-scroll-target="#qualitative-analysis">Qualitative analysis</a>
+  <ul class="collapse">
+  <li><a href="#a-graphical-method" id="toc-a-graphical-method" class="nav-link" data-scroll-target="#a-graphical-method">A graphical method</a></li>
+  </ul></li>
+  <li><a href="#local-asymptotic-stability" id="toc-local-asymptotic-stability" class="nav-link" data-scroll-target="#local-asymptotic-stability">Local asymptotic stability</a></li>
+  <li><a href="#global-asymptotic-stability" id="toc-global-asymptotic-stability" class="nav-link" data-scroll-target="#global-asymptotic-stability">Global Asymptotic Stability</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -440,7 +446,7 @@ N(t) = e^{\lambda t} N(0)
 <p><span class="math display">\[
 \left.\dfrac{dX}{d\tau}\right|_{X^\star} = 0
 \]</span></p>
-<p>i.e., the differential equation, evaluated at the point <span class="math inline">\(X^\star\)</span> is zero: the population will not grow nor decline, but rather will remain at <span class="math inline">\(X^\star\)</span>. The logistic equation has two equilibria: <span class="math inline">\(X=0\)</span> (absence of the population), and <span class="math inline">\(\rho = \alpha X\)</span>, <span class="math inline">\(X = \rho / \alpha = \kappa\)</span>, called the carrying capacity of the population.</p>
+<p>i.e., the differential equation, evaluated at the point <span class="math inline">\(X^\star\)</span> is zero: the population will not grow nor decline, but rather will remain at <span class="math inline">\(X^\star\)</span>. The logistic equation has two equilibria: <span class="math inline">\(X^\star=0\)</span> (absence of the population), and <span class="math inline">\(\rho = \alpha X^\star\)</span>, <span class="math inline">\(X^\star = \rho / \alpha = \kappa\)</span>, called the <em>carrying capacity</em> of the population.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -498,7 +504,7 @@ Nondimensionalization
 <p>To perform nondimensionalization:</p>
 <ul>
 <li>identify all the variables that depend on time (<span class="math inline">\(X(\tau)\)</span>, <span class="math inline">\(Y(\tau)\)</span>, etc.), as well as the independent variable (the time, <span class="math inline">\(\tau\)</span>)</li>
-<li>replace each of them by a scaled version: <span class="math inline">\(X = c_x x\)</span>, <span class="math inline">\(Y = c_y y\)</span>, <span class="math inline">\(t = c_t \tau\)</span>, in which <span class="math inline">\(c_i\)</span> are constants to be determined, and rewrite the equations for the new variables</li>
+<li>replace each of them by a scaled version: <span class="math inline">\(X = c_x x\)</span>, <span class="math inline">\(Y = c_y y\)</span>, <span class="math inline">\(t = c_t \tau\)</span>, in which <span class="math inline">\(c_i\)</span> are positive constants to be determined, and rewrite the equations for the new variables</li>
 <li>choose the values for the constants to eliminate as many parameters as possible. Generally, one should be able to remove one parameter for each dependent variable, plus one parameter by scaling the time.</li>
 </ul>
 <p><strong>Example</strong></p>
@@ -524,11 +530,12 @@ Nondimensionalization
 \dfrac{c_1}{c_2}\dfrac{dx}{dt} &amp;= c_1 x (\rho - \alpha c_1 x)\\
 \dfrac{dx}{dt} &amp;= x (\rho c_2 - \alpha c_1 c_2 x)\\
 \end{aligned}
-\]</span> We choose <span class="math inline">\(c_2 = 1/\rho\)</span> to make the first coefficient in parenthesis be equal to 1; then, we choose <span class="math inline">\(c_1 = \rho/\alpha\)</span> to make the second coefficient be 1:</p>
+\]</span></p>
+<p>We choose <span class="math inline">\(c_2 = 1/\rho\)</span> to make the first coefficient in parenthesis be equal to 1; then, we choose <span class="math inline">\(c_1 = \rho/\alpha\)</span> to make the second coefficient be 1:</p>
 <p><span class="math display">\[
 \dfrac{dx}{dt} = x (1 - x)
 \]</span></p>
-<p>Note that in practice we have chosen to rescale the variables using the intrinsic growth rate, <span class="math inline">\(t = \tau / \rho\)</span>, and the carrying capacity, <span class="math inline">\(x = X \alpha / \rho = X / \kappa\)</span>.</p>
+<p>Note that, in practice, we have chosen to rescale the variables using the intrinsic growth rate, <span class="math inline">\(t = \tau / \rho\)</span>, and the carrying capacity, <span class="math inline">\(x = X \alpha / \rho = X / \kappa\)</span>.</p>
 <p>The logistic equation can be solved, because it is separable:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -553,28 +560,225 @@ e^c &amp;= \frac{x_0}{x_0 - 1}
 <p><span class="math display">\[
 x(t) = \dfrac{x_0 e^t}{1 + (e^t - 1)x_0}
 \]</span></p>
-<div class="callout callout-style-default callout-warning callout-titled">
+</section>
+<section id="qualitative-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="qualitative-analysis">Qualitative analysis</h2>
+<p>As shown for the logistic growth, solving ODEs can be very hard, and for most equations found in ecology a closed-form solution cannot be found. Moreover, even when we can solve the equations, the solution might be difficult to interpret or overly complex. Important information on the behavior of the system can be found by performing a qualitative analysis of the system. Here we concentrate on the location of equilibria, and their stability.</p>
+<section id="a-graphical-method" class="level3">
+<h3 class="anchored" data-anchor-id="a-graphical-method">A graphical method</h3>
+<p>For any first-order ODE with a single dependent variable, one can understand the behavior of the system by simply plotting <span class="math inline">\(x(t)\)</span> (x-axis) vs <span class="math inline">\(dx(t)/dt\)</span> (y-axis). For example, for the logisitic model:</p>
+<p><span class="math display">\[
+\dfrac{dx}{dt} = x(1-x)
+\]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Showing that there are two equilibria (<span class="math inline">\(x^\star =0\)</span>, and <span class="math inline">\(x^\star = 1\)</span>), corresponding to the points where the curve <span class="math inline">\(dx/dt\)</span> intercepts the x-axis. The function <span class="math inline">\(dx/dt\)</span> is positive whenever <span class="math inline">\(0&lt;x&lt;1\)</span>, and is negative when <span class="math inline">\(x&gt;1\)</span>. Thus, the population will grow in time when <span class="math inline">\(0&lt;x&lt;1\)</span>, eventually reaching <span class="math inline">\(x^\star = 1\)</span>; similarly, if we start the population at a density that is larger than the equilibrium, it will decline, again eventually reaching <span class="math inline">\(x^\star = 1\)</span>. We therefore say that <span class="math inline">\(x^\star = 1\)</span> is <em>asymptotically stable</em>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Exercise 1
+Asymptotic stability
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Take the equation for the logistic growth:</p>
+<p>There are two useful notions of equilibrium stability for dynamical systems. We state them informally; you can find a more rigorous definition in any book on dynamical systems.</p>
+<p><strong>Lyapunov stability</strong> For a given dynamical system <span class="math inline">\(dx(t)/dt\)</span>, <span class="math inline">\(x^\star\)</span> is Lyapunov stable if trajectories starting close to <span class="math inline">\(x^\star\)</span> remain close to it, indefinitely. More formally, we define a neighborhood of <span class="math inline">\(x^\star\)</span>, <span class="math inline">\(\| x(0) - x^\star\| &lt; \delta\)</span>; then <span class="math inline">\(x^\star\)</span> is Lyapunov stable if <span class="math inline">\(\| x(t) - x^\star\| &lt; \epsilon\)</span> for every <span class="math inline">\(t\)</span>, where <span class="math inline">\(\epsilon &gt; 0\)</span>.</p>
+<p><strong>Asymptotic stability</strong> An equilibrium is asymptotically stable if it is Lyapunov stable, and trajectories eventually converge to <span class="math inline">\(x^\star\)</span>: <span class="math inline">\(x^\star\)</span> is asymptotically stable if there exist a neighborhood <span class="math inline">\(\| x(0) - x^\star\| &lt; \delta\)</span> such that <span class="math inline">\(\lim_{t\to\infty}\| x(t) - x^\star\| = 0\)</span>.</p>
+</div>
+</div>
+</div>
+<p>The logistic model assumes that the per capita growth rate is higher at low densities. This assumption may not be realistic for all species: when the density is low, for example, it can be more difficult to find a partner and defend against predators. This phenomenon of lower per capita growth rates at low densities, and higher per capita growth at high densities—which can also be called <em>positive density-dependence</em>—is known as the <em>Allee effect</em>. It is named after Warder Clyde Allee (1885-1955), who received his PhD from the University of Chicago and was later a professor and chair of Zoology. We could model this effect with the following equation:</p>
 <p><span class="math display">\[
-\frac{dx}{dt} = x(1-x)
+\dfrac{dX}{dt} = X\left(\dfrac{u X}{v + X} - c X \right) = X^2 \left(\dfrac{u}{v + X} - c  \right)
 \]</span></p>
+<p>where <span class="math inline">\(c\)</span> is the density-dependent death rate. Assume that all parameters are positive; then, besides the trivial equilibrium <span class="math inline">\(X^\star =0\)</span>, we have a positive equilibrium <span class="math inline">\(X^\star = \frac{u}{c} - v &gt; 0\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The graphical method allows to classify all equilibria according to their stability in a straightforward manner. Here’s an example with many equilibria:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Strong Allee effect
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A stronger version of the Allee effect can be modeled as:</p>
+<p><span class="math display">\[
+\dfrac{dX}{dt} = X (X - \gamma)(\kappa - X)
+\]</span></p>
+<p>with <span class="math inline">\(0&lt;\gamma &lt; \kappa\)</span>.</p>
 <ul>
-<li>Solve the logistic growth model (the equation is separable).</li>
-<li>Determine the location of all equilibria and their stability.</li>
-<li>Write code to integrate the equation numerically.</li>
-<li>What happens if <span class="math inline">\(x(0) &gt; 1\)</span>, <span class="math inline">\(x(0) = 1\)</span>, <span class="math inline">\(0 &lt; x(0) &lt; 1\)</span>?</li>
-<li>(Bonus question) write a Lyapunov function for the logistic equation, and prove the global stability of the positive equilibrium.</li>
+<li>Interpret the parameters</li>
+<li>Plot <span class="math inline">\(dX/dt\)</span> vs <span class="math inline">\(X\)</span>, and identify all equilibria</li>
+<li>Classify the equilibria according to their stability</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="local-asymptotic-stability" class="level2">
+<h2 class="anchored" data-anchor-id="local-asymptotic-stability">Local asymptotic stability</h2>
+<p>You might have noticed that, when performing the graphical analysis above, and equilibrium is stable if <span class="math inline">\(dx/dt\)</span> has a negative slope at <span class="math inline">\(x^\star\)</span>. Here we formalize this notion, by considering small perturbations of the system resting at an equilibrium.</p>
+<ul>
+<li>Take an ODE <span class="math inline">\(dx/dt = f(x)\)</span></li>
+<li>The system is resting at an equilibrium <span class="math inline">\(x^\star &gt; 0\)</span></li>
+<li>We perturb the system, and track the dynamics starting at <span class="math inline">\(x(0) = x^\star + \epsilon\)</span>, where <span class="math inline">\(\epsilon\)</span> is taken to be sufficiently small <span class="math inline">\(\| \epsilon \| \ll 1\)</span></li>
+<li>We write <span class="math inline">\(\Delta x(0) = x(0) - x^\star\)</span></li>
+<li>We derive the dynamics for <span class="math inline">\(\Delta x\)</span>:</li>
+</ul>
+<p>By chain rule,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{d \Delta x}{dt} &amp;= \dfrac{d \Delta x}{dx} \dfrac{d x}{dt} \\
+&amp;= 1 \dfrac{d x}{dt}\\
+&amp;= f(x)\\
+&amp;= f(\Delta x + x^\star)
+\end{aligned}
+\]</span> Where we have substituted <span class="math inline">\(x = \Delta x + x^\star\)</span>.</p>
+<ul>
+<li>Now we approximate the function <span class="math inline">\(f(\Delta x + x^\star)\)</span> by Talyor expanding.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Taylor series
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We can approximate the behavior of a (infinitely differentiable) function in the vicinity of a point <span class="math inline">\(a\)</span> by a power series:</p>
+<p><span class="math display">\[
+f(x) = f(a) + \dfrac{1}{1!} \left. \dfrac{df(x)}{dx} \right|_a (x-a)+ \dfrac{1}{2!} \left. \dfrac{d^2f(x)}{dx^2} \right|_a (x-a)^2+ \dfrac{1}{3!} \left. \dfrac{d^3f(x)}{dx^3} \right|_a (x-a)^3 + \ldots
+\]</span> where <span class="math inline">\(n! = n (n-1)(n-2)\ldots 1\)</span> is the factorial function and the derivatives are evaluated at <span class="math inline">\(a\)</span>. When we choose <span class="math inline">\(a=0\)</span> this is called the Maclaurin series.</p>
+<p><strong>Example</strong></p>
+<p>Expand <span class="math inline">\(e^x\)</span> around <span class="math inline">\(0\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+e^x &amp;= e^0 + \left. e^x\right|_0 x + \frac{1}{2}\left. e^x\right|_0 x^2  + \frac{1}{6}\left. e^x\right|_0 x^3 + \ldots\\
+&amp;=1 + x + \frac{1}{2} x^2  + \frac{1}{6}x^3 + \ldots\\
+&amp;=\sum_{k=0}^\infty \frac{x^k}{k!}
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</div>
+<p>We want to Taylor-expand <span class="math inline">\(f(x) = f(\Delta x + x^\star)\)</span> around <span class="math inline">\(x^\star\)</span>:</p>
+<p><span class="math display">\[
+f(x) = f(x^\star) + \left.\dfrac{d f(x)}{d x}\right|_{x^\star} (x - x^\star) + \dfrac{1}{2}\left.\dfrac{d^2 f(x)}{d x^2}\right|_{x^\star} (x - x^\star)^2 + \ldots
+\]</span> Note that <span class="math inline">\(f(x^\star) = 0\)</span> by the definition of an equilibrium. If the deviation is small, we can neglect all the higher-order terms, obtaining:</p>
+<p><span class="math display">\[
+\dfrac{d \Delta x}{dt} = f(x) \approx \left.\dfrac{d f(x)}{d x}\right|_{x^\star} \Delta x
+\]</span></p>
+<p>which is the equation of the exponential growth model, with <span class="math inline">\(\rho = \left.\dfrac{d f(x)}{d x}\right|_{x^\star}\)</span>. Then, the solution is <span class="math inline">\(\Delta x(t) = \Delta x(0) e^{\rho t}\)</span>, and the deviation from the equilibrium goes to zero (i.e., the system goes back to <span class="math inline">\(x^\star\)</span>) whenever <span class="math inline">\(\rho &lt; 0\)</span>.</p>
+<p>For example, take the logistic growth model and evaluate the stability of <span class="math inline">\(x^\star = 1\)</span>; we have:</p>
+<p><span class="math display">\[
+\left.\dfrac{d f(x)}{d x}\right|_{x^\star} = \left.\dfrac{d (x - x^2)}{d x}\right|_{x^\star} = \left.(1 - 2x)\right|_{x^\star} = -1
+\]</span></p>
+<p>and thus the equilibrium is <strong>locally asymptotically stable</strong>. Locally, because we have considered very small deviations from the equilibrium.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Stability of equilibria for strong Allee effect
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Take the function for the Allee effect in the previous exercise:</p>
+<p><span class="math display">\[
+\dfrac{dX}{dt} = X (X - \gamma)(\kappa - X)
+\]</span></p>
+<p>Use local stability analysis to show that the system has three equilibria, of which two are locally stable.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="global-asymptotic-stability" class="level2">
+<h2 class="anchored" data-anchor-id="global-asymptotic-stability">Global Asymptotic Stability</h2>
+<p>In certain models, we can show that whenever the population starts at a positive value, it will always reach a certain equilibrium <span class="math inline">\(x^\star\)</span>. In this case, we say the equilibrium is globally asymptotically stable.</p>
+<p>Because as we said solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Lyapunov functions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We want to prove that all trajectories originating at <span class="math inline">\(x(0) &gt; 0\)</span> eventually converge to <span class="math inline">\(x^\star\)</span>. If we can find a function <span class="math inline">\(V\)</span> such that:</p>
+<ul>
+<li><span class="math inline">\(V(x(t)) \geq 0\)</span> for all <span class="math inline">\(x(t) &gt; 0\)</span></li>
+<li><span class="math inline">\(V(x(t)) = 0\)</span> if and only if <span class="math inline">\(x(t) = x^\star\)</span></li>
+<li><span class="math inline">\(\dfrac{d V(x(t))}{dt} \leq 0\)</span> for all <span class="math inline">\(t\)</span> and</li>
+<li><span class="math inline">\(\dfrac{d V(x(t))}{dt} = 0\)</span> if and only if <span class="math inline">\(x(t) = x^\star\)</span></li>
+</ul>
+<p>then <span class="math inline">\(x^\star\)</span> is globally asymptotically stable: all trajectories starting at a positive point will converge to it.</p>
+<p>The logic of this procedure is to identify a suitable function <span class="math inline">\(V\)</span> that is positive everywhere but at the equilibrium, and is constantly declining in time; then necessarily the function will eventually reach zero, which is attained only at equilibrium.</p>
+<p><strong>Example</strong></p>
+<p><span class="math inline">\(V(x(t)) = (x(t) - x^\star)^2\)</span> is a Lyapunov function that can be used to prove that the logistic growth model <span class="math inline">\(dx/dt = x(1-x)\)</span> has an equilibrium <span class="math inline">\(x^\star = 1\)</span> that is globally asymptotically stable.</p>
+<ul>
+<li><span class="math inline">\(V(x(t))\)</span> is always nonnegative, and is zero only at <span class="math inline">\(x(t) = x^\star = 1\)</span></li>
+<li>The derivative of <span class="math inline">\(V(x(t))\)</span> w.r.t. time is:</li>
+</ul>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{dV(t)}{dt} &amp;= \dfrac{dV(t)}{dx(t)}\dfrac{dx(t)}{dt}\\
+&amp;= 2(x(t) - x^\star)\dfrac{dx(t)}{dt}\\
+&amp;=2(x-1) x(x-1)\\
+&amp;=2 x (x-1)^2 \geq 0
+\end{aligned}
+\]</span></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Global stability of logistic growth
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Show that <span class="math inline">\(V(x(t)) = x(t) - 1 - \log x(t)\)</span> is a Lyapunov function that can be used to prove the global stability of <span class="math inline">\(x^\star = 1\)</span> for the logistic growth model <span class="math inline">\(dx/dt = x(1-x)\)</span>.</p>
+<ul>
+<li>Prove that <span class="math inline">\(V \geq 0\)</span> with equality only at equilibrium</li>
+<li>Prove that <span class="math inline">\(dV/dt \leq 0\)</span> with equality only at equilibrium</li>
 </ul>
 </div>
 </div>

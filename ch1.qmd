@@ -392,6 +392,7 @@ $$
 $$
 
 ```{r}
+#| echo: false
 logistic <- function(x) x * (1-x)
 
 graphical_method <- function(x_range, x_step, dxdt, equilibria, stability){
@@ -410,38 +411,190 @@ graphical_method <- function(x_range, x_step, dxdt, equilibria, stability){
     scale_shape_manual(values = c("0" = 10, "1" = 16))
   return(pl)
 }
-graphical_method(c(0, 1.25), 0.01, logistic, c(0,1), c(0, 1))
+graphical_method(c(0, 1.25), 0.0025, logistic, c(0,1), c(0, 1))
 ```
 
+Showing that there are two equilibria ($x^\star =0$, and $x^\star = 1$), corresponding to the points where the curve $dx/dt$ intercepts the x-axis. The function $dx/dt$ is positive whenever $0<x<1$, and is negative when $x>1$. Thus, the population will grow in time when $0<x<1$, eventually reaching $x^\star = 1$; similarly, if we start the population at a density that is larger than the equilibrium, it will decline, again eventually reaching  $x^\star = 1$. We therefore say that $x^\star = 1$ is *asymptotically stable*. 
 
-Allee effect
+::: {.callout-note collapse="true"}
+## Asymptotic stability
+
+There are two useful notions of equilibrium stability for dynamical systems. We state them informally; you can find a more rigorous definition in any book on dynamical systems.
+
+**Lyapunov stability** For a given dynamical system $dx(t)/dt$, $x^\star$ is Lyapunov stable if trajectories starting close to $x^\star$ remain close to it, indefinitely. More formally, we define a neighborhood of $x^\star$, $\| x(0) - x^\star\| < \delta$; then $x^\star$ is Lyapunov stable if $\| x(t) - x^\star\| < \epsilon$ for every $t$, where $\epsilon > 0$.
+
+**Asymptotic stability** An equilibrium is asymptotically stable if it is Lyapunov stable, and trajectories eventually converge to $x^\star$: $x^\star$ is asymptotically stable if there exist a neighborhood $\| x(0) - x^\star\| < \delta$ such that $\lim_{t\to\infty}\| x(t) - x^\star\| = 0$.
+:::
+
+The logistic model assumes that the per capita growth rate is higher at low densities. This assumption may not be realistic for all species: when the density is low, for example, it can be more difficult to find a partner and defend against predators. This phenomenon of lower per capita growth rates at low densities, and higher per capita growth at high densities---which can also be called *positive density-dependence*---is known as the *Allee effect*. It is named after Warder Clyde Allee (1885-1955), who received his PhD from the University of Chicago and was later a professor and chair of Zoology. We could model this effect with the following equation:
 
 $$
-\dfrac{dX}{dt} = X\left(\dfrac{u X}{v + X} - c X \right)
+\dfrac{dX}{dt} = X\left(\dfrac{u X}{v + X} - c X \right) = X^2 \left(\dfrac{u}{v + X} - c  \right)
 $$
+
+where $c$ is the density-dependent death rate. Assume that all parameters are positive; then, besides the trivial equilibrium $X^\star =0$, we have a positive equilibrium $X^\star = \frac{u}{c} - v > 0$. 
 
 ```{r}
-u <- 1
-v <- 2.5
-c <- 0.35
+#| echo: false
+u <- 2
+v <- 1.5
+c <- 1
+xst <- c(0, u/c - v)
 
 allee <- function(x) {x * (u * x / (v + x) - c * x)}
-graphical_method(c(0, 1), 0.01, allee, c(0,1), c(0, 1))
+graphical_method(c(0, 0.6), 0.0025, allee, xst, c(0, 1))
+```
+
+The graphical method allows to classify all equilibria according to their stability in a straightforward manner. Here's an example with many equilibria:
+
+```{r}
+#| echo: false
+pp <- function(x) {pi * x * (3-x) * (5 - x) * (9-x)}
+graphical_method(c(0, 9.5), 0.0025, pp, c(0, 3, 5, 9), c(0, 1, 0, 1))
 ```
 
 ::: {.callout-warning collapse="true"}
-## Exercise 1
+## Exercise: Strong Allee effect
 
-Take the equation for the logistic growth:
+A stronger version of the Allee effect can be modeled as:
 
 $$
-\frac{dx}{dt} = x(1-x)
+\dfrac{dX}{dt} = X (X - \gamma)(\kappa - X)
 $$
 
-- Solve the logistic growth model (the equation is separable). 
-- Determine the location of all equilibria and their stability. 
-- Write code to integrate the equation numerically.
-- What happens if $x(0) > 1$, $x(0) = 1$, $0 < x(0) < 1$?
-- (Bonus question) write a Lyapunov function for the logistic equation, and prove the global stability of the positive equilibrium.
+with $0<\gamma < \kappa$. 
+
+- Interpret the parameters
+- Plot $dX/dt$ vs $X$, and identify all equilibria
+- Classify the equilibria according to their stability
+:::
+
+
+## Local asymptotic stability
+
+You might have noticed that, when performing the graphical analysis above, and equilibrium is stable if $dx/dt$ has a negative slope at $x^\star$. Here we formalize this notion, by considering small perturbations of the system resting at an equilibrium.
+
+- Take an ODE $dx/dt = f(x)$
+- The system is resting at an equilibrium $x^\star > 0$
+- We perturb the system, and track the dynamics starting at $x(0) = x^\star + \epsilon$, where $\epsilon$ is taken to be sufficiently small $\| \epsilon \| \ll 1$
+- We write $\Delta x(0) = x(0) - x^\star$
+- We derive the dynamics for $\Delta x$:
+
+By chain rule, 
+
+$$
+\begin{aligned}
+\dfrac{d \Delta x}{dt} &= \dfrac{d \Delta x}{dx} \dfrac{d x}{dt} \\
+&= 1 \dfrac{d x}{dt}\\
+&= f(x)\\
+&= f(\Delta x + x^\star)
+\end{aligned}
+$$
+Where we have substituted $x = \Delta x + x^\star$.
+
+- Now we approximate the function $f(\Delta x + x^\star)$ by Talyor expanding.
+
+::: {.callout-note collapse="true"}
+## Taylor series
+
+We can approximate the behavior of a (infinitely differentiable) function in the vicinity of a point $a$ by a power series:
+
+$$
+f(x) = f(a) + \dfrac{1}{1!} \left. \dfrac{df(x)}{dx} \right|_a (x-a)+ \dfrac{1}{2!} \left. \dfrac{d^2f(x)}{dx^2} \right|_a (x-a)^2+ \dfrac{1}{3!} \left. \dfrac{d^3f(x)}{dx^3} \right|_a (x-a)^3 + \ldots
+$$
+where $n! = n (n-1)(n-2)\ldots 1$ is the factorial function and the derivatives are evaluated at $a$. When we choose $a=0$ this is called the Maclaurin series.
+
+**Example**
+
+Expand $e^x$ around $0$:
+
+$$
+\begin{aligned}
+e^x &= e^0 + \left. e^x\right|_0 x + \frac{1}{2}\left. e^x\right|_0 x^2  + \frac{1}{6}\left. e^x\right|_0 x^3 + \ldots\\
+&=1 + x + \frac{1}{2} x^2  + \frac{1}{6}x^3 + \ldots\\
+&=\sum_{k=0}^\infty \frac{x^k}{k!}
+\end{aligned}
+$$
 
 :::
+
+We want to Taylor-expand $f(x) = f(\Delta x + x^\star)$ around $x^\star$:
+
+$$
+f(x) = f(x^\star) + \left.\dfrac{d f(x)}{d x}\right|_{x^\star} (x - x^\star) + \dfrac{1}{2}\left.\dfrac{d^2 f(x)}{d x^2}\right|_{x^\star} (x - x^\star)^2 + \ldots
+$$
+Note that $f(x^\star) = 0$ by the definition of an equilibrium. If the deviation is small, we can neglect all the higher-order terms, obtaining:
+
+$$
+\dfrac{d \Delta x}{dt} = f(x) \approx \left.\dfrac{d f(x)}{d x}\right|_{x^\star} \Delta x 
+$$
+
+which is the equation of the exponential growth model, with $\rho =  \left.\dfrac{d f(x)}{d x}\right|_{x^\star}$. Then, the solution is $\Delta x(t) = \Delta x(0) e^{\rho t}$, and the deviation from the equilibrium goes to zero (i.e., the system goes back to $x^\star$) whenever $\rho < 0$.
+
+For example, take the logistic growth model and evaluate the stability of $x^\star = 1$; we have:
+
+$$
+\left.\dfrac{d f(x)}{d x}\right|_{x^\star} = \left.\dfrac{d (x - x^2)}{d x}\right|_{x^\star} = \left.(1 - 2x)\right|_{x^\star} = -1
+$$
+
+and thus the equilibrium is **locally asymptotically stable**. Locally, because we have considered very small deviations from the equilibrium. 
+
+::: {.callout-warning collapse="true"}
+## Exercise: Stability of equilibria for strong Allee effect
+
+Take the function for the Allee effect in the previous exercise:
+
+$$
+\dfrac{dX}{dt} = X (X - \gamma)(\kappa - X)
+$$
+
+Use local stability analysis to show that the system has three equilibria, of which two are locally stable.
+
+:::
+
+## Global Asymptotic Stability
+
+In certain models, we can show that whenever the population starts at a positive value, it will always reach a certain equilibrium $x^\star$. In this case, we say the equilibrium is globally asymptotically stable.
+
+Because as we said solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.
+
+::: {.callout-note collapse="true"}
+## Lyapunov functions
+
+We want to prove that all trajectories originating at $x(0) > 0$ eventually converge to $x^\star$. If we can find a function $V$ such that:
+
+- $V(x(t)) \geq 0$ for all $x(t) > 0$
+- $V(x(t)) = 0$ if and only if $x(t) = x^\star$
+- $\dfrac{d V(x(t))}{dt} \leq 0$ for all $t$ and 
+- $\dfrac{d V(x(t))}{dt} = 0$ if and only if $x(t) = x^\star$
+
+then $x^\star$ is globally asymptotically stable: all trajectories starting at a positive point will converge to it.
+
+The logic of this procedure is to identify a suitable function $V$ that is positive everywhere but at the equilibrium, and is constantly declining in time; then necessarily the function will eventually reach zero, which is attained only at equilibrium. 
+
+**Example**
+
+$V(x(t)) = (x(t) - x^\star)^2$ is a Lyapunov function that can be used to prove that the logistic growth model $dx/dt = x(1-x)$ has an equilibrium $x^\star = 1$ that is globally asymptotically stable.
+
+- $V(x(t))$ is always nonnegative, and is zero only at $x(t) = x^\star = 1$
+- The derivative of $V(x(t))$ w.r.t. time is:
+
+$$
+\begin{aligned}
+\dfrac{dV(t)}{dt} &= \dfrac{dV(t)}{dx(t)}\dfrac{dx(t)}{dt}\\
+&= 2(x(t) - x^\star)\dfrac{dx(t)}{dt}\\
+&=2(x-1) x(x-1)\\
+&=2 x (x-1)^2 \geq 0
+\end{aligned}
+$$
+:::
+
+::: {.callout-warning collapse="true"}
+## Exercise: Global stability of logistic growth
+
+Show that $V(x(t)) = x(t) - 1 - \log x(t)$ is a Lyapunov function that can be used to prove the global stability of $x^\star = 1$ for the logistic growth model $dx/dt = x(1-x)$. 
+
+- Prove that $V \geq 0$ with equality only at equilibrium
+- Prove that $dV/dt \leq 0$ with equality only at equilibrium
+:::
+
