@@ -208,7 +208,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-graphical-method" id="toc-a-graphical-method" class="nav-link" data-scroll-target="#a-graphical-method">A graphical method</a></li>
   </ul></li>
   <li><a href="#local-asymptotic-stability" id="toc-local-asymptotic-stability" class="nav-link" data-scroll-target="#local-asymptotic-stability">Local asymptotic stability</a></li>
-  <li><a href="#global-asymptotic-stability" id="toc-global-asymptotic-stability" class="nav-link" data-scroll-target="#global-asymptotic-stability">Global Asymptotic Stability</a></li>
+  <li><a href="#global-asymptotic-stability" id="toc-global-asymptotic-stability" class="nav-link" data-scroll-target="#global-asymptotic-stability">Global Asymptotic Stability</a>
+  <ul class="collapse">
+  <li><a href="#long-term-behavior" id="toc-long-term-behavior" class="nav-link" data-scroll-target="#long-term-behavior">Long-term behavior</a></li>
+  </ul></li>
   <li><a href="#discrete-time-models" id="toc-discrete-time-models" class="nav-link" data-scroll-target="#discrete-time-models">Discrete-time models</a>
   <ul class="collapse">
   <li><a href="#graphical-methods-cobwebbing" id="toc-graphical-methods-cobwebbing" class="nav-link" data-scroll-target="#graphical-methods-cobwebbing">Graphical Methods: Cobwebbing</a></li>
@@ -837,6 +840,10 @@ Exercise: Global stability of logistic growth
 </div>
 </div>
 </div>
+<section id="long-term-behavior" class="level3">
+<h3 class="anchored" data-anchor-id="long-term-behavior">Long-term behavior</h3>
+<p>Autonomous, first-order ODE models with a single variable can have only two types of behavior: a) <span class="math inline">\(x(t)\)</span> eventually reaches a fixed point and remains there; b) <span class="math inline">\(x(t)\)</span> goes to <span class="math inline">\(\pm \infty\)</span>. This is a consequence of an important mathematical fact: if <span class="math inline">\(dx(t)/dt = f(x(t))\)</span> and the function <span class="math inline">\(f(x(t))\)</span> is “smooth” (e.g., continuously differentiable) then the solution for the ODE exists and <em>is unique</em>. This means that the equation can cross each point <span class="math inline">\(x(t) = \alpha\)</span> only once, or infinitely many times. In contrast, discrete models with a single variable can have very interesting behavior.</p>
+</section>
 </section>
 <section id="discrete-time-models" class="level2">
 <h2 class="anchored" data-anchor-id="discrete-time-models">Discrete-time models</h2>

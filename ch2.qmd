@@ -104,3 +104,52 @@ ggplot(data = dt) +
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Classic papers
+
+Vito Volterra (1926)
+Fluctuations in the Abundance of a Species Considered Mathematically
+Nature 118 : 558-60
+
+Gause, G.F. 1934. Experimental Analysis of Vito Volterra'S Mathematical Theory of the Struggle for Existence. Science 79:16-17
+
+Chesson, P. 2000. Mechanisms of Maintenance of Species Diversity. Annual Review of Ecology and Systematics 31:343-366
+
+
+May R.M. 1972. Will a large complex system be stable? Nature 238:413-414
+
+
+Anderson, R.M; May, R.M. 1978. Regulation and Stability of Host-Parasite Population Interactions. Journal of Animal Ecology 47:219-247
+
+May R.M. & Anderson, R.M. 1979. Population biology of infectious diseases: Part II. Nature 280:455-461
+
+
+McCann, K.S. 2000. The diversity - stability debate. Nature 405:228-233

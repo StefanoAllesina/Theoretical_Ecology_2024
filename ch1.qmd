@@ -625,6 +625,10 @@ Show that $V(x(t)) = x(t) - 1 - \log x(t)$ is a Lyapunov function that can be us
 - Prove that $dV/dt \leq 0$, with equality only at equilibrium
 :::
 
+### Long-term behavior
+
+Autonomous, first-order ODE models with a single variable can have only two types of behavior: a) $x(t)$ eventually reaches a fixed point and remains there; b) $x(t)$ goes to $\pm \infty$. This is a consequence of an important mathematical fact: if $dx(t)/dt = f(x(t))$ and the function $f(x(t))$ is "smooth" (e.g., continuously differentiable) then the solution for the ODE exists and *is unique*. This means that the equation can cross each point $x(t) = \alpha$ only once, or infinitely many times. In contrast, discrete models with a single variable can have very interesting behavior.
+
 ## Discrete-time models
 We have so far analyzed models where the growth of a population is described by an ordinary differential equation.  However, for particular situations, and especially for species with nonoverlapping generations, a discrete-time approach would be more suitable.
 
@@ -985,6 +989,10 @@ This paper introduces the famous metapopulation model:
 
 - Richard Levins, 1969. [*Some demographic and genetic consequences of environmental heterogeneity for biological control*](https://academic.oup.com/ae/article-abstract/15/3/237/255899). Bull. Entomol. Soc. Am. 15:237–240. 
 
+May R.M. 1976. Simple mathematical models with very complicated dynamics. Nature 261:459-467
 
 
+Levins, R. 1966. The strategy of model building in population biology. American Scientist 54:421-431
 
+
+Hassell M.P.; Lawton, J.H.; May, R.M. 1976. Patterns of dynamical behavior in single species populations. Journal of Animal Ecology 45:471-486

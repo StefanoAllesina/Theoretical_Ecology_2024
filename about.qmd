@@ -2,7 +2,7 @@
 title: "About"
 ---
 
-These lecture notes were prepared by Stefano Allesina (`sallesina@uchicago.edu`) for the graduate class *ECEV 42900, Theoretical Ecology*, taught at the University of Chicago, Winter Quarter 2024. The notes grew out of other notes from Sarah Cobey.
+These lecture notes were prepared by Stefano Allesina (`sallesina@uchicago.edu`) for the graduate class *ECEV 42900, Theoretical Ecology*, taught at the University of Chicago in Winter Quarter 2024. The notes grew a set of notes from Sarah Cobey.
 
 ### Resources
 
@@ -10,8 +10,6 @@ These are good introductions to theoretical ecology:
 
 
 These are good resources for the mathematics of dynamical systems:
-
-
 
 
 ### Course policies
@@ -24,6 +22,25 @@ Students can collaborate, but graded homework should be completed by each studen
 
 Late homework: TODO 
 
+
+### Mathematical background
+
+Following the material requires basic notions in calculus, linear algebra and dynamical systems. Here are a few essential concepts that students should be familiar with.
+
+- Functions, exponential function, logarithm
+- Limits
+- Derivatives and chain rule
+- Integration of functions in one and several variables
+- Taylor series
+- Vectors, dot product, cross product
+- Matrix product, transpose, determinant eigenvalue decomposition
+- Positive and negative definiteness of a matrix
+
+These are good websites offering a brief review of these materials, and cheat sheets reporting the main formulas:
+
+- [Paul's Online Notes](https://tutorial.math.lamar.edu/) covering calculus I, II and III as well as dynamical systems; the cheat sheets are excellent.
+
+- Steve Brunton's (U. Washington) YouTube channel has extremely well-done lectures on dynamical systems; for example, here are reviews of [derivatives](https://www.youtube.com/watch?v=-NhgElcA3K8), [Taylor series](https://www.youtube.com/watch?v=ebfOSDj4j3I), [simulating the logistic map](https://www.youtube.com/watch?v=_BvAkyuWhOI), [integrating ODEs in a computer](https://www.youtube.com/watch?v=W-wxKgjBDnc).
 
 
 
