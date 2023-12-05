@@ -8,6 +8,12 @@ These lecture notes were prepared by Stefano Allesina (`sallesina@uchicago.edu`)
 
 These are good introductions to theoretical ecology:
 
+- Case, [An Illustrated Guide to Theoretical Ecology](https://global.oup.com/ushe/product/an-illustrated-guide-to-theoretical-ecology-9780195085129?cc=us&lang=en&), 1999
+
+- May and McLean, [Theoretical Ecology: Principles and Applications](https://academic.oup.com/book/42041), 2007
+
+- Gotelli, [A primer of ecology](https://global.oup.com/academic/product/a-primer-of-ecology-9780878933181?cc=us&lang=en&), 2008
+
 
 These are good resources for the mathematics of dynamical systems:
 

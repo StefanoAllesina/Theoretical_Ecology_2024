@@ -985,14 +985,18 @@ In fact, the best software tries to pick small $\Delta t$ when $x(t)$ is changin
 
 ## Classic papers
 
+A brief paper discussing how to build models in biology:
+
+- Richard Levins, 1966. [*The strategy of model building in population biology*](https://www.jstor.org/stable/27836590). American Scientist 54:421-431
+
 This paper introduces the famous metapopulation model:
 
 - Richard Levins, 1969. [*Some demographic and genetic consequences of environmental heterogeneity for biological control*](https://academic.oup.com/ae/article-abstract/15/3/237/255899). Bull. Entomol. Soc. Am. 15:237–240. 
 
-May R.M. 1976. Simple mathematical models with very complicated dynamics. Nature 261:459-467
+This paper shows the onset of chaos in simple discrete-time models: 
 
+- Robert M. May, 1976. [*Simple mathematical models with very complicated dynamics*](https://www.nature.com/articles/261459a0). Nature 261:459-467
 
-Levins, R. 1966. The strategy of model building in population biology. American Scientist 54:421-431
+This paper discusses how simple models relates to experimental data on population growth:
 
-
-Hassell M.P.; Lawton, J.H.; May, R.M. 1976. Patterns of dynamical behavior in single species populations. Journal of Animal Ecology 45:471-486
+- Michael P. Hassell, John H. Lawton, Robert M. May, 1976. [*Patterns of dynamical behavior in single species populations*](https://www.jstor.org/stable/3886). Journal of Animal Ecology 45:471-486
