@@ -209,6 +209,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#local-asymptotic-stability" id="toc-local-asymptotic-stability" class="nav-link" data-scroll-target="#local-asymptotic-stability">Local asymptotic stability</a></li>
   <li><a href="#global-asymptotic-stability" id="toc-global-asymptotic-stability" class="nav-link" data-scroll-target="#global-asymptotic-stability">Global Asymptotic Stability</a></li>
+  <li><a href="#discrete-time-models" id="toc-discrete-time-models" class="nav-link" data-scroll-target="#discrete-time-models">Discrete-time models</a>
+  <ul class="collapse">
+  <li><a href="#graphical-methods-cobwebbing" id="toc-graphical-methods-cobwebbing" class="nav-link" data-scroll-target="#graphical-methods-cobwebbing">Graphical Methods: Cobwebbing</a></li>
+  <li><a href="#the-logistic-map" id="toc-the-logistic-map" class="nav-link" data-scroll-target="#the-logistic-map">The logistic map</a></li>
+  <li><a href="#stability-of-equilibria" id="toc-stability-of-equilibria" class="nav-link" data-scroll-target="#stability-of-equilibria">Stability of equilibria</a></li>
+  <li><a href="#periodic-orbits" id="toc-periodic-orbits" class="nav-link" data-scroll-target="#periodic-orbits">Periodic orbits</a></li>
+  <li><a href="#chaos" id="toc-chaos" class="nav-link" data-scroll-target="#chaos">Chaos</a></li>
+  <li><a href="#bifurcation-diagram" id="toc-bifurcation-diagram" class="nav-link" data-scroll-target="#bifurcation-diagram">Bifurcation diagram</a></li>
+  </ul></li>
+  <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -720,13 +730,57 @@ Exercise: Stability of equilibria for strong Allee effect
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Stability of model with weak Allee effect
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Now analyze the stability of the model with weak Allee effects:</p>
+<p><span class="math display">\[
+\dfrac{dX}{dt} = X^2 \left(\dfrac{u}{v + X} - c  \right)
+\]</span></p>
+<p>Assuming that <span class="math inline">\(u/c &gt; v\)</span>. You will find that the analysis of the equilibrium <span class="math inline">\(X^\star = 0\)</span> is inconclusive; expand the function <span class="math inline">\(d\Delta X/dt\)</span> to include higher-order terms to determine the stability of the equilibrium.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Levins’ metapopulation model
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In 1969, when he was a professor at the University of Chicago, Richard Levins proposed a model for metapopulation dynamics. The idea is that in a landscape there are numerous patches of suitable habitat that can be colonized by a given species. Each population in a patch undergoes extinction with a certain rate, and can colonize other patches by sending propagules to them. Because there are many patches, we track the proportion of occupied patches <span class="math inline">\(0 \leq p(t) \leq 1\)</span>; the proportion of empty patches is therefore <span class="math inline">\(1 - p(t)\)</span>. If individuals disperse to a random patch when leaving an occupied patch, the rate of colonization will be proportional to the product <span class="math inline">\(\gamma\, p(t)(1-p(t))\)</span> (i.e., <span class="math inline">\(\gamma\, p(t)\)</span> is the rate at which propagules are produced, and <span class="math inline">\(1-p(t)\)</span> is the rate at which they land on an empty patch). The rate at which patches are vacated, the extinction rate, is <span class="math inline">\(\delta\)</span>. The model can be written as:</p>
+<p><span class="math display">\[
+\dfrac{d p(t)}{dt} = \gamma\,p(t)(1 - p(t)) - \delta\, p(t)
+\]</span></p>
+<ul>
+<li>Find the equilibria</li>
+<li>Determine their stability</li>
+<li>Show that the equation is equivalent to that for the logitstic growth</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 <section id="global-asymptotic-stability" class="level2">
 <h2 class="anchored" data-anchor-id="global-asymptotic-stability">Global Asymptotic Stability</h2>
 <p>In certain models, we can show that whenever the population starts at a positive value, it will always reach a certain equilibrium <span class="math inline">\(x^\star\)</span>. In this case, we say the equilibrium is globally asymptotically stable.</p>
 <p>Because as we said solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -735,7 +789,7 @@ Lyapunov functions
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-10" class="callout-10-contents callout-collapse collapse">
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>We want to prove that all trajectories originating at <span class="math inline">\(x(0) &gt; 0\)</span> eventually converge to <span class="math inline">\(x^\star\)</span>. If we can find a function <span class="math inline">\(V\)</span> such that:</p>
 <ul>
@@ -764,7 +818,7 @@ Lyapunov functions
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -773,7 +827,7 @@ Exercise: Global stability of logistic growth
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Show that <span class="math inline">\(V(x(t)) = x(t) - 1 - \log x(t)\)</span> is a Lyapunov function that can be used to prove the global stability of <span class="math inline">\(x^\star = 1\)</span> for the logistic growth model <span class="math inline">\(dx/dt = x(1-x)\)</span>.</p>
 <ul>
@@ -783,6 +837,280 @@ Exercise: Global stability of logistic growth
 </div>
 </div>
 </div>
+</section>
+<section id="discrete-time-models" class="level2">
+<h2 class="anchored" data-anchor-id="discrete-time-models">Discrete-time models</h2>
+<p>We have so far analyzed models where the growth of a population is described by an ordinary differential equation. However, for particular situations, and especially for species with nonoverlapping generations, a discrete-time approach would be more suitable.</p>
+<section id="graphical-methods-cobwebbing" class="level3">
+<h3 class="anchored" data-anchor-id="graphical-methods-cobwebbing">Graphical Methods: Cobwebbing</h3>
+<p>To understand whether a discrete model is stable, we analyze the plot of <span class="math inline">\(x_{t+1}\)</span> against <span class="math inline">\(x_t\)</span>, superimposed on the diagonal (<span class="math inline">\(x_{t+1}=x_{t}\)</span>). We use these two curves to “cobweb”:</p>
+<ul>
+<li><p>Starting from an initial condition <span class="math inline">\(x_t=x(0)\)</span> (some point on the x-axis), we draw a line to the model’s projection of the population at the next time step (<span class="math inline">\(x_{t+1}\)</span>)</p></li>
+<li><p>We then set <span class="math inline">\(x_t=x_{t+1}\)</span> to obtain the population in the next time step. To speed the process along, rather than lifting our pencils to draw <span class="math inline">\(x_{t+1}\)</span> at <span class="math inline">\(x_t\)</span> on the x-axis, we can simply draw a horizontal line from <span class="math inline">\(x_{t+1}\)</span> back to the diagonal (which shows <span class="math inline">\(x_{t+1}=x_t\)</span>) and then move vertically to get the next <span class="math inline">\(x_{t+1}\)</span></p></li>
+<li><p>With enough iterations, this process reveals whether the population converges to a fixed point or does something more elaborate, and if this trajectory involves oscillations. Note that at a fixed point, <span class="math inline">\(x_{t+1}=x_t=x^\star\)</span>.</p></li>
+</ul>
+<p>We can use this approach for any map (discrete-time model) of <span class="math inline">\(x_{t+1}\)</span> to <span class="math inline">\(x_t\)</span>, although cobwebbing suffers the disadvantage of requiring a lot of manual labor to explore the asymptotic behavior. To explore its uses further, we’ll consider one of the most basic and important density-dependent, discrete-time models: the logistic map.</p>
+</section>
+<section id="the-logistic-map" class="level3">
+<h3 class="anchored" data-anchor-id="the-logistic-map">The logistic map</h3>
+<p>This is a model with a very similar formulation to the logistic growth ODE above:</p>
+<p><span class="math display">\[
+x_{t+1} = r\, x_t (1 - x_t)
+\]</span></p>
+<p>With <span class="math inline">\(x_t &gt; 0\)</span> and <span class="math inline">\(r &gt; 0\)</span>. When <span class="math inline">\(x_t &gt; 1\)</span>, the population will decline; therefore it makes sense to start the population at a value <span class="math inline">\(0&lt;x_0&lt;1\)</span>. For these values, the population might grow only if <span class="math inline">\(r &gt; 1\)</span> (i.e., we want <span class="math inline">\(x_{t+1} &gt; x_t\)</span> for growth).</p>
+<p>Let’s try our hand at cobwebbing: set <span class="math inline">\(x_0 = 1/2\)</span> and <span class="math inline">\(r = 3/2\)</span>. The cobwebbing plot becomes:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>showing that the population declines and then stops at an equilibrium. We can compute the equilibrium by setting <span class="math inline">\(x_{t+1} = x_t = x^\star\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x^\star &amp;= r\, x^\star (1 - x^\star)\\
+1 &amp;= r\, (1 - x^\star)\\
+x^\star &amp;= 1 - \frac{1}{r}
+\end{aligned}
+\]</span></p>
+<p>Thus, a feasible (positive) equilibrium is found only for <span class="math inline">\(r &gt; 1\)</span>, as expected. In the example above, the equilibrium is reached without oscillations. Let’s try the cobweb for a larger <span class="math inline">\(r = 5/2\)</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now the solution <span class="math inline">\(x^\star = 1 - \frac{2}{5} = \frac{3}{5}\)</span> is reached after oscillating above and below this value.</p>
+</section>
+<section id="stability-of-equilibria" class="level3">
+<h3 class="anchored" data-anchor-id="stability-of-equilibria">Stability of equilibria</h3>
+<p>We want to determine whether <span class="math inline">\(x^\star\)</span> is stable for a given map (discrete-time model) <span class="math inline">\(x_{t+1} = f(x_t)\)</span>, with <span class="math inline">\(f(x^\star)=x^\star\)</span>. In particular, we want to determine whether when we initialize the system close to <span class="math inline">\(x^\star\)</span> we converge back to <span class="math inline">\(x^\star\)</span>.</p>
+<p>Take <span class="math inline">\(x_t = x^\star + \epsilon_t\)</span>, where <span class="math inline">\(\epsilon_t\)</span> is small. Then we have</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_{t+1} &amp;= f(x_t)\\
+x^\star + \epsilon_{t+1} &amp;= f(x^\star + \epsilon_t)\\
+x^\star + \epsilon_{t+1} &amp;\approx f(x^\star) + \left. \dfrac{d f(x_t)}{dx_t}\right|_{x^\star} (x_t - x^\star) \\
+x^\star + \epsilon_{t+1} &amp;\approx x^\star + \left. \dfrac{d f(x_t)}{dx_t}\right|_{x^\star} \epsilon_t\\
+\epsilon_{t+1} &amp;\approx \left. \dfrac{d f(x_t)}{dx_t}\right|_{x^\star} \epsilon_t\\
+\end{aligned}
+\]</span></p>
+<p>which is the very first model we have written. We have:</p>
+<p><span class="math display">\[
+\epsilon_{t+k} = \rho^{k} \epsilon_t
+\]</span></p>
+<p>with <span class="math inline">\(\rho = \left. \dfrac{d f(x_t)}{dx_t}\right|_{x^\star}\)</span>. We have that</p>
+<p><span class="math display">\[
+\lim_{k \to \infty} \epsilon_{t+k} = 0 \quad \text{if} \, |\rho| &lt; 1
+\]</span></p>
+<p>Thus, the equilibrium is stable if and only if the absolute value of <span class="math inline">\(\left. \dfrac{d f(x_t)}{dx_t}\right|_{x^\star}\)</span> is less than 1. If this value is greater than 1, then the equilibrium is unstable: small perturbations will amplify (at least initially); if the value is exactly 1, the analysis is inconclusive, and we might want to consider including higher-order terms in the Taylor expansion above.</p>
+<p><strong>Example</strong></p>
+<p>Take <span class="math inline">\(r = 2\)</span>, and show that the equilibrium <span class="math inline">\(x^\star = 1/2\)</span> is stable. We take the derivative:</p>
+<p><span class="math display">\[
+\rho = \left.\dfrac{d f(x_t)}{d x_t} \right|_{x^\star} = r \left. \dfrac{d (x_t (1- x_t))}{d x_t}\right|_{x^\star} = \left. r (1 - 2 x_t)\right|_{x^\star}
+\]</span></p>
+<p>and substitute the values of <span class="math inline">\(r\)</span> and <span class="math inline">\(x_t = x^\star = 1/2\)</span>. We obtain <span class="math inline">\(\rho = 0\)</span> and thus the equilibrium is stable. In fact, we see that, for any value of <span class="math inline">\(r &gt; 0\)</span> leading to a feasible equilibrium, we have:</p>
+<p><span class="math display">\[
+\rho = r \left(1 - 2 \left(1 - \frac{1}{r} \right) \right) = 2 - r
+\]</span></p>
+<p>and thus whenever <span class="math inline">\(|2 - r| &lt; 1\)</span> we have a stable equilibrium. This is true whenever <span class="math inline">\(3&gt; r &gt;1\)</span>.</p>
+</section>
+<section id="periodic-orbits" class="level3">
+<h3 class="anchored" data-anchor-id="periodic-orbits">Periodic orbits</h3>
+<p>If we make <span class="math inline">\(r\)</span> even larger, we find new behavior. For example, take <span class="math inline">\(r = 10/3\)</span>, <span class="math inline">\(x_0 = 3/4\)</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>After a few oscillations, the system sets into a cycle, alternating between two values. This is best seen by plotting a time-series, in which we have the (discrete) time in the x-axis, and the value <span class="math inline">\(x_t\)</span> on the y-axis:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>What are the two values? To find them, we can set <span class="math inline">\(x_{t+2} = x_{t}\)</span> making sure that <span class="math inline">\(x_{t+1} != x_t\)</span>. Take:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_{t+2} &amp;= x_t\\
+f(x_{t+1}) &amp;= x_t\\
+f(f(x_t)) &amp;= x_t\\
+f^{(2)}(x_t) &amp;= x_t
+\end{aligned}
+\]</span></p>
+<p>For the logistic map, we have:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_t &amp;= r\,x_{t+1}\,(1 - x_{t+1})\\
+&amp;= r\, r\, x_t (1 - x_t)\, (1 -  r\, x_t (1 - x_t))\\
+&amp;= r^2 x_t (1-x_t) (1 -  r\, x_t (1 - x_t))
+\end{aligned}
+\]</span></p>
+<p>When we discard the solution <span class="math inline">\(x_t =0\)</span>, we obtain the cubic polynomial:</p>
+<p><span class="math display">\[
+-r^3 x_t^3+2 r^3 x_t^2-(r+1) r^2 x_t+r^2-1= 0
+\]</span></p>
+<p>We can factor out the solution <span class="math inline">\(x_t = 1 - \frac{1}{r}\)</span>, which we know already, obtaining:</p>
+<p><span class="math display">\[
+\begin{aligned}
+r^3 x_t^2 - r^2 (1 + r) x_t + r (1 + r) &amp;= 0\\
+r^2 x_t^2 - r (1 + r) x_t + (1 + r) &amp;= 0
+\end{aligned}
+\]</span></p>
+<p>Yielding:</p>
+<p><span class="math display">\[
+x_c = \dfrac{r +1 \pm \sqrt{(r-3) (r+1)}}{2 r}
+\]</span></p>
+<p>Both values are greater than zero whenever <span class="math inline">\(r \geq 3\)</span>. We can investigate the stability of the cycle, we can take the derivative w.r.t. <span class="math inline">\(x_t\)</span> of <span class="math inline">\(f^{(2)}(x_t)\)</span>, and plug in one of the two values above:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\rho &amp;= \left.\dfrac{d f^{(2)}(x_t)}{d x_t} \right|_{x_c}\\
+&amp;= \left. \left(\dfrac{d}{d x_t} r^2 x_t (1-x_t) (1 -  r\, x_t (1 - x_t)) \right)\right|_{x_c}\\
+&amp;= \left. (r^2 (1 - 2 x_t)(1 - 2 r x_t(1-x_t))) \right|_{x_c}
+\end{aligned}
+\]</span></p>
+<p>Substituting the larger value of <span class="math inline">\(x_c\)</span>, we eventually find:</p>
+<p><span class="math display">\[
+\rho = 4 - r (r - 2)
+\]</span></p>
+<p>The period-2 cycle is stable whenever <span class="math inline">\(|\rho| &lt; 1\)</span>. If we assume that <span class="math inline">\(r \geq 3\)</span> (required for the existence of the cycle in the first place), we have:</p>
+<p><span class="math display">\[
+3 &lt; \rho &lt; 1 + \sqrt{6} \approx 3.45
+\]</span></p>
+<p>The period-2 orbits are therefore stable in this range. What happens beyond this value of <span class="math inline">\(r\)</span>? Take <span class="math inline">\(r = 3.5\)</span> and cobweb:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now we have that the system oscillates between four values, as seen from the time-series (where we have removed the first 250 time steps for clarity):</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Now we have a period-4 solution, which is stable until <span class="math inline">\(1 + \sqrt{6} &lt; r &lt; 3.701\)</span>, at which point we find period-8 cycles:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="chaos" class="level3">
+<h3 class="anchored" data-anchor-id="chaos">Chaos</h3>
+<p>The system can yield cycles of period three. Take <span class="math inline">\(r = 1 + 2 \sqrt{2}\)</span>, and plot the time series:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>A famous result (Sharkovsky’s theorem, <em>Ukrainian Math J</em>, 1964) states that a map with cycles of period 3, then it must have periodic points of every other period. Li and Yorke (“Period Three Implies Chaos”. <em>Am. Math. Monthly</em>, 1975) showed that indeed a period-three implies infinitely many trajectories that do not have a period, and oscillate without ever completing a cycle. We call this phenomenon chaos.</p>
+<p>Chaos is aperiodic long-term behavior in a deterministic system that exhibits sensitive dependence to initial conditions. In particular, one can prove that in a chaotic regime, if we start with two initial conditions that are very close to each other (their distance being <span class="math inline">\(\Delta x_0\)</span>) we eventually find very different trajectories. In particular, when we have chaos:</p>
+<p><span class="math display">\[
+  |\Delta x(t)| \approx e^{\lambda t}|\Delta x_0|
+\]</span></p>
+<p>with <span class="math inline">\(\lambda&gt;0\)</span> (the <strong>Lyapunov exponent</strong>).</p>
+</section>
+<section id="bifurcation-diagram" class="level3">
+<h3 class="anchored" data-anchor-id="bifurcation-diagram">Bifurcation diagram</h3>
+<p>All these results can be summarized in a beautiful graph. We build it as follows:</p>
+<ul>
+<li>pick a value of <span class="math inline">\(r\)</span></li>
+<li>compute <span class="math inline">\(x_t\)</span> for a large number of points, and discard the first part of the time series (transient dynamics)</li>
+<li>locate and record the minima and maxima of the time series</li>
+<li>plot <span class="math inline">\(r\)</span> (x-axis) against the location of the minima and maxima (y-axis)</li>
+</ul>
+<p>If the trajectories converge to an equilibrium, we will find a single point; if trajectories converge to a period-2 cycle, we will find two points; etc.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>logistic_map_min_max <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">max_time =</span> <span class="dv">16000</span>, <span class="at">discard =</span> <span class="dv">15000</span>){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set random initial conditions</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  x_0 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  ts <span class="ot">&lt;-</span> <span class="fu">accumulate</span>(<span class="at">.x =</span> <span class="fu">rep</span>(x_0, max_time), <span class="at">.f =</span> <span class="cf">function</span>(xt, xtp1) r <span class="sc">*</span> xt <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>xt))[discard<span class="sc">:</span>max_time]</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># find mins and maxs</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  mm <span class="ot">&lt;-</span> ts[<span class="fu">which</span>(<span class="fu">abs</span>(<span class="fu">diff</span>(<span class="fu">sign</span>(<span class="fu">diff</span>(ts))))<span class="sc">==</span><span class="dv">2</span>)<span class="sc">+</span><span class="dv">1</span>]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(mm) <span class="sc">==</span> <span class="dv">0</span>) mm <span class="ot">&lt;-</span> ts[<span class="dv">1</span>] <span class="co"># constant solution</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">tibble</span>(<span class="st">'mm'</span> <span class="ot">=</span> mm, <span class="st">'r'</span> <span class="ot">=</span> r))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># load results if available</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(<span class="st">"data/logistic_bifurcation.RData"</span>)){</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load</span>(<span class="st">"data/logistic_bifurcation.RData"</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute the results (this will take some time...)</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  bifurcation_logistic_map <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="at">.x =</span> <span class="fu">seq</span>(<span class="fl">2.95</span>, <span class="fl">3.99</span>, <span class="at">by =</span> <span class="fl">0.0015</span>), </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">.f =</span> logistic_map_min_max)  </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># and save the file</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">save</span>(bifurcation_logistic_map, <span class="at">file =</span> <span class="st">"data/logistic_bifurcation.RData"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bifurcation_logistic_map) <span class="sc">+</span> </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> r, <span class="at">y =</span> mm) <span class="sc">+</span> </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.005</span>, <span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span> </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(r)) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="fu">expression</span>(x[t]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Ricker model
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This period-doubling bifurcation to chaos is common to several models. Draw the bifurcation diagram for the Ricker model:</p>
+<p><span class="math display">\[
+x_{t+1} = x_t e^{r(1-x_t)}
+\]</span></p>
+<p>again taking values of <span class="math inline">\(r\)</span> between 1.95 and 4, and values of <span class="math inline">\(x_0\)</span> between 0 and 1.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Euler’s method
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>When we want to compute trajectories for a differential equations, we face the problem that typically the equations cannot be solved. Computers get around this issue by carefully computing the trajectory for a <em>discrete-time</em> model. The simplest case is that of Euler’s method.</p>
+<p>We want to compute the solution of <span class="math inline">\(dx(t)/dt = f(x(t))\)</span>. For sufficiently small <span class="math inline">\(\Delta t\)</span>, we can Taylor-expand <span class="math inline">\(x(t_0 + \Delta t)\)</span> around <span class="math inline">\(t_0\)</span>, obtaining:</p>
+<p><span class="math display">\[
+x(t_0 + \Delta t) \approx x(t_0) + \left. \dfrac{d x(t)}{dt}\right|_{t_0} \Delta t
+\]</span></p>
+<p>we know the value of <span class="math inline">\(x(t_0) = x_0\)</span>, and the function <span class="math inline">\(d x(t) / dt = f(x(t))\)</span>, and as such:</p>
+<p><span class="math display">\[
+x(t_0 + \Delta t) \approx x_0 + \Delta t \, f(x_0)
+\]</span></p>
+<p>We iterate this procedure again and again, drawing our trajectory. Naturally, taking smaller <span class="math inline">\(\Delta t\)</span> we should get better approximations, from a mathematical standpoint. In fact, one can show that the error we’re making is proportional to <span class="math inline">\(\Delta t\)</span>. However, reducing <span class="math inline">\(\Delta t\)</span> has two undesirable effects: first, the calculation time will increase accordingly; second, because computers have limited precision when representing numbers, at each step we will make roundoff errors, and these will accumulate faster when the step size is small.</p>
+<p>In practice, when we use Euler’s method we assume that <span class="math inline">\(f(x)\)</span> is fixed during the step <span class="math inline">\(\Delta t\)</span> (which we now is generally not true). We can average across two points, yielding the so-called midpoint method:</p>
+<p><span class="math display">\[
+\begin{aligned}
+y_{t + \Delta t} &amp;= x_t + \Delta_t f(x_t)\\
+x_{t + \Delta t} &amp;= x_t + \frac{1}{2}(f(x_t) + f(y_{t + \Delta t}))
+\end{aligned}
+\]</span></p>
+<p>where <span class="math inline">\(y_{t + \Delta t}\)</span> is what computed using Euler’s method, and the actual step is taken to be the average <span class="math inline">\(f(x)\)</span> at the beginning and end of the step. One can show that the error is now proportional to <span class="math inline">\((\Delta t)^2\)</span>, which is a good improvement.</p>
+<p>The same logic applies when we take several intermediate steps, and average across them, as done for the <a href="https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods">Runge-Kutta methods</a>.</p>
+<p>In fact, the best software tries to pick small <span class="math inline">\(\Delta t\)</span> when <span class="math inline">\(x(t)\)</span> is changing rapidly, and larger <span class="math inline">\(\Delta t\)</span> when <span class="math inline">\(x(t)\)</span> is changing slowly. These adaptive-step methods are the state-of-the-art, and are implemented in the package <code>deSolve</code> in <code>R</code>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="classic-papers" class="level2">
+<h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>
+<p>This paper introduces the famous metapopulation model:</p>
+<ul>
+<li>Richard Levins, 1969. <a href="https://academic.oup.com/ae/article-abstract/15/3/237/255899"><em>Some demographic and genetic consequences of environmental heterogeneity for biological control</em></a>. Bull. Entomol. Soc. Am. 15:237–240.</li>
+</ul>
 
 
 </section>
