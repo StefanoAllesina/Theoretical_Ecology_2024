@@ -42,7 +42,7 @@ In fact, this is exactly the definition of the derivative with respect to (w.r.t
 
 In ecology and evolutionary biology, one encounters two main types of differential equations:
 
-- *Ordinary differential equations* (ODEs) describe the rate of change of a quantity (in our case, population densities, $x(t)$) as a function of an independent variable (in our case, the time $t$), and can contain functions of the quantity, and its derivatives. If only the first derivative ($dx(t)/dt$) is included, they are called first-order ODEs. 
+- *Ordinary differential equations* (ODEs) describe the rate of change of a quantity (in our case, population densities, $x(t)$) as a function of an independent variable (in our case, the time $t$), and can contain functions of the quantity, and its derivatives. If only the first derivative ($dx(t)/dt$) is included, it is called a first-order ODE. 
 
 - *Partial differential equations* (PDEs) contain more than one independent variable (e.g., time and coordinates in space). Therefore, the quantity of interest is a multivariate function, such as $q(x,y,t)$, denoting the density of a population at the coordinates $x,y$ and time $t$. The partial derivatives with respect to the independent variables are considered, hence the name.
 
@@ -235,14 +235,14 @@ $$
 
 where $\lambda < 0$ is the decay rate of the isotope. The half-life of a radioisotope is the time it takes to be reduced to half of the original concentration, and is 5,730 years for ${}^{14}$C. 
 
-- Find the value of $\lambda$ given the half-life
+- Find the value of $\lambda$ for ${}^{14}$C given its half-life
 - Express $t$ as a function of $\lambda$, and the ratio between $N(t)$ and $N(0)$
 - The concentration in the atmosphere is about 1 atom of ${}^{14}$C for every $10^{12}$ atoms of carbon. You have a collected sample that contains $1/16$ atoms of ${}^{14}$C for every $10^{12}$ atoms of carbon; date the sample.
 :::
 
 ## Logistic equation
 
-We have a population that grows exponentially when at very low densities, but experience a slow down in growth when densities are higher. The logistic growth equation is typically written as:
+We have a population that grows exponentially when at very low densities, but experiences a slow down in growth when densities are higher. The logistic growth equation is typically written as:
 
 $$
 \frac{d X}{d \tau} = X\left(\rho - \alpha X\right)
@@ -250,7 +250,7 @@ $$
 
 where $\rho>0$ is the intrinsic growth rate of the population, and $\alpha>0$ is a parameter that regulates the amount by which growth is decreased as $X$ increases. 
 
-An equilibrium (steady-state, fixed point) of a differential equation is a value of the dependent variable ($X$) that makes the right-hand side of the equation zero. We denote an equilibrium as $X^\star$. We can write:
+An *equilibrium* (steady-state, fixed point) of a differential equation is a value of the dependent variable ($X(t)$) that makes the right-hand side of the equation zero. We denote an equilibrium as $X^\star$. We can write:
 
 $$
 \left.\dfrac{dX}{d\tau}\right|_{X^\star} = 0
@@ -385,7 +385,7 @@ As shown for the logistic growth, solving ODEs can be very hard, and for most eq
 
 ### A graphical method
 
-For any first-order ODE with a single dependent variable, one can understand the behavior of the system by simply plotting $x(t)$ (x-axis) vs $dx(t)/dt$ (y-axis). For example, for the logisitic model:
+For any first-order ODE with a single dependent variable, one can understand the behavior of the system by simply plotting $dx(t)/dt$ (y-axis) vs $x(t)$ (x-axis). For example, for the logistic model:
 
 $$
 \dfrac{dx}{dt} = x(1-x)
@@ -475,8 +475,8 @@ with $0<\gamma < \kappa$.
 You might have noticed that, when performing the graphical analysis above, and equilibrium is stable if $dx/dt$ has a negative slope at $x^\star$. Here we formalize this notion, by considering small perturbations of the system resting at an equilibrium.
 
 - Take an ODE $dx/dt = f(x)$
-- The system is resting at an equilibrium $x^\star > 0$
-- We perturb the system, and track the dynamics starting at $x(0) = x^\star + \epsilon$, where $\epsilon$ is taken to be sufficiently small $\| \epsilon \| \ll 1$
+- The system is resting at an equilibrium $x^\star$
+- We perturb the system, and track the dynamics when starting at $x(0) = x^\star + \epsilon$, where $\epsilon$ (the perturbation) is taken to be sufficiently small $\| \epsilon \| \ll 1$
 - We write $\Delta x(0) = x(0) - x^\star$
 - We derive the dynamics for $\Delta x$:
 
@@ -537,7 +537,7 @@ $$
 \left.\dfrac{d f(x)}{d x}\right|_{x^\star} = \left.\dfrac{d (x - x^2)}{d x}\right|_{x^\star} = \left.(1 - 2x)\right|_{x^\star} = -1
 $$
 
-and thus the equilibrium is **locally asymptotically stable**. Locally, because we have considered very small deviations from the equilibrium. 
+and thus the equilibrium is *locally asymptotically stable*. Locally, because we have considered very small deviations from the equilibrium, and asymptotic because convergence only happens eventually.
 
 ::: {.callout-warning collapse="true"}
 ## Exercise: Stability of equilibria for strong Allee effect
@@ -781,7 +781,7 @@ ts_discrete(discrete_model(initial_condition = 0.75,
                       pars = list(r = 10/3)))
 ```
 
-What are the two values? To find them, we can set $x_{t+2} = x_{t}$ making sure that $x_{t+1} != x_t$. Take:
+What are the two values? To find them, we can set $x_{t+2} = x_{t}$ making sure that $x_{t+1} \neq x_t$. Take:
 
 $$
 \begin{aligned}
@@ -887,50 +887,71 @@ ts_discrete(discrete_model(initial_condition = 0.75,
                       pars = list(r = 1 + sqrt(8))) %>% filter(time > 949))
 ```
 
-A famous result (Sharkovsky's theorem, *Ukrainian Math J*, 1964) states that a map with cycles of period 3, then it must have periodic points of every other period. Li and Yorke ("Period Three Implies Chaos". *Am. Math. Monthly*, 1975) showed that indeed a period-three implies infinitely many trajectories that do not have a period, and oscillate without ever completing a cycle. We call this phenomenon chaos.
+A famous result (Sharkovsky's theorem, *Ukrainian Math J*, 1964) states that if a map has cycles of period 3, then it must have cycles of every other period. Li and Yorke ("Period Three Implies Chaos". *Am. Math. Monthly*, 1975) showed that indeed a period-three implies infinitely many trajectories that do not have a period, and oscillate without ever completing a cycle. We call this phenomenon chaos.
 
 Chaos is aperiodic long-term behavior in a deterministic system that exhibits sensitive dependence to initial conditions. In particular, one can prove that in a chaotic regime, if we start with two initial conditions that are very close to each other (their distance being $\Delta x_0$) we eventually find very different trajectories. In particular, when we have chaos:
 
 $$
-  |\Delta x(t)| \approx e^{\lambda t}|\Delta x_0|
+|\Delta x(t)| \approx e^{\lambda t}|\Delta x_0|
 $$
 
 with $\lambda>0$ (the **Lyapunov exponent**).
+
+To show this behavior, let's plot two trajectories for the system when $r = 3.675$ and $x_0 = 0.5$ or $x_0 = 0.4999$:
+
+
+```{r}
+#| echo: false
+ns <- 45
+ts1 <- discrete_model(initial_condition = 0.5, 
+                      fun = logistic_map, 
+                      number_steps = ns, 
+                      pars = list(r = 3.675)) %>% mutate(label = "x0 = 0.5")
+ts2 <- discrete_model(initial_condition = 0.4999, 
+                      fun = logistic_map, 
+                      number_steps = ns, 
+                      pars = list(r = 3.675)) %>% mutate(label = "x0 = 0.4999")
+
+ggplot(bind_rows(ts1, ts2)) + 
+  aes(x = time, y = x_t, colour = label) + 
+  geom_point() + geom_line(linetype = 2) + 
+  theme_bw() + theme(legend.position = "bottom")
+  
+```
 
 ### Bifurcation diagram
 
 All these results can be summarized in a beautiful graph. We build it as follows:
 
 - pick a value of $r$
-- compute $x_t$ for a large number of points, and discard the first part of the time series (transient dynamics)
+- starting from an arbitrary point, $x_0 = 1/2$, compute $x_t$ for a large number of points, and discard the first part of the time series (transient dynamics)
 - locate and record the minima and maxima of the time series
 - plot $r$ (x-axis) against the location of the minima and maxima (y-axis)
 
 If the trajectories converge to an equilibrium, we will find a single point; if trajectories converge to a period-2 cycle, we will find two points; etc.
 
 ```{r}
-logistic_map_min_max <- function(r, max_time = 16000, discard = 15000){
-  # set random initial conditions
-  x_0 <- runif(1)
-  ts <- accumulate(.x = rep(x_0, max_time), .f = function(xt, xtp1) r * xt * (1-xt))[discard:max_time]
-  # find mins and maxs
-  mm <- ts[which(abs(diff(sign(diff(ts))))==2)+1]
-  if (length(mm) == 0) mm <- ts[1] # constant solution
-  return(tibble('mm' = mm, 'r' = r))
+logistic_map_ts <- function(r, max_time = 3000, discard = 2000){
+  ts <- accumulate(.x = rep(1/2, max_time), .f = function(xt, xtp1) r * xt * (1-xt))[discard:max_time]
+  # discard points at which the trajectory repeats
+  difference <- abs(ts - ts[1])
+  zz <- which(difference < 10^-6)
+  if(length(zz) > 1) ts <- ts[1:zz[2]]
+  return(tibble('x' = ts, 'r' = r))
 }
 # load results if available
 if (file.exists("data/logistic_bifurcation.RData")){
   load("data/logistic_bifurcation.RData")
 } else {
   # compute the results (this will take some time...)
-  bifurcation_logistic_map <- map_df(.x = seq(2.95, 3.99, by = 0.0015), 
-                                     .f = logistic_map_min_max)  
+  bifurcation_logistic_map <- map_df(.x = seq(2.95, 3.99, by = 0.001), 
+                                     .f = logistic_map_ts)  
   # and save the file
   save(bifurcation_logistic_map, file = "data/logistic_bifurcation.RData")
 }
 ggplot(bifurcation_logistic_map) + 
-  aes(x = r, y = mm) + 
-  geom_point(size = 0.005, alpha = 0.1) + 
+  aes(x = r, y = x) + 
+  geom_point(size = 0.005, alpha = 0.2) + 
   theme_bw() + 
   xlab(expression(r)) + ylab(expression(x[t]))
 ```
@@ -938,7 +959,7 @@ ggplot(bifurcation_logistic_map) +
 ::: {.callout-warning collapse="true"}
 ## Exercise: Ricker model
 
-This period-doubling bifurcation to chaos is common to several models. Draw the bifurcation diagram for the Ricker model:
+This period-doubling cascade to chaos is common to several models. Draw the bifurcation diagram for the Ricker model:
 
 $$
 x_{t+1} = x_t e^{r(1-x_t)}
@@ -964,7 +985,7 @@ $$
 x(t_0 + \Delta t) \approx x_0 + \Delta t \, f(x_0)
 $$
 
-We iterate this procedure again and again, drawing our trajectory. Naturally, taking smaller $\Delta t$ we should get better approximations, from a mathematical standpoint. In fact, one can show that the error we're making is proportional to $\Delta t$. However, reducing $\Delta t$ has two undesirable effects: first, the calculation time will increase accordingly; second, because computers have limited precision when representing numbers, at each step we will make roundoff errors, and these will accumulate faster when the step size is small. 
+We iterate this procedure again and again, drawing our trajectory. Naturally, taking smaller $\Delta t$ we should get better approximations, from a mathematical standpoint. In fact, one can show that the error we're making is proportional to $\Delta t$. However, reducing $\Delta t$ has two undesirable effects: first, the calculation time will increase accordingly; second, because computers have limited precision when representing numbers, at each step we will make round off errors, and these will accumulate faster when the step size is small. 
 
 In practice, when we use Euler's method we assume that $f(x)$ is fixed during the step $\Delta t$ (which we now is generally not true). We can average across two points, yielding the so-called midpoint method:
 
@@ -975,13 +996,12 @@ x_{t + \Delta t} &= x_t + \frac{1}{2}(f(x_t) + f(y_{t + \Delta t}))
 \end{aligned}
 $$
 
-where $y_{t + \Delta t}$ is what computed using Euler's method, and the actual step is taken to be the average $f(x)$ at the beginning and end of the step. One can show that the error is now proportional to $(\Delta t)^2$, which is a good improvement. 
+where $y_{t + \Delta t}$ is what computed using Euler's method, and the slope for the actual step is taken to be the average $f(x)$ at the beginning and end of the step. One can show that the error is now proportional to $(\Delta t)^2$, which is a good improvement. 
 
 The same logic applies when we take several intermediate steps, and average across them, as done for the [Runge-Kutta methods](https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods).
 
 In fact, the best software tries to pick small $\Delta t$ when $x(t)$ is changing rapidly, and larger $\Delta t$ when $x(t)$ is changing slowly. These adaptive-step methods are the state-of-the-art, and are implemented in the package `deSolve` in `R`.
 :::
-
 
 ## Classic papers
 

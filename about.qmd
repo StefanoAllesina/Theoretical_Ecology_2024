@@ -8,15 +8,19 @@ These lecture notes were prepared by Stefano Allesina (`sallesina@uchicago.edu`)
 
 These are good introductions to theoretical ecology:
 
-- Case, [An Illustrated Guide to Theoretical Ecology](https://global.oup.com/ushe/product/an-illustrated-guide-to-theoretical-ecology-9780195085129?cc=us&lang=en&), 1999
+- Case, [*An Illustrated Guide to Theoretical Ecology*](https://global.oup.com/ushe/product/an-illustrated-guide-to-theoretical-ecology-9780195085129?cc=us&lang=en&), 1999
 
-- May and McLean, [Theoretical Ecology: Principles and Applications](https://academic.oup.com/book/42041), 2007
+- May and McLean, [*Theoretical Ecology: Principles and Applications*](https://academic.oup.com/book/42041), 2007
 
-- Gotelli, [A primer of ecology](https://global.oup.com/academic/product/a-primer-of-ecology-9780878933181?cc=us&lang=en&), 2008
+- Gotelli, [*A primer of ecology*](https://global.oup.com/academic/product/a-primer-of-ecology-9780878933181?cc=us&lang=en&), 2008
 
+- Hofbauer and Sigmund [*Evolutionary Games and Population Dynamics*](https://www.cambridge.org/core/books/evolutionary-games-and-population-dynamics/A8D94EBE6A16837E7CB3CED24E1948F8), 1998
 
-These are good resources for the mathematics of dynamical systems:
+Books on disease dynamics:
 
+- Anderson and May [*Infectious Diseases of Humans: Dynamics and Control*](https://global.oup.com/academic/product/infectious-diseases-of-humans-9780198540403?cc=us&lang=en&), 1992
+
+- Keeling and Rohani [*Modelling Infectious Diseases*](https://press.princeton.edu/books/hardcover/9780691116174/modeling-infectious-diseases-in-humans-and-animals), 2008
 
 ### Course policies
 
@@ -39,7 +43,7 @@ Following the material requires basic notions in calculus, linear algebra and dy
 - Integration of functions in one and several variables
 - Taylor series
 - Vectors, dot product, cross product
-- Matrix product, transpose, determinant eigenvalue decomposition
+- Matrix product, transpose, determinant, eigenvalue decomposition
 - Positive and negative definiteness of a matrix
 
 These are good websites offering a brief review of these materials, and cheat sheets reporting the main formulas:
@@ -47,6 +51,10 @@ These are good websites offering a brief review of these materials, and cheat sh
 - [Paul's Online Notes](https://tutorial.math.lamar.edu/) covering calculus I, II and III as well as dynamical systems; the cheat sheets are excellent.
 
 - Steve Brunton's (U. Washington) YouTube channel has extremely well-done lectures on dynamical systems; for example, here are reviews of [derivatives](https://www.youtube.com/watch?v=-NhgElcA3K8), [Taylor series](https://www.youtube.com/watch?v=ebfOSDj4j3I), [simulating the logistic map](https://www.youtube.com/watch?v=_BvAkyuWhOI), [integrating ODEs in a computer](https://www.youtube.com/watch?v=W-wxKgjBDnc).
+
+- Ziko Kolter has published a brief [review of linear algebra](https://cs229.stanford.edu/section/cs229-linalg.pdf) concepts.
+
+
 
 
 

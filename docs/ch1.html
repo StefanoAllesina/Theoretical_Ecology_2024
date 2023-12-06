@@ -258,7 +258,7 @@ x_{n} = \rho^n x_0
 <p>In fact, this is exactly the definition of the derivative with respect to (w.r.t.) time of the function <span class="math inline">\(x(t)\)</span>. A great contribution of Newton and Leibniz was to recognize that many natural phenomena can be described by simple differential equations—even though the equations describing the rate of change <span class="math inline">\(dx(t)/dt\)</span> are simple, the behavior of the solutions <span class="math inline">\(x(t)\)</span> can be incredibly complex.</p>
 <p>In ecology and evolutionary biology, one encounters two main types of differential equations:</p>
 <ul>
-<li><p><em>Ordinary differential equations</em> (ODEs) describe the rate of change of a quantity (in our case, population densities, <span class="math inline">\(x(t)\)</span>) as a function of an independent variable (in our case, the time <span class="math inline">\(t\)</span>), and can contain functions of the quantity, and its derivatives. If only the first derivative (<span class="math inline">\(dx(t)/dt\)</span>) is included, they are called first-order ODEs.</p></li>
+<li><p><em>Ordinary differential equations</em> (ODEs) describe the rate of change of a quantity (in our case, population densities, <span class="math inline">\(x(t)\)</span>) as a function of an independent variable (in our case, the time <span class="math inline">\(t\)</span>), and can contain functions of the quantity, and its derivatives. If only the first derivative (<span class="math inline">\(dx(t)/dt\)</span>) is included, it is called a first-order ODE.</p></li>
 <li><p><em>Partial differential equations</em> (PDEs) contain more than one independent variable (e.g., time and coordinates in space). Therefore, the quantity of interest is a multivariate function, such as <span class="math inline">\(q(x,y,t)\)</span>, denoting the density of a population at the coordinates <span class="math inline">\(x,y\)</span> and time <span class="math inline">\(t\)</span>. The partial derivatives with respect to the independent variables are considered, hence the name.</p></li>
 </ul>
 <p>Many other types of differential equations (stochastic differential equations, SDEs; integro-differential equations, IDEs; etc.) are found in certain technical areas.</p>
@@ -439,7 +439,7 @@ N(t) = e^{\lambda t} N(0)
 \]</span></p>
 <p>where <span class="math inline">\(\lambda &lt; 0\)</span> is the decay rate of the isotope. The half-life of a radioisotope is the time it takes to be reduced to half of the original concentration, and is 5,730 years for <span class="math inline">\({}^{14}\)</span>C.</p>
 <ul>
-<li>Find the value of <span class="math inline">\(\lambda\)</span> given the half-life</li>
+<li>Find the value of <span class="math inline">\(\lambda\)</span> for <span class="math inline">\({}^{14}\)</span>C given its half-life</li>
 <li>Express <span class="math inline">\(t\)</span> as a function of <span class="math inline">\(\lambda\)</span>, and the ratio between <span class="math inline">\(N(t)\)</span> and <span class="math inline">\(N(0)\)</span></li>
 <li>The concentration in the atmosphere is about 1 atom of <span class="math inline">\({}^{14}\)</span>C for every <span class="math inline">\(10^{12}\)</span> atoms of carbon. You have a collected sample that contains <span class="math inline">\(1/16\)</span> atoms of <span class="math inline">\({}^{14}\)</span>C for every <span class="math inline">\(10^{12}\)</span> atoms of carbon; date the sample.</li>
 </ul>
@@ -450,12 +450,12 @@ N(t) = e^{\lambda t} N(0)
 </section>
 <section id="logistic-equation" class="level2">
 <h2 class="anchored" data-anchor-id="logistic-equation">Logistic equation</h2>
-<p>We have a population that grows exponentially when at very low densities, but experience a slow down in growth when densities are higher. The logistic growth equation is typically written as:</p>
+<p>We have a population that grows exponentially when at very low densities, but experiences a slow down in growth when densities are higher. The logistic growth equation is typically written as:</p>
 <p><span class="math display">\[
 \frac{d X}{d \tau} = X\left(\rho - \alpha X\right)
 \]</span></p>
 <p>where <span class="math inline">\(\rho&gt;0\)</span> is the intrinsic growth rate of the population, and <span class="math inline">\(\alpha&gt;0\)</span> is a parameter that regulates the amount by which growth is decreased as <span class="math inline">\(X\)</span> increases.</p>
-<p>An equilibrium (steady-state, fixed point) of a differential equation is a value of the dependent variable (<span class="math inline">\(X\)</span>) that makes the right-hand side of the equation zero. We denote an equilibrium as <span class="math inline">\(X^\star\)</span>. We can write:</p>
+<p>An <em>equilibrium</em> (steady-state, fixed point) of a differential equation is a value of the dependent variable (<span class="math inline">\(X(t)\)</span>) that makes the right-hand side of the equation zero. We denote an equilibrium as <span class="math inline">\(X^\star\)</span>. We can write:</p>
 <p><span class="math display">\[
 \left.\dfrac{dX}{d\tau}\right|_{X^\star} = 0
 \]</span></p>
@@ -579,7 +579,7 @@ x(t) = \dfrac{x_0 e^t}{1 + (e^t - 1)x_0}
 <p>As shown for the logistic growth, solving ODEs can be very hard, and for most equations found in ecology a closed-form solution cannot be found. Moreover, even when we can solve the equations, the solution might be difficult to interpret or overly complex. Important information on the behavior of the system can be found by performing a qualitative analysis of the system. Here we concentrate on the location of equilibria, and their stability.</p>
 <section id="a-graphical-method" class="level3">
 <h3 class="anchored" data-anchor-id="a-graphical-method">A graphical method</h3>
-<p>For any first-order ODE with a single dependent variable, one can understand the behavior of the system by simply plotting <span class="math inline">\(x(t)\)</span> (x-axis) vs <span class="math inline">\(dx(t)/dt\)</span> (y-axis). For example, for the logisitic model:</p>
+<p>For any first-order ODE with a single dependent variable, one can understand the behavior of the system by simply plotting <span class="math inline">\(dx(t)/dt\)</span> (y-axis) vs <span class="math inline">\(x(t)\)</span> (x-axis). For example, for the logistic model:</p>
 <p><span class="math display">\[
 \dfrac{dx}{dt} = x(1-x)
 \]</span></p>
@@ -655,8 +655,8 @@ Exercise: Strong Allee effect
 <p>You might have noticed that, when performing the graphical analysis above, and equilibrium is stable if <span class="math inline">\(dx/dt\)</span> has a negative slope at <span class="math inline">\(x^\star\)</span>. Here we formalize this notion, by considering small perturbations of the system resting at an equilibrium.</p>
 <ul>
 <li>Take an ODE <span class="math inline">\(dx/dt = f(x)\)</span></li>
-<li>The system is resting at an equilibrium <span class="math inline">\(x^\star &gt; 0\)</span></li>
-<li>We perturb the system, and track the dynamics starting at <span class="math inline">\(x(0) = x^\star + \epsilon\)</span>, where <span class="math inline">\(\epsilon\)</span> is taken to be sufficiently small <span class="math inline">\(\| \epsilon \| \ll 1\)</span></li>
+<li>The system is resting at an equilibrium <span class="math inline">\(x^\star\)</span></li>
+<li>We perturb the system, and track the dynamics when starting at <span class="math inline">\(x(0) = x^\star + \epsilon\)</span>, where <span class="math inline">\(\epsilon\)</span> (the perturbation) is taken to be sufficiently small <span class="math inline">\(\| \epsilon \| \ll 1\)</span></li>
 <li>We write <span class="math inline">\(\Delta x(0) = x(0) - x^\star\)</span></li>
 <li>We derive the dynamics for <span class="math inline">\(\Delta x\)</span>:</li>
 </ul>
@@ -712,7 +712,7 @@ f(x) = f(x^\star) + \left.\dfrac{d f(x)}{d x}\right|_{x^\star} (x - x^\star) + \
 <p><span class="math display">\[
 \left.\dfrac{d f(x)}{d x}\right|_{x^\star} = \left.\dfrac{d (x - x^2)}{d x}\right|_{x^\star} = \left.(1 - 2x)\right|_{x^\star} = -1
 \]</span></p>
-<p>and thus the equilibrium is <strong>locally asymptotically stable</strong>. Locally, because we have considered very small deviations from the equilibrium.</p>
+<p>and thus the equilibrium is <em>locally asymptotically stable</em>. Locally, because we have considered very small deviations from the equilibrium, and asymptotic because convergence only happens eventually.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -934,7 +934,7 @@ x^\star + \epsilon_{t+1} &amp;\approx x^\star + \left. \dfrac{d f(x_t)}{dx_t}\ri
 <p><img src="ch1_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>What are the two values? To find them, we can set <span class="math inline">\(x_{t+2} = x_{t}\)</span> making sure that <span class="math inline">\(x_{t+1} != x_t\)</span>. Take:</p>
+<p>What are the two values? To find them, we can set <span class="math inline">\(x_{t+2} = x_{t}\)</span> making sure that <span class="math inline">\(x_{t+1} \neq x_t\)</span>. Take:</p>
 <p><span class="math display">\[
 \begin{aligned}
 x_{t+2} &amp;= x_t\\
@@ -1009,50 +1009,55 @@ x_c = \dfrac{r +1 \pm \sqrt{(r-3) (r+1)}}{2 r}
 <p><img src="ch1_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>A famous result (Sharkovsky’s theorem, <em>Ukrainian Math J</em>, 1964) states that a map with cycles of period 3, then it must have periodic points of every other period. Li and Yorke (“Period Three Implies Chaos”. <em>Am. Math. Monthly</em>, 1975) showed that indeed a period-three implies infinitely many trajectories that do not have a period, and oscillate without ever completing a cycle. We call this phenomenon chaos.</p>
+<p>A famous result (Sharkovsky’s theorem, <em>Ukrainian Math J</em>, 1964) states that if a map has cycles of period 3, then it must have cycles of every other period. Li and Yorke (“Period Three Implies Chaos”. <em>Am. Math. Monthly</em>, 1975) showed that indeed a period-three implies infinitely many trajectories that do not have a period, and oscillate without ever completing a cycle. We call this phenomenon chaos.</p>
 <p>Chaos is aperiodic long-term behavior in a deterministic system that exhibits sensitive dependence to initial conditions. In particular, one can prove that in a chaotic regime, if we start with two initial conditions that are very close to each other (their distance being <span class="math inline">\(\Delta x_0\)</span>) we eventually find very different trajectories. In particular, when we have chaos:</p>
 <p><span class="math display">\[
-  |\Delta x(t)| \approx e^{\lambda t}|\Delta x_0|
+|\Delta x(t)| \approx e^{\lambda t}|\Delta x_0|
 \]</span></p>
 <p>with <span class="math inline">\(\lambda&gt;0\)</span> (the <strong>Lyapunov exponent</strong>).</p>
+<p>To show this behavior, let’s plot two trajectories for the system when <span class="math inline">\(r = 3.675\)</span> and <span class="math inline">\(x_0 = 0.5\)</span> or <span class="math inline">\(x_0 = 0.4999\)</span>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 <section id="bifurcation-diagram" class="level3">
 <h3 class="anchored" data-anchor-id="bifurcation-diagram">Bifurcation diagram</h3>
 <p>All these results can be summarized in a beautiful graph. We build it as follows:</p>
 <ul>
 <li>pick a value of <span class="math inline">\(r\)</span></li>
-<li>compute <span class="math inline">\(x_t\)</span> for a large number of points, and discard the first part of the time series (transient dynamics)</li>
+<li>starting from an arbitrary point, <span class="math inline">\(x_0 = 1/2\)</span>, compute <span class="math inline">\(x_t\)</span> for a large number of points, and discard the first part of the time series (transient dynamics)</li>
 <li>locate and record the minima and maxima of the time series</li>
 <li>plot <span class="math inline">\(r\)</span> (x-axis) against the location of the minima and maxima (y-axis)</li>
 </ul>
 <p>If the trajectories converge to an equilibrium, we will find a single point; if trajectories converge to a period-2 cycle, we will find two points; etc.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>logistic_map_min_max <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">max_time =</span> <span class="dv">16000</span>, <span class="at">discard =</span> <span class="dv">15000</span>){</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># set random initial conditions</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  x_0 <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">1</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  ts <span class="ot">&lt;-</span> <span class="fu">accumulate</span>(<span class="at">.x =</span> <span class="fu">rep</span>(x_0, max_time), <span class="at">.f =</span> <span class="cf">function</span>(xt, xtp1) r <span class="sc">*</span> xt <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>xt))[discard<span class="sc">:</span>max_time]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># find mins and maxs</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  mm <span class="ot">&lt;-</span> ts[<span class="fu">which</span>(<span class="fu">abs</span>(<span class="fu">diff</span>(<span class="fu">sign</span>(<span class="fu">diff</span>(ts))))<span class="sc">==</span><span class="dv">2</span>)<span class="sc">+</span><span class="dv">1</span>]</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(mm) <span class="sc">==</span> <span class="dv">0</span>) mm <span class="ot">&lt;-</span> ts[<span class="dv">1</span>] <span class="co"># constant solution</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">tibble</span>(<span class="st">'mm'</span> <span class="ot">=</span> mm, <span class="st">'r'</span> <span class="ot">=</span> r))</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># load results if available</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(<span class="st">"data/logistic_bifurcation.RData"</span>)){</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load</span>(<span class="st">"data/logistic_bifurcation.RData"</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute the results (this will take some time...)</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  bifurcation_logistic_map <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="at">.x =</span> <span class="fu">seq</span>(<span class="fl">2.95</span>, <span class="fl">3.99</span>, <span class="at">by =</span> <span class="fl">0.0015</span>), </span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">.f =</span> logistic_map_min_max)  </span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># and save the file</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">save</span>(bifurcation_logistic_map, <span class="at">file =</span> <span class="st">"data/logistic_bifurcation.RData"</span>)</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bifurcation_logistic_map) <span class="sc">+</span> </span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> r, <span class="at">y =</span> mm) <span class="sc">+</span> </span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.005</span>, <span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span> </span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(r)) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="fu">expression</span>(x[t]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>logistic_map_ts <span class="ot">&lt;-</span> <span class="cf">function</span>(r, <span class="at">max_time =</span> <span class="dv">3000</span>, <span class="at">discard =</span> <span class="dv">2000</span>){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  ts <span class="ot">&lt;-</span> <span class="fu">accumulate</span>(<span class="at">.x =</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">2</span>, max_time), <span class="at">.f =</span> <span class="cf">function</span>(xt, xtp1) r <span class="sc">*</span> xt <span class="sc">*</span> (<span class="dv">1</span><span class="sc">-</span>xt))[discard<span class="sc">:</span>max_time]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># discard points at which the trajectory repeats</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  difference <span class="ot">&lt;-</span> <span class="fu">abs</span>(ts <span class="sc">-</span> ts[<span class="dv">1</span>])</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  zz <span class="ot">&lt;-</span> <span class="fu">which</span>(difference <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^-</span><span class="dv">6</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">length</span>(zz) <span class="sc">&gt;</span> <span class="dv">1</span>) ts <span class="ot">&lt;-</span> ts[<span class="dv">1</span><span class="sc">:</span>zz[<span class="dv">2</span>]]</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">tibble</span>(<span class="st">'x'</span> <span class="ot">=</span> ts, <span class="st">'r'</span> <span class="ot">=</span> r))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># load results if available</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">file.exists</span>(<span class="st">"data/logistic_bifurcation.RData"</span>)){</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load</span>(<span class="st">"data/logistic_bifurcation.RData"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># compute the results (this will take some time...)</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  bifurcation_logistic_map <span class="ot">&lt;-</span> <span class="fu">map_df</span>(<span class="at">.x =</span> <span class="fu">seq</span>(<span class="fl">2.95</span>, <span class="fl">3.99</span>, <span class="at">by =</span> <span class="fl">0.001</span>), </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">.f =</span> logistic_map_ts)  </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># and save the file</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">save</span>(bifurcation_logistic_map, <span class="at">file =</span> <span class="st">"data/logistic_bifurcation.RData"</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bifurcation_logistic_map) <span class="sc">+</span> </span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> r, <span class="at">y =</span> x) <span class="sc">+</span> </span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">0.005</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span> </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="fu">expression</span>(r)) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="fu">expression</span>(x[t]))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="ch1_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="ch1_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -1067,7 +1072,7 @@ Exercise: Ricker model
 </div>
 <div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>This period-doubling bifurcation to chaos is common to several models. Draw the bifurcation diagram for the Ricker model:</p>
+<p>This period-doubling cascade to chaos is common to several models. Draw the bifurcation diagram for the Ricker model:</p>
 <p><span class="math display">\[
 x_{t+1} = x_t e^{r(1-x_t)}
 \]</span></p>
@@ -1096,7 +1101,7 @@ x(t_0 + \Delta t) \approx x(t_0) + \left. \dfrac{d x(t)}{dt}\right|_{t_0} \Delta
 <p><span class="math display">\[
 x(t_0 + \Delta t) \approx x_0 + \Delta t \, f(x_0)
 \]</span></p>
-<p>We iterate this procedure again and again, drawing our trajectory. Naturally, taking smaller <span class="math inline">\(\Delta t\)</span> we should get better approximations, from a mathematical standpoint. In fact, one can show that the error we’re making is proportional to <span class="math inline">\(\Delta t\)</span>. However, reducing <span class="math inline">\(\Delta t\)</span> has two undesirable effects: first, the calculation time will increase accordingly; second, because computers have limited precision when representing numbers, at each step we will make roundoff errors, and these will accumulate faster when the step size is small.</p>
+<p>We iterate this procedure again and again, drawing our trajectory. Naturally, taking smaller <span class="math inline">\(\Delta t\)</span> we should get better approximations, from a mathematical standpoint. In fact, one can show that the error we’re making is proportional to <span class="math inline">\(\Delta t\)</span>. However, reducing <span class="math inline">\(\Delta t\)</span> has two undesirable effects: first, the calculation time will increase accordingly; second, because computers have limited precision when representing numbers, at each step we will make round off errors, and these will accumulate faster when the step size is small.</p>
 <p>In practice, when we use Euler’s method we assume that <span class="math inline">\(f(x)\)</span> is fixed during the step <span class="math inline">\(\Delta t\)</span> (which we now is generally not true). We can average across two points, yielding the so-called midpoint method:</p>
 <p><span class="math display">\[
 \begin{aligned}
@@ -1104,7 +1109,7 @@ y_{t + \Delta t} &amp;= x_t + \Delta_t f(x_t)\\
 x_{t + \Delta t} &amp;= x_t + \frac{1}{2}(f(x_t) + f(y_{t + \Delta t}))
 \end{aligned}
 \]</span></p>
-<p>where <span class="math inline">\(y_{t + \Delta t}\)</span> is what computed using Euler’s method, and the actual step is taken to be the average <span class="math inline">\(f(x)\)</span> at the beginning and end of the step. One can show that the error is now proportional to <span class="math inline">\((\Delta t)^2\)</span>, which is a good improvement.</p>
+<p>where <span class="math inline">\(y_{t + \Delta t}\)</span> is what computed using Euler’s method, and the slope for the actual step is taken to be the average <span class="math inline">\(f(x)\)</span> at the beginning and end of the step. One can show that the error is now proportional to <span class="math inline">\((\Delta t)^2\)</span>, which is a good improvement.</p>
 <p>The same logic applies when we take several intermediate steps, and average across them, as done for the <a href="https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods">Runge-Kutta methods</a>.</p>
 <p>In fact, the best software tries to pick small <span class="math inline">\(\Delta t\)</span> when <span class="math inline">\(x(t)\)</span> is changing rapidly, and larger <span class="math inline">\(\Delta t\)</span> when <span class="math inline">\(x(t)\)</span> is changing slowly. These adaptive-step methods are the state-of-the-art, and are implemented in the package <code>deSolve</code> in <code>R</code>.</p>
 </div>
@@ -1114,9 +1119,21 @@ x_{t + \Delta t} &amp;= x_t + \frac{1}{2}(f(x_t) + f(y_{t + \Delta t}))
 </section>
 <section id="classic-papers" class="level2">
 <h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>
+<p>A brief paper discussing how to build models in biology:</p>
+<ul>
+<li>Richard Levins, 1966. <a href="https://www.jstor.org/stable/27836590"><em>The strategy of model building in population biology</em></a>. American Scientist 54:421-431</li>
+</ul>
 <p>This paper introduces the famous metapopulation model:</p>
 <ul>
 <li>Richard Levins, 1969. <a href="https://academic.oup.com/ae/article-abstract/15/3/237/255899"><em>Some demographic and genetic consequences of environmental heterogeneity for biological control</em></a>. Bull. Entomol. Soc. Am. 15:237–240.</li>
+</ul>
+<p>This paper shows the onset of chaos in simple discrete-time models:</p>
+<ul>
+<li>Robert M. May, 1976. <a href="https://www.nature.com/articles/261459a0"><em>Simple mathematical models with very complicated dynamics</em></a>. Nature 261:459-467</li>
+</ul>
+<p>This paper discusses how simple models relates to experimental data on population growth:</p>
+<ul>
+<li>Michael P. Hassell, John H. Lawton, Robert M. May, 1976. <a href="https://www.jstor.org/stable/3886"><em>Patterns of dynamical behavior in single species populations</em></a>. Journal of Animal Ecology 45:471-486</li>
 </ul>
 
 

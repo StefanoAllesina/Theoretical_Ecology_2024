@@ -7,6 +7,56 @@ library(tidyverse) # plotting, data organization
 library(deSolve) # integrate differential equations
 ```
 
+
+```{r}
+THRESH <- 10^-10
+glv_dxdt <- function(x, parms) x * (parms$r + as.vector(parms$A %*% x))
+
+glv_2 <- function(t, x, parms){
+  x[x < THRESH] <- 0
+  dxdt <- glv_dxdt(x, parms)
+  return(list(dxdt))
+}
+
+# one-size-fits all plots for 2-spp GLV
+
+glv_isoclines <- function(parms, xlims = c(0, 2), ylims = c(0,2)){
+  A <- parms$A
+  r <- parms$r
+  # find equilibria
+  # 1) trivial
+  xs <- tibble(x = 0, y = 0)
+  # 2) marginal
+  if ((A[1,1] != 0) & (-r[1] / A[1,1] > 0)) xs <- bind_rows(xs, tibble(x = -r[1] / A[1,1], y = 0))
+  if ((A[2,2]) & (-r[2] / A[2,2] > 0)) xs <- bind_rows(xs, tibble(y = -r[2] / A[2,2], x = 0))
+  # 3) coexistence
+  tmp <- as.vector(solve(A, -r))
+  if(all(tmp > 0)) xs <- bind_rows(xs, tibble(x = tmp[1], y = tmp[2]))
+  # now compute their local stability
+  is_stable <- function(z, r, A){
+    M <- matrix(c(
+      r[1] + 2 * A[1,1] * z[1] + A[1,2] * z[2], A[1,2] * z[1], 
+      A[2,1] * z[2], r[2] + 2 * A[2,2] * z[2] + A[2,1] * z[1]
+    ), 2, 2, byrow = TRUE)
+    st <- max(Re(eigen(M, only.values = TRUE)$values))
+    if (st < 10^-10) return(TRUE)
+    return(FALSE)
+  }
+  xs <- xs %>% add_column(stable = apply(xs, 1, is_stable, A = A, r = r))
+  pl <- ggplot(data = xs) + aes(x = x, y = y, shape = stable) + geom_point()
+  #+ xlim(xlims * max(xs[,1])) + ylim(ylims * max(xs[,2])) 
+  # compute isoclines
+  intercepts <- c(-r[1] / A[1,2], -r[2] / A[2,2])
+  slopes <- c(-A[1,1] / A[1,2], -A[2,1] / A[2,2])
+  if(A[2,2] == 0) intercepts[2] <- -r[2] / a[2,1]
+  for (i in 1:2){
+    
+  }
+}
+```
+
+
+
 ## Lotka-Volterra predator-prey model
 
 We have a prey who would grow exponentially when the predator is absent, and a predator that would decline exponentially when the prey is absent. The two species interact, thus allowing for their coexistence:
@@ -59,20 +109,20 @@ We can therefore analyze the case in which we have only a single free parameter,
 ```{r}
 #| echo: false
 alpha <- 0.5
-ggplot(data = tibble(x = alpha, y = 1)) + 
-  aes(x = x, y = y) + 
-  xlim(c(0,1)) + 
-  ylim(c(0,2)) + 
-  geom_hline(yintercept = 1, linetype = 2)+ 
-  geom_vline(xintercept = alpha, linetype = 2) + 
-  geom_point() + 
-  theme_bw() + 
-  ggtitle("alpha=0.5")
+pl <- ggplot(data = tibble(x = alpha, y = 1)) + 
+              aes(x = x, y = y) + 
+              xlim(c(0,1)) + 
+              ylim(c(0,2)) 
+pl <- ggplot_part_isoclines(pl, h = 1, v = alpha) + 
+              geom_point() + 
+              theme_bw() + 
+              ggtitle("alpha=0.5")
+show(pl)
 ```
 
 **Direction of trajectories**
 
-We have four quadrants surrounding the equilibrium:
+We have four quadrants surrounding the positive equilibrium:
 
 - $x < \alpha, y < 1$: in the bottom-left corner, we have $dx/dt > 0$ and $dy/dt < 0$; accordingly, the prey will grow and the predator decline.
 
@@ -102,6 +152,7 @@ ggplot(data = dt) +
   geom_point(x = alpha, y = 1, color = "black") + 
   theme_bw() + theme(legend.position = "none")
 ```
+
 
 
 
