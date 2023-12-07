@@ -20,7 +20,14 @@ glv_2 <- function(t, x, parms){
 
 # one-size-fits all plots for 2-spp GLV
 
-glv_isoclines <- function(parms, xlims = c(0, 2), ylims = c(0,2)){
+parms <- list(r = rnorm(2), A = matrix(rnorm(4), 2, 2))
+
+
+glv2_plot_all <- function(parms, 
+                          xlims = c(0, 2), 
+                          ylims = c(0,2),
+                          num_arrows = 20,
+                          arrow_length = 0.1){
   A <- parms$A
   r <- parms$r
   # find equilibria
@@ -43,15 +50,36 @@ glv_isoclines <- function(parms, xlims = c(0, 2), ylims = c(0,2)){
     return(FALSE)
   }
   xs <- xs %>% add_column(stable = apply(xs, 1, is_stable, A = A, r = r))
-  pl <- ggplot(data = xs) + aes(x = x, y = y, shape = stable) + geom_point()
-  #+ xlim(xlims * max(xs[,1])) + ylim(ylims * max(xs[,2])) 
+  pl <- ggplot(data = xs) + aes(x = x, y = y) + geom_point(aes(shape = stable), size = 2) + 
+  xlim(xlims * max(0.01, max(xs[,1]))) + ylim(ylims * max(0.01, max(xs[,2])))
   # compute isoclines
   intercepts <- c(-r[1] / A[1,2], -r[2] / A[2,2])
   slopes <- c(-A[1,1] / A[1,2], -A[2,1] / A[2,2])
   if(A[2,2] == 0) intercepts[2] <- -r[2] / a[2,1]
-  for (i in 1:2){
-    
+  pl <- pl + geom_abline(slope = slopes[1], intercept = intercepts[1], linetype = 2)
+  if (!is.infinite(slopes[2])) {
+    pl <- pl + geom_abline(slope = slopes[2], intercept = intercepts[2], linetype = 2)
+  } else {
+    pl <- pl + geom_vline(xintercept = intercepts[2])
   }
+  # flow
+  xx <- seq(0.001, xlims[2] * max(0.01, max(xs[,1])), length.out = num_arrows)
+  yy <- seq(0.001, ylims[2] * max(0.01, max(xs[,2])), length.out = num_arrows)
+  tb_flow <- expand_grid(xx, yy)
+  colnames(tb_flow) <- c("x", "y")
+  # compute dxdt
+  tb_flow2 <- t(apply(tb_flow, 1, glv_dxdt, parms = parms))
+  colnames(tb_flow2) <- c("xend", "yend")
+  tb_flow2 <- tb_flow2 %>% as_tibble() %>% mutate(col_arrow = paste(sign(xend), sign(yend)))
+  tb_flow <- bind_cols(tb_flow, tb_flow2) %>% mutate(xend = x + xend * arrow_length, 
+                                                     yend = y + yend * arrow_length)
+  
+  pl <- pl + geom_segment(data = tb_flow, 
+                    aes(xend = xend, yend = yend, 
+                        colour = col_arrow, 
+                        x = x, y = y), arrow = arrow(length = unit(0.01, "npc")))
+  pl <- pl + theme_bw() + theme(legend.position = "none")
+  show(pl)
 }
 ```
 
