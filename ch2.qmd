@@ -7,8 +7,10 @@ library(tidyverse) # plotting, data organization
 library(deSolve) # integrate differential equations
 ```
 
-
 ```{r}
+#| echo: false
+#| message: false
+#| warning: false
 THRESH <- 10^-10
 glv_dxdt <- function(x, parms) x * (parms$r + as.vector(parms$A %*% x))
 
@@ -18,72 +20,698 @@ glv_2 <- function(t, x, parms){
   return(list(dxdt))
 }
 
+is_stable <- function(z, r, A){
+  M <- matrix(c(
+    r[1] + 2 * A[1,1] * z[1] + A[1,2] * z[2], A[1,2] * z[1], 
+    A[2,1] * z[2], r[2] + 2 * A[2,2] * z[2] + A[2,1] * z[1]
+  ), 2, 2, byrow = TRUE)
+  st <- max(Re(eigen(M, only.values = TRUE)$values))
+  if (st < -10^-10) return("1")
+  return("0")
+}
+
 # one-size-fits all plots for 2-spp GLV
-
-parms <- list(r = rnorm(2), A = matrix(rnorm(4), 2, 2))
-
-
 glv2_plot_all <- function(parms, 
-                          xlims = c(0, 2), 
-                          ylims = c(0,2),
+                          plot_isoclines = TRUE,
+                          plot_flow = TRUE,
+                          plot_trajectories = FALSE,
+                          # params for size of graph
+                          xlims = c(0, 1.25), 
+                          ylims = c(0, 1.25),
+                          # params for flow
                           num_arrows = 20,
-                          arrow_length = 0.1){
+                          arrow_length = 0.1,
+                          # params for trajectories
+                          initial_conditions = NULL,
+                          time_length = 50,
+                          time_step = 0.01
+                          ){
   A <- parms$A
   r <- parms$r
-  # find equilibria
+  # compute equilibria
   # 1) trivial
   xs <- tibble(x = 0, y = 0)
   # 2) marginal
-  if ((A[1,1] != 0) & (-r[1] / A[1,1] > 0)) xs <- bind_rows(xs, tibble(x = -r[1] / A[1,1], y = 0))
-  if ((A[2,2]) & (-r[2] / A[2,2] > 0)) xs <- bind_rows(xs, tibble(y = -r[2] / A[2,2], x = 0))
+  if ((A[1,1] != 0) & (-r[1] / A[1,1] > 0)) {
+    xs <- bind_rows(xs, tibble(x = -r[1] / A[1,1], y = 0))
+  }
+  if ((A[2,2]) & (-r[2] / A[2,2] > 0)) {
+    xs <- bind_rows(xs, tibble(y = -r[2] / A[2,2], x = 0))
+  }
   # 3) coexistence
   tmp <- as.vector(solve(A, -r))
   if(all(tmp > 0)) xs <- bind_rows(xs, tibble(x = tmp[1], y = tmp[2]))
   # now compute their local stability
-  is_stable <- function(z, r, A){
-    M <- matrix(c(
-      r[1] + 2 * A[1,1] * z[1] + A[1,2] * z[2], A[1,2] * z[1], 
-      A[2,1] * z[2], r[2] + 2 * A[2,2] * z[2] + A[2,1] * z[1]
-    ), 2, 2, byrow = TRUE)
-    st <- max(Re(eigen(M, only.values = TRUE)$values))
-    if (st < 10^-10) return(TRUE)
-    return(FALSE)
-  }
   xs <- xs %>% add_column(stable = apply(xs, 1, is_stable, A = A, r = r))
-  pl <- ggplot(data = xs) + aes(x = x, y = y) + geom_point(aes(shape = stable), size = 2) + 
-  xlim(xlims * max(0.01, max(xs[,1]))) + ylim(ylims * max(0.01, max(xs[,2])))
+  pl <- ggplot(data = xs) + 
+    aes(x = x, y = y) + 
+    geom_point(aes(shape = stable), size = 4) + 
+    scale_shape_manual(values = c("0" = 10, "1" = 16))
   # compute isoclines
-  intercepts <- c(-r[1] / A[1,2], -r[2] / A[2,2])
-  slopes <- c(-A[1,1] / A[1,2], -A[2,1] / A[2,2])
-  if(A[2,2] == 0) intercepts[2] <- -r[2] / a[2,1]
-  pl <- pl + geom_abline(slope = slopes[1], intercept = intercepts[1], linetype = 2)
-  if (!is.infinite(slopes[2])) {
-    pl <- pl + geom_abline(slope = slopes[2], intercept = intercepts[2], linetype = 2)
-  } else {
-    pl <- pl + geom_vline(xintercept = intercepts[2])
+  if (plot_isoclines){
+    intercepts <- c(-r[1] / A[1,2], -r[2] / A[2,2])
+    slopes <- c(-A[1,1] / A[1,2], -A[2,1] / A[2,2])
+    if(A[2,2] == 0) intercepts[2] <- -r[2] / A[2,1]
+    pl <- pl + geom_abline(slope = slopes[1], intercept = intercepts[1], linetype = 2)
+    if (!is.infinite(slopes[2])) {
+      pl <- pl + geom_abline(slope = slopes[2], intercept = intercepts[2], linetype = 3)
+    } else {
+      pl <- pl + geom_vline(xintercept = intercepts[2], linetype = 3)
+    }
   }
-  # flow
-  xx <- seq(0.001, xlims[2] * max(0.01, max(xs[,1])), length.out = num_arrows)
-  yy <- seq(0.001, ylims[2] * max(0.01, max(xs[,2])), length.out = num_arrows)
-  tb_flow <- expand_grid(xx, yy)
-  colnames(tb_flow) <- c("x", "y")
-  # compute dxdt
-  tb_flow2 <- t(apply(tb_flow, 1, glv_dxdt, parms = parms))
-  colnames(tb_flow2) <- c("xend", "yend")
-  tb_flow2 <- tb_flow2 %>% as_tibble() %>% mutate(col_arrow = paste(sign(xend), sign(yend)))
-  tb_flow <- bind_cols(tb_flow, tb_flow2) %>% mutate(xend = x + xend * arrow_length, 
+  # trajectories
+  if (plot_trajectories){
+    dt_trajectories <- tibble()
+    # initial_conditions is a matrix of initial conditions
+    for (i in 1:nrow(initial_conditions)){
+      tmp <- ode(y = initial_conditions[i,], 
+                 times = seq(0, time_length, by = time_step),
+                 func = glv_2, parms = parms, method = "ode45") %>% 
+        as.data.frame() %>% as_tibble()
+      tmp <- tmp[,-1]
+      colnames(tmp) <- c("x", "y")
+      tmp <- tmp %>% mutate(trajectory = i)
+      dt_trajectories <- bind_rows(dt_trajectories, tmp)
+    }
+    pl <- pl + geom_path(data = dt_trajectories, 
+                         aes(x = x, y = y, group = trajectory),
+                         arrow = arrow(length = unit(0.02, "npc")), 
+                         colour = "darkblue")
+    xs <- xs %>% select(-stable)
+    xs <- bind_rows(xs, dt_trajectories)
+    xs[is.na(xs)] <- 0
+    xs$x[is.infinite(xs$x)] <- NA
+    xs$y[is.infinite(xs$y)] <- NA
+  }
+  if (plot_flow){
+    # flow
+    xx <- seq(0.001, xlims[2] * max(0.01, max(xs[,1])), length.out = num_arrows)
+    yy <- seq(0.001, ylims[2] * max(0.01, max(xs[,2])), length.out = num_arrows)
+    tb_flow <- expand_grid(xx, yy)
+    colnames(tb_flow) <- c("x", "y")
+    # compute dxdt
+    tb_flow2 <- t(apply(tb_flow, 1, glv_dxdt, parms = parms))
+    colnames(tb_flow2) <- c("xend", "yend")
+    tb_flow2 <- tb_flow2 %>% as_tibble() %>% 
+      mutate(col_arrow = paste(sign(xend), sign(yend)))
+    tb_flow <- bind_cols(tb_flow, tb_flow2) %>% mutate(xend = x + xend * arrow_length, 
                                                      yend = y + yend * arrow_length)
-  
-  pl <- pl + geom_segment(data = tb_flow, 
+    pl <- pl + geom_segment(data = tb_flow, 
                     aes(xend = xend, yend = yend, 
                         colour = col_arrow, 
                         x = x, y = y), arrow = arrow(length = unit(0.01, "npc")))
+  }
+  pl <- pl + 
+    coord_cartesian(xlim = xlims * max(0.01, max(xs[,1], na.rm = TRUE)),
+    ylim = ylims * max(0.01, max(xs[,2], na.rm = TRUE)))
   pl <- pl + theme_bw() + theme(legend.position = "none")
   show(pl)
 }
 ```
 
 
+## Lotka-Volterra competition
+
+To start our exploration of more complex models, we consider two populations ($X$ and $Y$), growing logistically on their own, that interact competitively:
+
+$$
+\begin{cases}
+\dfrac{dX}{d\tau} = X(r_1 - B_{11} X - B_{12}Y)\\
+\dfrac{dY}{d\tau} = Y(r_2 - B_{21} X - B_{22}Y)\\
+\end{cases}
+$$
+
+Where all parameters are positive; the $r_i$ are the intrinsic growth rates, and $B_{ij}$ measures how much the growth of $i$ is decreased when adding a unit of population $j$.
+
+::: {.callout-note collapse="true"}
+## Matrices and vectors
+
+A *matrix* $A$ is a rectangular arrays of numbers (the *entries* of the matrix, $A_{ij}$). For this class, we will consider matrices with either real entries, $A_{ij} \in \mathbb R; A_{ij} = \alpha$, or complex entries, $A_{ij} \in \mathbb C; A_{ij}=\alpha + i \beta$. The *size* of the matrix is given by the number of rows $n$ and the number of columns $m$. To show the size explicitly, we use $A_{n \times m}$. If $n = m$ the matrix is *square*. 
+
+A (column) vector $b$ is a matrix with a single column (i.e., size $n \times 1$), and a row vector $a^T$ is of size $1 \times m$. We use ${}^T$ to denote transposition, an operation that turns the rows into columns and vice versa: $(A^T)_{ij} = A_{ji}$; if $A_{n \times m}$, then $A^{T}_{m \times n}$.
+
+Basic operations that can be performed with matrices:
+
+- Two matrices can be added only if they have the same size $A + B = C$, with $C_{ij} = A_{ij} + B_{ij}$.
+
+- Two matrices can be multiplied if the number of columns of the first matrix matches the number of rows of the second matrix: $A_{n \times m} B_{m \times l} = C_{n \times l}$ with $C_{ij} = \sum_{k = 1}^{m} A_{ik} B_{kj}$. In general, $AB \neq BA$: matrices do not generally commute.
+
+- If two matrices have the same size, we can also take the Hadamard (element-by-element) product $A \circ B = C$, with $C_{ij} = A_{ij} B_{ij}$. 
+
+In `R`, a vector can be defined by concatenation `v <- c(1,2,3)`, and a matrix by reshaping a vector `M <- matrix(c(1,2,3,4), 2, 2)` note that the entries are filled by column; if you want to fill them by row use `M <- matrix(c(1,2,3,4), 2, 2, byrow = TRUE)`. The Hadamard product is coded as `*`, and the matrix multiplication as `%*%`
+:::
+
+We can gather the variables and the parameters into two vectors and a matrix:
+
+$$
+Z = (X, Y)^T\quad r = (r_1, r_2)^T\quad B = \begin{pmatrix}
+B_{11} & B_{12}\\
+B_{21} & B_{22}
+\end{pmatrix}
+$$
+
+Thus, the dynamics can be written as:
+
+$$
+\dfrac{d Z_i}{d\tau} = Z_i (r_i - \sum_j B_{ij} Z_j)
+$$
+
+or, in vector form:
+
+$$
+\dfrac{dZ}{d\tau} = D(Z)(r - BZ)
+$$
+
+**Non-dimensionalization**
+
+We define:
+
+$$
+x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
+$$
+
+obtaining:
+
+$$
+\begin{cases}
+\dfrac{dx}{dt} = x(c_3 r_1  - c_1 c_3 B_{11} x - c_2 c_3 B_{12}y)\\
+\dfrac{dy}{dt} = y(c_3 r_2 - c_1  c_3 B_{21} x - c_2 c_3 B_{22}y)\\
+\end{cases}
+$$
+
+A convenient choice is:
+
+$$
+c_3 = \dfrac{1}{r_1}\quad c_1 = \dfrac{r_1}{B_{11}}\quad c_2 = \dfrac{r_1}{B_{22}}
+$$
+
+Yielding:
+
+$$
+\begin{cases}
+\dfrac{dx}{dt} = x\left(1  - x - \dfrac{B_{12}}{B_{22}}y \right)\\
+\dfrac{dy}{d\tau} = y\left(\dfrac{r_2}{r_1} - \dfrac{B_{21}}{B_{11}} x - y \right)\\
+\end{cases}
+$$
+
+We define the ratio of intrinsic growth rates $\rho = r_2 / r_1$ and the ratio between the effect of $y$ on the growth of $x$ and the effect on itself $A_{12} = B_{12} / B_{22}$ and similarly $A_{21} = B_{21} / B_{11}$, obtaining:
+
+$$
+\begin{cases}
+\dfrac{dx}{dt} = x\left(1  - x - A_{12 }y \right)\\
+\dfrac{dy}{d\tau} = y\left(\rho - A_{21} x - y \right)\\
+\end{cases}
+$$
+
+**Equilibria**
+
+The system has a *trivial* equilibrium $(x^\star, y^\star) = (0,0)$, in which both species are absent. If $y$ is absent, we obtain the marginal equilibrium $(x^\star, y^\star) = (1,0)$, and if $x$ is absent, we have $(x^\star, y^\star) = (0, \rho)$. Finally, we can have a coexistence equilibrium, as long as the two terms in parenthesis are simultaneously zero:
+
+$$
+\begin{cases}
+1-x^\star-A_{12}y^\star = 0\\
+\rho - A_{21} x^\star - y^\star = 0
+\end{cases}
+$$
+
+Solving the first equation for $x^\star$, we obtain $x^\star = 1 - A_{12} y^\star$; plugging this solution into the second equation yields:
+
+$$
+\begin{aligned}
+\rho - A_{21} + A_{12}A_{21} y^\star - y^\star &= 0\\
+y^\star &= \dfrac{\rho - A_{21}}{1 - A_{12}A_{21}}
+\end{aligned}
+$$
+and correspondingly:
+
+$$
+x^\star = \dfrac{1 - A_{12} \rho}{1 - A_{12}A_{21}}
+$$
+
+If both values of $x^\star$ and $y^\star$ are positive, we have a coexistence equilibrium, if not then the point lies outside the nonnegative orthant $\mathbb R^{2}_{0+}$, and thus cannot be reached by the dynamics.
+
+::: {.callout-note collapse="true"}
+## Solving linear systems
+
+In the equations above, either $x$ ($y$) is zero, or the term in parenthesis is zero. If we define:
+
+$$
+z = (x,y)^T \quad s = (1, \rho)^T \quad A = \begin{pmatrix}
+1 & A_{12}\\
+A_{21} & 1
+\end{pmatrix}
+$$
+
+we have that both terms in parenthesis are simultaneously zero whenever:
+
+$$
+Az^\star = s
+$$
+
+You can solve a system of linear equations by inverting the matrix $A_{n \times n}$. A matrix $A$ is called invertible if there is a matrix $B$ such that:
+
+$$
+AB = BA = I_n
+$$
+where $I_n$ is the *identity matrix*, a matrix with zero everywhere but the diagonal, and with the entries on the diagonal being all 1. The identity matrix is the neutral matrix for multiplication: $AI = IA = A$.
+
+If such a matrix $B$ exists, it is called the inverse of $A$, written as $A^{-1}$. If a matrix is not invertible, it is called *singular*. For matrices with real or complex entries, the necessary and sufficient condition for invertibility is that the determinant of the matrix $\det A \neq 0$.
+
+The determinant of a $2 \times 2$ matrix $A$ can be computed as:
+
+$$
+A = \begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}\quad \det A = ad - bc
+$$
+
+Computing a matrix inverse is typically quite involved. For a $2 \times 2$ matrix, you can write:
+
+$$
+A^{-1} = \dfrac{1}{ad - bc}\begin{pmatrix}
+d & -b \\
+-c & a
+\end{pmatrix}
+$$
+
+For the Lotka-Volterra system we have:
+
+$$
+\det A = 1 - A_{12} A_{21}
+$$
+
+when the determinant is not zero, then
+
+$$
+\begin{aligned}
+A z^\star &= s\\
+A^{-1} Az^\star &= A^{-1}s\\
+I z^\star &= A^{-1}s\\
+z^\star &= A^{-1}s\\
+z^\star &= \dfrac{1}{1-A_{12}A_{21}}\begin{pmatrix}
+1 & -A_{21}\\
+-A_{12} &1
+\end{pmatrix} \begin{pmatrix}
+1\\
+\rho
+\end{pmatrix}\\
+z^\star &= \dfrac{1}{1-A_{12}A_{21}}\begin{pmatrix}
+1 - A_{21} \rho\\
+\rho - A_{12}
+\end{pmatrix}
+\end{aligned}
+$$
+
+In `R`, you can solve a system of equation using `solve(A, b)` where `A` is a square, invertible matrix, and `b` is a vector of appropriate size.
+:::
+
+Thus, the model has three or four equilibria, depending on the parameters. Another way to see this is to think about the values of $y$ making $dx/dt = 0$, and viceversa.
+
+**Zero-growth isoclines**
+
+Take the first equation, and set it to zero:
+
+$$
+x\left(1  - x - A_{12 }y \right) = 0
+$$
+
+equality is obtained when either $x =0$ or $y = (1-x)/ A_{12}$. This equation defines a line in the $(x,y)$ plane, called the *phase plane*. Similarly, if we take the second equation
+
+$$
+y\left(\rho - A_{21} x - y \right) = 0
+$$
+
+we see that this is zero whenever $y = 0$ or when $y = \rho - A_{21}x$, another line in the phase plane. If the two lines meet in the positive quadrant, then we have the possibility of coexistence. 
+
+For example, take $\rho = 1$, $A_{12} = 1/3$ and $A_{21} = 1/4$:
+
+```{r}
+#| echo: false
+rho <- 1
+A12 <- 1/3
+A21 <- 1/4
+parms_c1 <- list(r = c(1, rho), A = matrix(-c(1, A21, A12, 1), 2, 2))
+glv2_plot_all(parms = parms_c1, 
+              plot_isoclines = TRUE, 
+              plot_flow = FALSE, 
+              plot_trajectories = FALSE,
+              xlims = c(0,2), ylims = c(0,2))
+```
+
+Each species grows at points that are below its zero-growth isocline, and declines at points that are above it. Thus, for each point in the phase plane we can determine the general direction of the trajectories:
+
+```{r}
+#| echo: false
+glv2_plot_all(parms = parms_c1, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = FALSE,
+              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.15)
+```
+
+We can use these arrows to classify the stability of the equilibria. For example, around $(0,0)$ arrows move away from the point; it is thus an unstable equilibrium. Similarly, the two marginal points have arrows pointing away from them, and are thus unstable; around the coexistence equilibrium, all arrows point back to it, indicating stability.
+
+In fact, we can show trajectories converging to the coexistence equilibrium:
+
+```{r}
+glv2_plot_all(parms = parms_c1, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = TRUE,
+              initial_conditions = matrix(c(0.01, 0.012, 
+                                            1.5, 0.02,
+                                            0.1, 1.6,
+                                            1.5, 1.5), 
+                                          4, 2, byrow = TRUE),
+              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.15)
+```
+
+Depending on the value of the parameters, we have four cases; two in which the two lines do not meet in the positive orthant; and two cases in which they do. In particular:
+
+- 
+
+- 
+
+- 
+
+- 
+
+::: {.callout-note collapse="true"}
+## Eigenvalues and eigenvectors
+
+The product of a matrix and a vector is another vector:
+
+$$
+A x = b
+$$
+
+Each matrix is associated with certain special vectors such that:
+
+$$
+A v = \lambda v
+$$
+i.e., multiplying the vector with the matrix simply scales all the entries of the vector by a constant, $\lambda$. When this is the case, we say that $v$ is an eigenvector of $A$, with associated eigenvalue $\lambda$. Note that eigenvectors are defined up to a constant: if $v$ is an eigenvector of $A$, and $w = \gamma v$, then:
+
+$$
+Aw = \gamma A v= \gamma \lambda v = \lambda w
+$$
+
+A matrix $A$ is called *diagonalizable* if there exists an invertible matrix $P$ such that $PAP^{-1} = D$, where $D$ is a diagonal matrix, i.e., having nonzero values only on the diagonal.
+
+**Example**
+
+$$
+A = \begin{pmatrix}
+1 & 2\\
+4 & 3
+\end{pmatrix}\quad v = \begin{pmatrix}
+1\\
+2
+\end{pmatrix}\quad
+Av = \begin{pmatrix}
+5\\
+10
+\end{pmatrix} = 5 v
+$$
+
+Then $v= (1,2)^T$ is an eigenvector of $A$ with eigenvalue $\lambda = 5$.
+
+A diagonalizable matrix can be written as:
+
+$$
+A = Q \Lambda Q^{-1}
+$$
+
+where each of the columns of $Q$ is an eigenvector of $A$, and $\Lambda$ is a diagonal matrix with the corresponding eigenvalues. This factorization (writing a matrix as a product of other matrices) is called the eigendecomposition of $A$.
+
+You can see that:
+
+$$
+\begin{aligned}
+A v &= \lambda v\\
+A Q &= Q \Lambda\\
+A &= Q \Lambda Q^{-1}
+\end{aligned}
+$$
+
+The *trace* of a matrix is the sum of the diagonal entries, it is also the sum of the eigenvalues:
+
+$$
+\text{Tr}\, A = \sum_i A_{ii} = \sum_i \lambda_i
+$$
+
+The determinant of a matrix is the product of its eigenvalues (and thus a singular matrix has at least one zero eigenvalue):
+
+$$
+\det A = \prod_i \lambda_i
+$$
+
+A diagonalizable matrix of size has $n$ eigenvalues (not necessarily distinct) and $n$ corresponding eigenvectors. The number of nonzero eigenvalues is the *rank* of the matrix.
+
+Computing the eigenvalues of a matrix is very involved, and can be done analytically only for small matrices. The eigenvalues of $A$ are the zeros of the characteristic polynomial:
+
+$$
+\det (A - \lambda I) = p(\lambda)
+$$
+
+A matrix with real entries has eigenvalues that are either real, $\lambda_i = \alpha$, or complex $\lambda = \alpha + i \beta$; the complex root are paired: $\lambda_{i,j} = \alpha \pm i \beta$ (conjugate complex eigenvalues). A symmetric matrix $A = A^T$ has only real roots; a skew-symmetric matrix $A = -A^T$ has roots with real part zero. 
+
+The diagonal matrix $D(\alpha)$ has eigenvalues $\alpha$.
+
+The eigenvalues of the inverse $A^{-1}$ are the reciprocals of the eigenvalues of $A$: if $A$ has eigenvalue $\lambda$, then $A^{-1}$ has eigenvalue $1/\lambda$. The eigenvectors are the same. The transpose $A^T$ has the same eigenvalues of $A$; the eigenvectors are $A^T = (Q \Lambda Q^{-1})^T = {Q^{-1}}^T \Lambda Q^T$
+
+If a matrix has only positive, real eigenvalues it is *positive definite*, if it has only nonnegative eigenvalues it is *positive semi-definite*; if it has only negative eigenvalues it is negative definite. 
+
+If $A$ is positive definite, then 
+
+$$
+\sum_i \sum_j A_{ij} x_i x_j = x^T A x > 0 \quad \forall x \neq 0
+$$
+
+If $A$ is symmetric, then it can be decomposed as:
+
+$$
+A = A^T = Q \Lambda Q^T
+$$
+
+i.e., in this case $Q^{-1} = Q^T$.
+
+**Finding eigenvalues for $2\times2$ matrix**
+
+The matrix 
+
+$$
+A = \begin{pmatrix}
+a & b\\
+c & d
+\end{pmatrix}
+$$
+
+has $\text{Tr}\, A = a+ d$ and $\det A = ad - bc$. Then:
+
+$$
+\begin{cases}
+\lambda_1 + \lambda_2 = a + d\\
+\lambda_1 \lambda_2 = ad - bc
+\end{cases}
+$$
+
+and thus
+
+$$
+\lambda = \dfrac{a + d \pm \sqrt{4bc + (a-d)^2}}{2}
+$$
+
+The eigenvectors can be found by setting one of the entries to an arbitrary value (e.g., $v_1 = 1$), and solving the equations:
+
+$$
+Av = \lambda v
+$$
+
+In `R`, you can compute the eigenvalues and eigenvectors of a matrix $A$ as `eA <- eigen(A)`; the function returns a list with the matrix of eigenvectors stored in `eA$vectors` and the vector of eigenvalues in `eA$values`.
+:::
+
+
+### Local stability
+
+In the previous lectures, we have approximated the behavior of $f(x)$ around the equilibrium, to determine whether small perturbations would be buffered by the system. We can perform the same type of analysis here. However, now $dx_i / dt = f_i(x)$ is a function of multiple populations, and therefore we need to Taylor-expand multivariate functions.
+
+In analogy with the Talyor-expansion of functions of a single variable, we can write:
+
+$$
+f_i(x^\star + \Delta x) = f_i(x^\star) + \sum_k \left. \dfrac{\partial f_i(x)}{\partial x_k} \right|_{x^\star} \Delta x_k + \dfrac{1}{2} \sum_{k}\sum_{l} \left. \dfrac{\partial^2 f_i(x)}{\partial x_k \partial x_l} \right|_{x^\star} \Delta x_k \Delta x_l + \cdots
+$$
+As before, $f_i(x^\star) = 0$, and if we take only the second term (i.e., the term linear in $\Delta x$) we can approximate the function as:
+
+$$
+f_i(x^\star + \Delta x) \approx \sum_k \left. J_{ik} \right|_{x^\star} \Delta x_k
+$$
+
+Where we have defined the *Jacobian* matrix $J$:
+
+$$
+J_{ij} = \dfrac{\partial f_i(x)}{\partial x_j}
+$$
+For each equilibrium in the system, we can obtain a different *community matrix* (the name is due to Levins) $M$:
+
+$$
+M = \left. J \right|_{x^\star}
+$$
+
+As such, a system of ODEs has a *single* Jacobian, and as many community matrices as there are equilibria. As before, we assume that we have slightly perturbed the system at equilibrium, $x(t) = x^\star + \Delta x$, where $\Delta x$ is assumed to be small, and then we approximate the dynamics:
+
+$$
+\dfrac{d\Delta x}{dt} \approx \left. J \right|_{x^\star} \Delta x
+$$
+
+i.e., we need to solve a linear system of ODEs.
+
+::: {.callout-note collapse="true"}
+## Solving systems of linear ODEs
+
+Consider the system of first-order, autnonomous ODEs:
+
+$$
+\dfrac{dx}{dt} = Ax
+$$
+
+If the matrix $A$ is diagonalizable, we can decompose the matrix as:
+
+$$
+A = Q \Lambda Q^{-1}
+$$
+
+We define a new system of equations, by changing the variables:
+
+$$
+y = Q^{-1}x\quad x = Q y
+$$
+
+Then, by chain rule:
+
+$$
+\dfrac{dy}{dt} = Q^{-1} \dfrac{d x}{dt} = Q^{-1}Q \Lambda Q^{-1} x= \Lambda Q^{-1} x = \Lambda y
+$$
+
+We have decoupled all equations: now the $y_i$ grow or decline independently of each other. 
+
+$$
+\dfrac{dy_i}{dt} = \lambda_i y_i
+$$
+
+This is in fact the equation for the exponential growth/decay, with solution $y_i(t) = y(0) e^{\lambda_i t}$. 
+
+We can bring these solutions back to the original form:
+
+$$
+y(t) = e^{\Lambda t} y(0)
+$$
+
+where $e^\Lambda t$ is a diagonal matrix:
+
+$$
+e^{\Lambda t}= \begin{pmatrix}
+e^{\lambda_1 t} & 0 & \cdots &0\\
+0 & e^{\lambda_2 t} & \cdots &0\\
+\cdots & \cdots & \cdots & \cdots\\
+0 & 0 & \cdots & e^{\lambda_n t}\\
+\end{pmatrix}
+$$
+
+Then:
+
+$$
+x(t) = Q y(t) = Q e^{\Lambda t} y(0) = Q e^{\Lambda t} Q^{-1} x(0)
+$$
+
+Allowing to easily compute the solution for any linear systems of ODEs.
+
+**Stability of the origin**
+
+Suppose that $\lambda_i$ is a real number; then $\lim_{t \to \infty}e^{\lambda_i t} = 0$. If $\lambda_i$ is positive, on the other hand, then $\lim_{t \to \infty}e^{\lambda_i t} = \infty$. Thus, if any of the $\lambda_i > 0$, the system will move to $\infty$ in the direction specified by the corresponding eigenvector.
+
+Whenever $\lambda_i$ is complex (e.g., generically, when $A$ is not symmetric), then we need to consider:
+
+$$
+e^{\alpha t + i \beta t} = e^{\alpha t} e^{i \beta t} = e^{\alpha t} (\cos \beta + i \sin \beta )t
+$$
+
+where we have used Euler's identity. Importantly, $(\cos \beta + i \sin \beta )$ is bounded, and in fact its real (imaginary) part is $\leq 1$. Then, $\lim_{t \to \infty} e^{\alpha t + i \beta t} = 0$ if $\alpha < 0$.
+
+Therefore, the vector $0_n$ is an asymptotically stable equilibrium of the system $\dfrac{dx}{dt} = A x$ if and only if *all* the eigenvalues of $A$ have negative real part.
+:::
+
+Thus, to probe the local asymptotic stability of each of the equilibria, we can:
+
+- Calculate the Jacobian matrix, $J$
+- Plug in an equilibrium, obtaining the corresponding community matrix $M$
+- Compute the eigenvalues of $M$, $\lambda_i$
+- If *all* the eigenvalues have negative real part, $\Re (\lambda_i) < 0$, then the equilibrium is locally asymptotically stable
+
+For example, for the system above, we have:
+
+$$
+\begin{cases}
+f_x(x,y) = x- x^2 - A_{12}xy \\
+f_y(x,y) = \rho y - A_{21} xy - y^2
+\end{cases}
+$$
+
+$$
+J = \begin{pmatrix}
+(1 - 2 x - A_{12} y) & -A_{12} x\\
+-A_{21} y & (\rho - 2 y - A_{21} x)
+\end{pmatrix}
+$$
+For $(x^\star, y^\star) = (0,0)$, we obtain:
+
+$$
+M = \begin{pmatrix}
+1 & 0\\
+0 & \rho
+\end{pmatrix}
+$$
+
+with eigenvalues $1$ and $\rho>0$: the equilibrium is unstable.
+
+For the marginal equilibrium $(x^\star, y^\star) = (1,0)$, we obtain:
+
+$$
+M = \begin{pmatrix}
+-1  & -A_{12} \\
+0 & \rho - A_{21}
+\end{pmatrix}
+$$
+
+The eigenvalues are $-1$ and $\rho - A_{21}$ and thus the equilibrium is stable whenever $\rho < A_{21}$ and unstable when $\rho > A_{21}$.
+
+For the other marginal equilibrium $(x^\star, y^\star) = (0,\rho)$, we obtain:
+
+$$
+M = \begin{pmatrix}
+1 - A_{12} \rho & 0\\
+-A_{21} \rho & -\rho 
+\end{pmatrix}
+$$
+with eigenvalues $-\rho$ and $1 - A_{12} \rho$. Thus, the equilibrium is stable whenever $1/\rho < A_{12}$ and unstable when $1/\rho > A_{12}$.
+
+Finally, whenever a feasible equilibrium $(x^\star, y^\star) > (0,0)$ we have that the terms in parenthesis are zero. Thus $(1 - x^\star - A_{12} y^\star) = 0$ and $(\rho - y^\star - A_{21} x^\star)$, yielding:
+
+$$
+M = \begin{pmatrix}
+- x^\star & -A_{12} x^\star\\
+-A_{21} y^\star & -y^\star
+\end{pmatrix}
+$$
+
+The eigenvalues are:
+
+$$
+\lambda_{12} = \dfrac{1}{2}\left(-(x^\star+y^\star) \pm \sqrt{(x^\star-y^\star)^2 + 4 A_{12}A_{21} x^\star y^\star} \right)
+$$
+
+Note that if $A_{12}A_{21} = 1$, then we have that the eigenvalues are $\frac{1}{2}(-(x^\star+y^\star) \pm (x^\star+y^\star))$, and thus one of them is zero. Hence, the equilibrium is stable as long as $A_{12} A_{21} < 1$.
 
 ## Lotka-Volterra predator-prey model
 
@@ -137,15 +765,12 @@ We can therefore analyze the case in which we have only a single free parameter,
 ```{r}
 #| echo: false
 alpha <- 0.5
-pl <- ggplot(data = tibble(x = alpha, y = 1)) + 
-              aes(x = x, y = y) + 
-              xlim(c(0,1)) + 
-              ylim(c(0,2)) 
-pl <- ggplot_part_isoclines(pl, h = 1, v = alpha) + 
-              geom_point() + 
-              theme_bw() + 
-              ggtitle("alpha=0.5")
-show(pl)
+parms_lv_pred_prey <- list(r = c(1, -alpha), A = matrix(c(0,1,-1,0), 2, 2))
+glv2_plot_all(parms = parms_lv_pred_prey, 
+              plot_isoclines = TRUE, 
+              plot_flow = FALSE, 
+              plot_trajectories = FALSE,
+              xlims = c(0,2), ylims = c(0,2))
 ```
 
 **Direction of trajectories**
@@ -164,26 +789,29 @@ We can show these directions visually, by computing $(dx/dt, dy/dt)$ at differen
 
 ```{r}
 #| echo: false
-xx <- seq(0.25, 1.75, by = 0.1) * alpha
-yy <- seq(0.25, 1.75, by = 0.1) 
-dt <- expand.grid(xx, yy)
-dt <- as.data.frame(dt)
-colnames(dt) <- c("x", "y")
-dt <- dt %>% 
-  mutate(dxdt = x * (1 - y), dydt = y * (-alpha  + x)) %>% 
-  mutate(quadrant = as.factor((x < alpha) + 2 * (y < 1)))
-ggplot(data = dt) + 
-  geom_hline(yintercept = 1, linetype = 2)+ 
-  geom_vline(xintercept = alpha, linetype = 2) + 
-  aes(x = x, y = y, xend = x + 0.1 * dxdt, yend = y + 0.1 * dydt, color = quadrant) + 
-  geom_segment(arrow = arrow(length = unit(0.01, "npc"))) + 
-  geom_point(x = alpha, y = 1, color = "black") + 
-  theme_bw() + theme(legend.position = "none")
+glv2_plot_all(parms = parms_lv_pred_prey, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = FALSE,
+              xlims = c(0,2), ylims = c(0,2))
 ```
 
 
 
 
+```{r}
+#| echo: false
+glv2_plot_all(parms = parms_lv_pred_prey, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = TRUE,
+              initial_conditions = matrix(c(
+                0.9 * alpha, 0.9,
+                0.6 * alpha, 0.6,
+                0.5 * alpha, 0.5,
+                0.25 * alpha, 0.25
+              ), 4, 2, byrow = TRUE))
+```
 
 
 

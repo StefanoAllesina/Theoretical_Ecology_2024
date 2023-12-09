@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -163,6 +197,10 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#models-for-two-populations" id="toc-models-for-two-populations" class="nav-link active" data-scroll-target="#models-for-two-populations">Models for two populations</a>
   <ul class="collapse">
+  <li><a href="#lotka-volterra-competition" id="toc-lotka-volterra-competition" class="nav-link" data-scroll-target="#lotka-volterra-competition">Lotka-Volterra competition</a>
+  <ul class="collapse">
+  <li><a href="#local-stability" id="toc-local-stability" class="nav-link" data-scroll-target="#local-stability">Local stability</a></li>
+  </ul></li>
   <li><a href="#lotka-volterra-predator-prey-model" id="toc-lotka-volterra-predator-prey-model" class="nav-link" data-scroll-target="#lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</a></li>
   <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
   </ul></li>
@@ -176,6 +214,466 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="models-for-two-populations" class="level1">
 <h1>Models for two populations</h1>
+<section id="lotka-volterra-competition" class="level2">
+<h2 class="anchored" data-anchor-id="lotka-volterra-competition">Lotka-Volterra competition</h2>
+<p>To start our exploration of more complex models, we consider two populations (<span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>), growing logistically on their own, that interact competitively:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dX}{d\tau} = X(r_1 - B_{11} X - B_{12}Y)\\
+\dfrac{dY}{d\tau} = Y(r_2 - B_{21} X - B_{22}Y)\\
+\end{cases}
+\]</span></p>
+<p>Where all parameters are positive; the <span class="math inline">\(r_i\)</span> are the intrinsic growth rates, and <span class="math inline">\(B_{ij}\)</span> measures how much the growth of <span class="math inline">\(i\)</span> is decreased when adding a unit of population <span class="math inline">\(j\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Matrices and vectors
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>A <em>matrix</em> <span class="math inline">\(A\)</span> is a rectangular arrays of numbers (the <em>entries</em> of the matrix, <span class="math inline">\(A_{ij}\)</span>). For this class, we will consider matrices with either real entries, <span class="math inline">\(A_{ij} \in \mathbb R; A_{ij} = \alpha\)</span>, or complex entries, <span class="math inline">\(A_{ij} \in \mathbb C; A_{ij}=\alpha + i \beta\)</span>. The <em>size</em> of the matrix is given by the number of rows <span class="math inline">\(n\)</span> and the number of columns <span class="math inline">\(m\)</span>. To show the size explicitly, we use <span class="math inline">\(A_{n \times m}\)</span>. If <span class="math inline">\(n = m\)</span> the matrix is <em>square</em>.</p>
+<p>A (column) vector <span class="math inline">\(b\)</span> is a matrix with a single column (i.e., size <span class="math inline">\(n \times 1\)</span>), and a row vector <span class="math inline">\(a^T\)</span> is of size <span class="math inline">\(1 \times m\)</span>. We use <span class="math inline">\({}^T\)</span> to denote transposition, an operation that turns the rows into columns and vice versa: <span class="math inline">\((A^T)_{ij} = A_{ji}\)</span>; if <span class="math inline">\(A_{n \times m}\)</span>, then <span class="math inline">\(A^{T}_{m \times n}\)</span>.</p>
+<p>Basic operations that can be performed with matrices:</p>
+<ul>
+<li><p>Two matrices can be added only if they have the same size <span class="math inline">\(A + B = C\)</span>, with <span class="math inline">\(C_{ij} = A_{ij} + B_{ij}\)</span>.</p></li>
+<li><p>Two matrices can be multiplied if the number of columns of the first matrix matches the number of rows of the second matrix: <span class="math inline">\(A_{n \times m} B_{m \times l} = C_{n \times l}\)</span> with <span class="math inline">\(C_{ij} = \sum_{k = 1}^{m} A_{ik} B_{kj}\)</span>. In general, <span class="math inline">\(AB \neq BA\)</span>: matrices do not generally commute.</p></li>
+<li><p>If two matrices have the same size, we can also take the Hadamard (element-by-element) product <span class="math inline">\(A \circ B = C\)</span>, with <span class="math inline">\(C_{ij} = A_{ij} B_{ij}\)</span>.</p></li>
+</ul>
+<p>In <code>R</code>, a vector can be defined by concatenation <code>v &lt;- c(1,2,3)</code>, and a matrix by reshaping a vector <code>M &lt;- matrix(c(1,2,3,4), 2, 2)</code> note that the entries are filled by column; if you want to fill them by row use <code>M &lt;- matrix(c(1,2,3,4), 2, 2, byrow = TRUE)</code>. The Hadamard product is coded as <code>*</code>, and the matrix multiplication as <code>%*%</code></p>
+</div>
+</div>
+</div>
+<p>We can gather the variables and the parameters into two vectors and a matrix:</p>
+<p><span class="math display">\[
+Z = (X, Y)^T\quad r = (r_1, r_2)^T\quad B = \begin{pmatrix}
+B_{11} &amp; B_{12}\\
+B_{21} &amp; B_{22}
+\end{pmatrix}
+\]</span></p>
+<p>Thus, the dynamics can be written as:</p>
+<p><span class="math display">\[
+\dfrac{d Z_i}{d\tau} = Z_i (r_i - \sum_j B_{ij} Z_j)
+\]</span></p>
+<p>or, in vector form:</p>
+<p><span class="math display">\[
+\dfrac{dZ}{d\tau} = D(Z)(r - BZ)
+\]</span></p>
+<p><strong>Non-dimensionalization</strong></p>
+<p>We define:</p>
+<p><span class="math display">\[
+x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
+\]</span></p>
+<p>obtaining:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dx}{dt} = x(c_3 r_1  - c_1 c_3 B_{11} x - c_2 c_3 B_{12}y)\\
+\dfrac{dy}{dt} = y(c_3 r_2 - c_1  c_3 B_{21} x - c_2 c_3 B_{22}y)\\
+\end{cases}
+\]</span></p>
+<p>A convenient choice is:</p>
+<p><span class="math display">\[
+c_3 = \dfrac{1}{r_1}\quad c_1 = \dfrac{r_1}{B_{11}}\quad c_2 = \dfrac{r_1}{B_{22}}
+\]</span></p>
+<p>Yielding:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dx}{dt} = x\left(1  - x - \dfrac{B_{12}}{B_{22}}y \right)\\
+\dfrac{dy}{d\tau} = y\left(\dfrac{r_2}{r_1} - \dfrac{B_{21}}{B_{11}} x - y \right)\\
+\end{cases}
+\]</span></p>
+<p>We define the ratio of intrinsic growth rates <span class="math inline">\(\rho = r_2 / r_1\)</span> and the ratio between the effect of <span class="math inline">\(y\)</span> on the growth of <span class="math inline">\(x\)</span> and the effect on itself <span class="math inline">\(A_{12} = B_{12} / B_{22}\)</span> and similarly <span class="math inline">\(A_{21} = B_{21} / B_{11}\)</span>, obtaining:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dx}{dt} = x\left(1  - x - A_{12 }y \right)\\
+\dfrac{dy}{d\tau} = y\left(\rho - A_{21} x - y \right)\\
+\end{cases}
+\]</span></p>
+<p><strong>Equilibria</strong></p>
+<p>The system has a <em>trivial</em> equilibrium <span class="math inline">\((x^\star, y^\star) = (0,0)\)</span>, in which both species are absent. If <span class="math inline">\(y\)</span> is absent, we obtain the marginal equilibrium <span class="math inline">\((x^\star, y^\star) = (1,0)\)</span>, and if <span class="math inline">\(x\)</span> is absent, we have <span class="math inline">\((x^\star, y^\star) = (0, \rho)\)</span>. Finally, we can have a coexistence equilibrium, as long as the two terms in parenthesis are simultaneously zero:</p>
+<p><span class="math display">\[
+\begin{cases}
+1-x^\star-A_{12}y^\star = 0\\
+\rho - A_{21} x^\star - y^\star = 0
+\end{cases}
+\]</span></p>
+<p>Solving the first equation for <span class="math inline">\(x^\star\)</span>, we obtain <span class="math inline">\(x^\star = 1 - A_{12} y^\star\)</span>; plugging this solution into the second equation yields:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\rho - A_{21} + A_{12}A_{21} y^\star - y^\star &amp;= 0\\
+y^\star &amp;= \dfrac{\rho - A_{21}}{1 - A_{12}A_{21}}
+\end{aligned}
+\]</span> and correspondingly:</p>
+<p><span class="math display">\[
+x^\star = \dfrac{1 - A_{12} \rho}{1 - A_{12}A_{21}}
+\]</span></p>
+<p>If both values of <span class="math inline">\(x^\star\)</span> and <span class="math inline">\(y^\star\)</span> are positive, we have a coexistence equilibrium, if not then the point lies outside the nonnegative orthant <span class="math inline">\(\mathbb R^{2}_{0+}\)</span>, and thus cannot be reached by the dynamics.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solving linear systems
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In the equations above, either <span class="math inline">\(x\)</span> (<span class="math inline">\(y\)</span>) is zero, or the term in parenthesis is zero. If we define:</p>
+<p><span class="math display">\[
+z = (x,y)^T \quad s = (1, \rho)^T \quad A = \begin{pmatrix}
+1 &amp; A_{12}\\
+A_{21} &amp; 1
+\end{pmatrix}
+\]</span></p>
+<p>we have that both terms in parenthesis are simultaneously zero whenever:</p>
+<p><span class="math display">\[
+Az^\star = s
+\]</span></p>
+<p>You can solve a system of linear equations by inverting the matrix <span class="math inline">\(A_{n \times n}\)</span>. A matrix <span class="math inline">\(A\)</span> is called invertible if there is a matrix <span class="math inline">\(B\)</span> such that:</p>
+<p><span class="math display">\[
+AB = BA = I_n
+\]</span> where <span class="math inline">\(I_n\)</span> is the <em>identity matrix</em>, a matrix with zero everywhere but the diagonal, and with the entries on the diagonal being all 1. The identity matrix is the neutral matrix for multiplication: <span class="math inline">\(AI = IA = A\)</span>.</p>
+<p>If such a matrix <span class="math inline">\(B\)</span> exists, it is called the inverse of <span class="math inline">\(A\)</span>, written as <span class="math inline">\(A^{-1}\)</span>. If a matrix is not invertible, it is called <em>singular</em>. For matrices with real or complex entries, the necessary and sufficient condition for invertibility is that the determinant of the matrix <span class="math inline">\(\det A \neq 0\)</span>.</p>
+<p>The determinant of a <span class="math inline">\(2 \times 2\)</span> matrix <span class="math inline">\(A\)</span> can be computed as:</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+a &amp; b \\
+c &amp; d
+\end{pmatrix}\quad \det A = ad - bc
+\]</span></p>
+<p>Computing a matrix inverse is typically quite involved. For a <span class="math inline">\(2 \times 2\)</span> matrix, you can write:</p>
+<p><span class="math display">\[
+A^{-1} = \dfrac{1}{ad - bc}\begin{pmatrix}
+d &amp; -b \\
+-c &amp; a
+\end{pmatrix}
+\]</span></p>
+<p>For the Lotka-Volterra system we have:</p>
+<p><span class="math display">\[
+\det A = 1 - A_{12} A_{21}
+\]</span></p>
+<p>when the determinant is not zero, then</p>
+<p><span class="math display">\[
+\begin{aligned}
+A z^\star &amp;= s\\
+A^{-1} Az^\star &amp;= A^{-1}s\\
+I z^\star &amp;= A^{-1}s\\
+z^\star &amp;= A^{-1}s\\
+z^\star &amp;= \dfrac{1}{1-A_{12}A_{21}}\begin{pmatrix}
+1 &amp; -A_{21}\\
+-A_{12} &amp;1
+\end{pmatrix} \begin{pmatrix}
+1\\
+\rho
+\end{pmatrix}\\
+z^\star &amp;= \dfrac{1}{1-A_{12}A_{21}}\begin{pmatrix}
+1 - A_{21} \rho\\
+\rho - A_{12}
+\end{pmatrix}
+\end{aligned}
+\]</span></p>
+<p>In <code>R</code>, you can solve a system of equation using <code>solve(A, b)</code> where <code>A</code> is a square, invertible matrix, and <code>b</code> is a vector of appropriate size.</p>
+</div>
+</div>
+</div>
+<p>Thus, the model has three or four equilibria, depending on the parameters. Another way to see this is to think about the values of <span class="math inline">\(y\)</span> making <span class="math inline">\(dx/dt = 0\)</span>, and viceversa.</p>
+<p><strong>Zero-growth isoclines</strong></p>
+<p>Take the first equation, and set it to zero:</p>
+<p><span class="math display">\[
+x\left(1  - x - A_{12 }y \right) = 0
+\]</span></p>
+<p>equality is obtained when either <span class="math inline">\(x =0\)</span> or <span class="math inline">\(y = (1-x)/ A_{12}\)</span>. This equation defines a line in the <span class="math inline">\((x,y)\)</span> plane, called the <em>phase plane</em>. Similarly, if we take the second equation</p>
+<p><span class="math display">\[
+y\left(\rho - A_{21} x - y \right) = 0
+\]</span></p>
+<p>we see that this is zero whenever <span class="math inline">\(y = 0\)</span> or when <span class="math inline">\(y = \rho - A_{21}x\)</span>, another line in the phase plane. If the two lines meet in the positive quadrant, then we have the possibility of coexistence.</p>
+<p>For example, take <span class="math inline">\(\rho = 1\)</span>, <span class="math inline">\(A_{12} = 1/3\)</span> and <span class="math inline">\(A_{21} = 1/4\)</span>:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Each species grows at points that are below its zero-growth isocline, and declines at points that are above it. Thus, for each point in the phase plane we can determine the general direction of the trajectories:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>We can use these arrows to classify the stability of the equilibria. For example, around <span class="math inline">\((0,0)\)</span> arrows move away from the point; it is thus an unstable equilibrium. Similarly, the two marginal points have arrows pointing away from them, and are thus unstable; around the coexistence equilibrium, all arrows point back to it, indicating stability.</p>
+<p>In fact, we can show trajectories converging to the coexistence equilibrium:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glv2_plot_all</span>(<span class="at">parms =</span> parms_c1, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot_isoclines =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot_flow =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot_trajectories =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">initial_conditions =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.012</span>, </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                                            <span class="fl">1.5</span>, <span class="fl">0.02</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                                            <span class="fl">0.1</span>, <span class="fl">1.6</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                                            <span class="fl">1.5</span>, <span class="fl">1.5</span>), </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                                          <span class="dv">4</span>, <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">xlims =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">ylims =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">arrow_length =</span> <span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Depending on the value of the parameters, we have four cases; two in which the two lines do not meet in the positive orthant; and two cases in which they do. In particular:</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Eigenvalues and eigenvectors
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The product of a matrix and a vector is another vector:</p>
+<p><span class="math display">\[
+A x = b
+\]</span></p>
+<p>Each matrix is associated with certain special vectors such that:</p>
+<p><span class="math display">\[
+A v = \lambda v
+\]</span> i.e., multiplying the vector with the matrix simply scales all the entries of the vector by a constant, <span class="math inline">\(\lambda\)</span>. When this is the case, we say that <span class="math inline">\(v\)</span> is an eigenvector of <span class="math inline">\(A\)</span>, with associated eigenvalue <span class="math inline">\(\lambda\)</span>. Note that eigenvectors are defined up to a constant: if <span class="math inline">\(v\)</span> is an eigenvector of <span class="math inline">\(A\)</span>, and <span class="math inline">\(w = \gamma v\)</span>, then:</p>
+<p><span class="math display">\[
+Aw = \gamma A v= \gamma \lambda v = \lambda w
+\]</span></p>
+<p>A matrix <span class="math inline">\(A\)</span> is called <em>diagonalizable</em> if there exists an invertible matrix <span class="math inline">\(P\)</span> such that <span class="math inline">\(PAP^{-1} = D\)</span>, where <span class="math inline">\(D\)</span> is a diagonal matrix, i.e., having nonzero values only on the diagonal.</p>
+<p><strong>Example</strong></p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+1 &amp; 2\\
+4 &amp; 3
+\end{pmatrix}\quad v = \begin{pmatrix}
+1\\
+2
+\end{pmatrix}\quad
+Av = \begin{pmatrix}
+5\\
+10
+\end{pmatrix} = 5 v
+\]</span></p>
+<p>Then <span class="math inline">\(v= (1,2)^T\)</span> is an eigenvector of <span class="math inline">\(A\)</span> with eigenvalue <span class="math inline">\(\lambda = 5\)</span>.</p>
+<p>A diagonalizable matrix can be written as:</p>
+<p><span class="math display">\[
+A = Q \Lambda Q^{-1}
+\]</span></p>
+<p>where each of the columns of <span class="math inline">\(Q\)</span> is an eigenvector of <span class="math inline">\(A\)</span>, and <span class="math inline">\(\Lambda\)</span> is a diagonal matrix with the corresponding eigenvalues. This factorization (writing a matrix as a product of other matrices) is called the eigendecomposition of <span class="math inline">\(A\)</span>.</p>
+<p>You can see that:</p>
+<p><span class="math display">\[
+\begin{aligned}
+A v &amp;= \lambda v\\
+A Q &amp;= Q \Lambda\\
+A &amp;= Q \Lambda Q^{-1}
+\end{aligned}
+\]</span></p>
+<p>The <em>trace</em> of a matrix is the sum of the diagonal entries, it is also the sum of the eigenvalues:</p>
+<p><span class="math display">\[
+\text{Tr}\, A = \sum_i A_{ii} = \sum_i \lambda_i
+\]</span></p>
+<p>The determinant of a matrix is the product of its eigenvalues (and thus a singular matrix has at least one zero eigenvalue):</p>
+<p><span class="math display">\[
+\det A = \prod_i \lambda_i
+\]</span></p>
+<p>A diagonalizable matrix of size has <span class="math inline">\(n\)</span> eigenvalues (not necessarily distinct) and <span class="math inline">\(n\)</span> corresponding eigenvectors. The number of nonzero eigenvalues is the <em>rank</em> of the matrix.</p>
+<p>Computing the eigenvalues of a matrix is very involved, and can be done analytically only for small matrices. The eigenvalues of <span class="math inline">\(A\)</span> are the zeros of the characteristic polynomial:</p>
+<p><span class="math display">\[
+\det (A - \lambda I) = p(\lambda)
+\]</span></p>
+<p>A matrix with real entries has eigenvalues that are either real, <span class="math inline">\(\lambda_i = \alpha\)</span>, or complex <span class="math inline">\(\lambda = \alpha + i \beta\)</span>; the complex root are paired: <span class="math inline">\(\lambda_{i,j} = \alpha \pm i \beta\)</span> (conjugate complex eigenvalues). A symmetric matrix <span class="math inline">\(A = A^T\)</span> has only real roots; a skew-symmetric matrix <span class="math inline">\(A = -A^T\)</span> has roots with real part zero.</p>
+<p>The diagonal matrix <span class="math inline">\(D(\alpha)\)</span> has eigenvalues <span class="math inline">\(\alpha\)</span>.</p>
+<p>The eigenvalues of the inverse <span class="math inline">\(A^{-1}\)</span> are the reciprocals of the eigenvalues of <span class="math inline">\(A\)</span>: if <span class="math inline">\(A\)</span> has eigenvalue <span class="math inline">\(\lambda\)</span>, then <span class="math inline">\(A^{-1}\)</span> has eigenvalue <span class="math inline">\(1/\lambda\)</span>. The eigenvectors are the same. The transpose <span class="math inline">\(A^T\)</span> has the same eigenvalues of <span class="math inline">\(A\)</span>; the eigenvectors are <span class="math inline">\(A^T = (Q \Lambda Q^{-1})^T = {Q^{-1}}^T \Lambda Q^T\)</span></p>
+<p>If a matrix has only positive, real eigenvalues it is <em>positive definite</em>, if it has only nonnegative eigenvalues it is <em>positive semi-definite</em>; if it has only negative eigenvalues it is negative definite.</p>
+<p>If <span class="math inline">\(A\)</span> is positive definite, then</p>
+<p><span class="math display">\[
+\sum_i \sum_j A_{ij} x_i x_j = x^T A x &gt; 0 \quad \forall x \neq 0
+\]</span></p>
+<p>If <span class="math inline">\(A\)</span> is symmetric, then it can be decomposed as:</p>
+<p><span class="math display">\[
+A = A^T = Q \Lambda Q^T
+\]</span></p>
+<p>i.e., in this case <span class="math inline">\(Q^{-1} = Q^T\)</span>.</p>
+<p><strong>Finding eigenvalues for <span class="math inline">\(2\times2\)</span> matrix</strong></p>
+<p>The matrix</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+a &amp; b\\
+c &amp; d
+\end{pmatrix}
+\]</span></p>
+<p>has <span class="math inline">\(\text{Tr}\, A = a+ d\)</span> and <span class="math inline">\(\det A = ad - bc\)</span>. Then:</p>
+<p><span class="math display">\[
+\begin{cases}
+\lambda_1 + \lambda_2 = a + d\\
+\lambda_1 \lambda_2 = ad - bc
+\end{cases}
+\]</span></p>
+<p>and thus</p>
+<p><span class="math display">\[
+\lambda = \dfrac{a + d \pm \sqrt{4bc + (a-d)^2}}{2}
+\]</span></p>
+<p>The eigenvectors can be found by setting one of the entries to an arbitrary value (e.g., <span class="math inline">\(v_1 = 1\)</span>), and solving the equations:</p>
+<p><span class="math display">\[
+Av = \lambda v
+\]</span></p>
+<p>In <code>R</code>, you can compute the eigenvalues and eigenvectors of a matrix <span class="math inline">\(A\)</span> as <code>eA &lt;- eigen(A)</code>; the function returns a list with the matrix of eigenvectors stored in <code>eA$vectors</code> and the vector of eigenvalues in <code>eA$values</code>.</p>
+</div>
+</div>
+</div>
+<section id="local-stability" class="level3">
+<h3 class="anchored" data-anchor-id="local-stability">Local stability</h3>
+<p>In the previous lectures, we have approximated the behavior of <span class="math inline">\(f(x)\)</span> around the equilibrium, to determine whether small perturbations would be buffered by the system. We can perform the same type of analysis here. However, now <span class="math inline">\(dx_i / dt = f_i(x)\)</span> is a function of multiple populations, and therefore we need to Taylor-expand multivariate functions.</p>
+<p>In analogy with the Talyor-expansion of functions of a single variable, we can write:</p>
+<p><span class="math display">\[
+f_i(x^\star + \Delta x) = f_i(x^\star) + \sum_k \left. \dfrac{\partial f_i(x)}{\partial x_k} \right|_{x^\star} \Delta x_k + \dfrac{1}{2} \sum_{k}\sum_{l} \left. \dfrac{\partial^2 f_i(x)}{\partial x_k \partial x_l} \right|_{x^\star} \Delta x_k \Delta x_l + \cdots
+\]</span> As before, <span class="math inline">\(f_i(x^\star) = 0\)</span>, and if we take only the second term (i.e., the term linear in <span class="math inline">\(\Delta x\)</span>) we can approximate the function as:</p>
+<p><span class="math display">\[
+f_i(x^\star + \Delta x) \approx \sum_k \left. J_{ik} \right|_{x^\star} \Delta x_k
+\]</span></p>
+<p>Where we have defined the <em>Jacobian</em> matrix <span class="math inline">\(J\)</span>:</p>
+<p><span class="math display">\[
+J_{ij} = \dfrac{\partial f_i(x)}{\partial x_j}
+\]</span> For each equilibrium in the system, we can obtain a different <em>community matrix</em> (the name is due to Levins) <span class="math inline">\(M\)</span>:</p>
+<p><span class="math display">\[
+M = \left. J \right|_{x^\star}
+\]</span></p>
+<p>As such, a system of ODEs has a <em>single</em> Jacobian, and as many community matrices as there are equilibria. As before, we assume that we have slightly perturbed the system at equilibrium, <span class="math inline">\(x(t) = x^\star + \Delta x\)</span>, where <span class="math inline">\(\Delta x\)</span> is assumed to be small, and then we approximate the dynamics:</p>
+<p><span class="math display">\[
+\dfrac{d\Delta x}{dt} \approx \left. J \right|_{x^\star} \Delta x
+\]</span></p>
+<p>i.e., we need to solve a linear system of ODEs.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solving systems of linear ODEs
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consider the system of first-order, autnonomous ODEs:</p>
+<p><span class="math display">\[
+\dfrac{dx}{dt} = Ax
+\]</span></p>
+<p>If the matrix <span class="math inline">\(A\)</span> is diagonalizable, we can decompose the matrix as:</p>
+<p><span class="math display">\[
+A = Q \Lambda Q^{-1}
+\]</span></p>
+<p>We define a new system of equations, by changing the variables:</p>
+<p><span class="math display">\[
+y = Q^{-1}x\quad x = Q y
+\]</span></p>
+<p>Then, by chain rule:</p>
+<p><span class="math display">\[
+\dfrac{dy}{dt} = Q^{-1} \dfrac{d x}{dt} = Q^{-1}Q \Lambda Q^{-1} x= \Lambda Q^{-1} x = \Lambda y
+\]</span></p>
+<p>We have decoupled all equations: now the <span class="math inline">\(y_i\)</span> grow or decline independently of each other.</p>
+<p><span class="math display">\[
+\dfrac{dy_i}{dt} = \lambda_i y_i
+\]</span></p>
+<p>This is in fact the equation for the exponential growth/decay, with solution <span class="math inline">\(y_i(t) = y(0) e^{\lambda_i t}\)</span>.</p>
+<p>We can bring these solutions back to the original form:</p>
+<p><span class="math display">\[
+y(t) = e^{\Lambda t} y(0)
+\]</span></p>
+<p>where <span class="math inline">\(e^\Lambda t\)</span> is a diagonal matrix:</p>
+<p><span class="math display">\[
+e^{\Lambda t}= \begin{pmatrix}
+e^{\lambda_1 t} &amp; 0 &amp; \cdots &amp;0\\
+0 &amp; e^{\lambda_2 t} &amp; \cdots &amp;0\\
+\cdots &amp; \cdots &amp; \cdots &amp; \cdots\\
+0 &amp; 0 &amp; \cdots &amp; e^{\lambda_n t}\\
+\end{pmatrix}
+\]</span></p>
+<p>Then:</p>
+<p><span class="math display">\[
+x(t) = Q y(t) = Q e^{\Lambda t} y(0) = Q e^{\Lambda t} Q^{-1} x(0)
+\]</span></p>
+<p>Allowing to easily compute the solution for any linear systems of ODEs.</p>
+<p><strong>Stability of the origin</strong></p>
+<p>Suppose that <span class="math inline">\(\lambda_i\)</span> is a real number; then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = 0\)</span>. If <span class="math inline">\(\lambda_i\)</span> is positive, on the other hand, then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = \infty\)</span>. Thus, if any of the <span class="math inline">\(\lambda_i &gt; 0\)</span>, the system will move to <span class="math inline">\(\infty\)</span> in the direction specified by the corresponding eigenvector.</p>
+<p>Whenever <span class="math inline">\(\lambda_i\)</span> is complex (e.g., generically, when <span class="math inline">\(A\)</span> is not symmetric), then we need to consider:</p>
+<p><span class="math display">\[
+e^{\alpha t + i \beta t} = e^{\alpha t} e^{i \beta t} = e^{\alpha t} (\cos \beta + i \sin \beta )t
+\]</span></p>
+<p>where we have used Euler’s identity. Importantly, <span class="math inline">\((\cos \beta + i \sin \beta )\)</span> is bounded, and in fact its real (imaginary) part is <span class="math inline">\(\leq 1\)</span>. Then, <span class="math inline">\(\lim_{t \to \infty} e^{\alpha t + i \beta t} = 0\)</span> if <span class="math inline">\(\alpha &lt; 0\)</span>.</p>
+<p>Therefore, the vector <span class="math inline">\(0_n\)</span> is an asymptotically stable equilibrium of the system <span class="math inline">\(\dfrac{dx}{dt} = A x\)</span> if and only if <em>all</em> the eigenvalues of <span class="math inline">\(A\)</span> have negative real part.</p>
+</div>
+</div>
+</div>
+<p>Thus, to probe the local asymptotic stability of each of the equilibria, we can:</p>
+<ul>
+<li>Calculate the Jacobian matrix, <span class="math inline">\(J\)</span></li>
+<li>Plug in an equilibrium, obtaining the corresponding community matrix <span class="math inline">\(M\)</span></li>
+<li>Compute the eigenvalues of <span class="math inline">\(M\)</span>, <span class="math inline">\(\lambda_i\)</span></li>
+<li>If <em>all</em> the eigenvalues have negative real part, <span class="math inline">\(\Re (\lambda_i) &lt; 0\)</span>, then the equilibrium is locally asymptotically stable</li>
+</ul>
+<p>For example, for the system above, we have:</p>
+<p><span class="math display">\[
+\begin{cases}
+f_x(x,y) = x- x^2 - A_{12}xy \\
+f_y(x,y) = \rho y - A_{21} xy - y^2
+\end{cases}
+\]</span></p>
+<p><span class="math display">\[
+J = \begin{pmatrix}
+(1 - 2 x - A_{12} y) &amp; -A_{12} x\\
+-A_{21} y &amp; (\rho - 2 y - A_{21} x)
+\end{pmatrix}
+\]</span> For <span class="math inline">\((x^\star, y^\star) = (0,0)\)</span>, we obtain:</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+1 &amp; 0\\
+0 &amp; \rho
+\end{pmatrix}
+\]</span></p>
+<p>with eigenvalues <span class="math inline">\(1\)</span> and <span class="math inline">\(\rho&gt;0\)</span>: the equilibrium is unstable.</p>
+<p>For the marginal equilibrium <span class="math inline">\((x^\star, y^\star) = (1,0)\)</span>, we obtain:</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+-1  &amp; -A_{12} \\
+0 &amp; \rho - A_{21}
+\end{pmatrix}
+\]</span></p>
+<p>The eigenvalues are <span class="math inline">\(-1\)</span> and <span class="math inline">\(\rho - A_{21}\)</span> and thus the equilibrium is stable whenever <span class="math inline">\(\rho &lt; A_{21}\)</span> and unstable when <span class="math inline">\(\rho &gt; A_{21}\)</span>.</p>
+<p>For the other marginal equilibrium <span class="math inline">\((x^\star, y^\star) = (0,\rho)\)</span>, we obtain:</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+1 - A_{12} \rho &amp; 0\\
+-A_{21} \rho &amp; -\rho
+\end{pmatrix}
+\]</span> with eigenvalues <span class="math inline">\(-\rho\)</span> and <span class="math inline">\(1 - A_{12} \rho\)</span>. Thus, the equilibrium is stable whenever <span class="math inline">\(1/\rho &lt; A_{12}\)</span> and unstable when <span class="math inline">\(1/\rho &gt; A_{12}\)</span>.</p>
+<p>Finally, whenever a feasible equilibrium <span class="math inline">\((x^\star, y^\star) &gt; (0,0)\)</span> we have that the terms in parenthesis are zero. Thus <span class="math inline">\((1 - x^\star - A_{12} y^\star) = 0\)</span> and <span class="math inline">\((\rho - y^\star - A_{21} x^\star)\)</span>, yielding:</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+- x^\star &amp; -A_{12} x^\star\\
+-A_{21} y^\star &amp; -y^\star
+\end{pmatrix}
+\]</span></p>
+<p>The eigenvalues are:</p>
+<p><span class="math display">\[
+\lambda_{12} = \dfrac{1}{2}\left(-(x^\star+y^\star) \pm \sqrt{(x^\star-y^\star)^2 + 4 A_{12}A_{21} x^\star y^\star} \right)
+\]</span></p>
+<p>Note that if <span class="math inline">\(A_{12}A_{21} = 1\)</span>, then we have that the eigenvalues are <span class="math inline">\(\frac{1}{2}(-(x^\star+y^\star) \pm (x^\star+y^\star))\)</span>, and thus one of them is zero. Hence, the equilibrium is stable as long as <span class="math inline">\(A_{12} A_{21} &lt; 1\)</span>.</p>
+</section>
+</section>
 <section id="lotka-volterra-predator-prey-model" class="level2">
 <h2 class="anchored" data-anchor-id="lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</h2>
 <p>We have a prey who would grow exponentially when the predator is absent, and a predator that would decline exponentially when the prey is absent. The two species interact, thus allowing for their coexistence:</p>
@@ -214,11 +712,11 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 <p><strong>Isoclines of net zero growth</strong>. Clearly, the first equation is zero when either the prey is absent, or the predator is at <span class="math inline">\(y = 1\)</span>; the second equation is zero when either the predator is absent or the prey is at <span class="math inline">\(x = \alpha\)</span>; we can draw the two lines in a plane where we have <span class="math inline">\(x\)</span> on the x-axis and <span class="math inline">\(y\)</span> on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="ch2_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+<p><img src="ch2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Direction of trajectories</strong></p>
-<p>We have four quadrants surrounding the equilibrium:</p>
+<p>We have four quadrants surrounding the positive equilibrium:</p>
 <ul>
 <li><p><span class="math inline">\(x &lt; \alpha, y &lt; 1\)</span>: in the bottom-left corner, we have <span class="math inline">\(dx/dt &gt; 0\)</span> and <span class="math inline">\(dy/dt &lt; 0\)</span>; accordingly, the prey will grow and the predator decline.</p></li>
 <li><p><span class="math inline">\(x &gt; \alpha, y &lt; 1\)</span>: in the bottom-right corner, we have <span class="math inline">\(dx/dt &gt; 0\)</span> and <span class="math inline">\(dy/dt &gt; 0\)</span>; accordingly, both populations will grow</p></li>
@@ -228,7 +726,12 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 <p>We can show these directions visually, by computing <span class="math inline">\((dx/dt, dy/dt)\)</span> at different values of <span class="math inline">\((x, y)\)</span>:</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="ch2_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="ch2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
