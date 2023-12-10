@@ -125,7 +125,7 @@ glv2_plot_all <- function(parms,
     coord_cartesian(xlim = xlims * max(0.01, max(xs[,1], na.rm = TRUE)),
     ylim = ylims * max(0.01, max(xs[,2], na.rm = TRUE)))
   pl <- pl + theme_bw() + theme(legend.position = "none")
-  show(pl)
+  #show(pl)
 }
 ```
 
@@ -352,22 +352,22 @@ rho <- 1
 A12 <- 1/3
 A21 <- 1/4
 parms_c1 <- list(r = c(1, rho), A = matrix(-c(1, A21, A12, 1), 2, 2))
-glv2_plot_all(parms = parms_c1, 
+show(glv2_plot_all(parms = parms_c1, 
               plot_isoclines = TRUE, 
               plot_flow = FALSE, 
               plot_trajectories = FALSE,
-              xlims = c(0,2), ylims = c(0,2))
+              xlims = c(0,2), ylims = c(0,2)))
 ```
 
 Each species grows at points that are below its zero-growth isocline, and declines at points that are above it. Thus, for each point in the phase plane we can determine the general direction of the trajectories:
 
 ```{r}
 #| echo: false
-glv2_plot_all(parms = parms_c1, 
+show(glv2_plot_all(parms = parms_c1, 
               plot_isoclines = TRUE, 
               plot_flow = TRUE, 
               plot_trajectories = FALSE,
-              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.15)
+              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.15))
 ```
 
 We can use these arrows to classify the stability of the equilibria. For example, around $(0,0)$ arrows move away from the point; it is thus an unstable equilibrium. Similarly, the two marginal points have arrows pointing away from them, and are thus unstable; around the coexistence equilibrium, all arrows point back to it, indicating stability.
@@ -375,7 +375,8 @@ We can use these arrows to classify the stability of the equilibria. For example
 In fact, we can show trajectories converging to the coexistence equilibrium:
 
 ```{r}
-glv2_plot_all(parms = parms_c1, 
+#| echo: false
+show(glv2_plot_all(parms = parms_c1, 
               plot_isoclines = TRUE, 
               plot_flow = TRUE, 
               plot_trajectories = TRUE,
@@ -384,18 +385,130 @@ glv2_plot_all(parms = parms_c1,
                                             0.1, 1.6,
                                             1.5, 1.5), 
                                           4, 2, byrow = TRUE),
-              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.15)
+              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.15))
 ```
 
-Depending on the value of the parameters, we have four cases; two in which the two lines do not meet in the positive orthant; and two cases in which they do. In particular:
+Depending on the value of the parameters, we have four cases; two in which the two lines do not meet in the positive orthant; and two cases in which they do. 
 
-- 
+The isocline of zero growth for population $x$ intercepts the x-axis at 1 and the y-axis at $1/A_{12}$; the isocline of zero growth for population $y$ intercepts the x-axis at $\rho / A_{21}$ and the y-axis at $\rho$.
 
-- 
+- If $1 < \rho / A_{21}$ and $\rho > 1/A_{12}$, the two isocline do not meet in the positive orthant; the isocline for $y$ is above that for $x$; hence $y$ will keep growing while $x$ declines; eventually $y$ will displace $x$.
 
-- 
+```{r}
+#| echo: false
+rho <- 4
+A12 <- 1/3
+A21 <- 2
 
-- 
+parms_ca <- list(r = c(1, rho), A = matrix(-c(1, A21, A12, 1), 2, 2))
+show(glv2_plot_all(parms = parms_ca, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = TRUE,
+              initial_conditions = matrix(c(0.01, 0.012, 
+                                            1.5, 0.02,
+                                            0.1, 1.6,
+                                            1.5, 1.5), 
+                                          4, 2, byrow = TRUE),
+              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.05))
+```
+
+- If $1 > \rho / A_{21}$ and $\rho < 1/A_{12}$, the two isocline do not meet in the positive orthant; the isocline for $x$ is above that for $y$; hence $x$ will keep growing while $y$ declines; eventually $x$ will displace $y$.
+
+```{r}
+#| echo: false
+rho <- 1/4
+A12 <- 3
+A21 <- 1
+
+parms_cb <- list(r = c(1, rho), A = matrix(-c(1, A21, A12, 1), 2, 2))
+show(glv2_plot_all(parms = parms_cb, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = TRUE,
+              initial_conditions = matrix(c(0.01, 0.012, 
+                                            1.5, 0.02,
+                                            0.1, 1.6,
+                                            1.5, 1.5), 
+                                          4, 2, byrow = TRUE),
+              xlims = c(0,1), ylims = c(0,1), arrow_length = 0.05))
+```
+
+- If $1 < \rho / A_{21}$ and $\rho < 1/A_{12}$, the two isocline meet in the positive orthant. Each species can invade the other when the other species is at its marginal equilibrium. The coexistence equilibrium is stable.
+
+```{r}
+#| echo: false
+rho <- 2
+A12 <- 1/4
+A21 <- 1
+
+parms_cc <- list(r = c(1, rho), A = matrix(-c(1, A21, A12, 1), 2, 2))
+show(glv2_plot_all(parms = parms_cc, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = TRUE,
+              initial_conditions = matrix(c(0.01, 0.012, 
+                                            1.5, 0.02,
+                                            0.1, 1.6,
+                                            1.5, 1.5), 
+                                          4, 2, byrow = TRUE),
+              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.05))
+```
+
+- If $1 > \rho / A_{21}$ and $\rho > 1/A_{12}$, the two isocline meet in the positive orthant. No population can invade the other when the other species is at its marginal equilibrium. The two marginal equilibria are (locally) stable. This is a case of bistability: depending on the initial conditions, we will end in one or the other equilibrium.
+
+```{r}
+#| echo: false
+rho <- 1/2
+A12 <- 3
+A21 <- 1
+
+parms_cd <- list(r = c(1, rho), A = matrix(-c(1, A21, A12, 1), 2, 2))
+show(glv2_plot_all(parms = parms_cd, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = TRUE,
+              initial_conditions = matrix(c(0.01, 0.012, 
+                                            1.5, 0.02,
+                                            0.1, 1.6,
+                                            1.5, 1.5), 
+                                          4, 2, byrow = TRUE),
+              xlims = c(0,1), ylims = c(0,1), arrow_length = 0.05))
+```
+
+::: {.callout-warning collapse="true"}
+## Exercise: Classify points using isoclines
+
+Classify the equilibria by analyzing the flow in the phase plane:
+
+**a)**
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+parms_ex1 <- list(r = c(-1, -1/2), A = matrix(c(-0.1, 2, 1/4, 0), 2, 2, byrow = TRUE))
+show(glv2_plot_all(parms = parms_ex1, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = FALSE,
+              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.04) + scale_shape_manual(values = c("0" = 6, "1" = 6)))
+```
+
+**b)**
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+parms_ex2 <- list(r = c(1, 1/2), A = matrix(c(-6.1, 2, 1/4, -3), 2, 2, byrow = TRUE))
+show(glv2_plot_all(parms = parms_ex2, 
+              plot_isoclines = TRUE, 
+              plot_flow = TRUE, 
+              plot_trajectories = FALSE,
+              xlims = c(0,2), ylims = c(0,2), arrow_length = 0.04) + scale_shape_manual(values = c("0" = 6, "1" = 6)))
+```
+:::
+
+Having seen how to classify the equilibria using a graphical method, we show an analytical approach that can be used for an arbitrary number of populations.
 
 ::: {.callout-note collapse="true"}
 ## Eigenvalues and eigenvectors
@@ -713,6 +826,24 @@ $$
 
 Note that if $A_{12}A_{21} = 1$, then we have that the eigenvalues are $\frac{1}{2}(-(x^\star+y^\star) \pm (x^\star+y^\star))$, and thus one of them is zero. Hence, the equilibrium is stable as long as $A_{12} A_{21} < 1$.
 
+::: {.callout-warning collapse="true"}
+## Exercise: LV with mutualistic interactions
+
+Consider the model:
+
+$$
+\begin{cases}
+\dfrac{dx}{dt} = x(1 - x + \alpha y)\\
+\dfrac{dy}{dt} = y(\rho - y + \beta x)\\
+\end{cases}
+$$
+
+- find all equilibria
+- for which combination of parameters will the system have a coexistence equilibrium?
+- compute the Jacobian matrix for the system and the community matrices associated with each equilibrium
+- classify the equilibria according to their local stability
+:::
+
 ## Lotka-Volterra predator-prey model
 
 We have a prey who would grow exponentially when the predator is absent, and a predator that would decline exponentially when the prey is absent. The two species interact, thus allowing for their coexistence:
@@ -766,11 +897,13 @@ We can therefore analyze the case in which we have only a single free parameter,
 #| echo: false
 alpha <- 0.5
 parms_lv_pred_prey <- list(r = c(1, -alpha), A = matrix(c(0,1,-1,0), 2, 2))
+show(
 glv2_plot_all(parms = parms_lv_pred_prey, 
               plot_isoclines = TRUE, 
               plot_flow = FALSE, 
               plot_trajectories = FALSE,
               xlims = c(0,2), ylims = c(0,2))
+)
 ```
 
 **Direction of trajectories**
@@ -789,11 +922,13 @@ We can show these directions visually, by computing $(dx/dt, dy/dt)$ at differen
 
 ```{r}
 #| echo: false
+show(
 glv2_plot_all(parms = parms_lv_pred_prey, 
               plot_isoclines = TRUE, 
               plot_flow = TRUE, 
               plot_trajectories = FALSE,
               xlims = c(0,2), ylims = c(0,2))
+)
 ```
 
 
@@ -801,6 +936,8 @@ glv2_plot_all(parms = parms_lv_pred_prey,
 
 ```{r}
 #| echo: false
+
+show(
 glv2_plot_all(parms = parms_lv_pred_prey, 
               plot_isoclines = TRUE, 
               plot_flow = TRUE, 
@@ -811,6 +948,7 @@ glv2_plot_all(parms = parms_lv_pred_prey,
                 0.5 * alpha, 0.5,
                 0.25 * alpha, 0.25
               ), 4, 2, byrow = TRUE))
+)
 ```
 
 

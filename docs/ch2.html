@@ -20,40 +20,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -408,29 +374,75 @@ y\left(\rho - A_{21} x - y \right) = 0
 <p>We can use these arrows to classify the stability of the equilibria. For example, around <span class="math inline">\((0,0)\)</span> arrows move away from the point; it is thus an unstable equilibrium. Similarly, the two marginal points have arrows pointing away from them, and are thus unstable; around the coexistence equilibrium, all arrows point back to it, indicating stability.</p>
 <p>In fact, we can show trajectories converging to the coexistence equilibrium:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glv2_plot_all</span>(<span class="at">parms =</span> parms_c1, </span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot_isoclines =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot_flow =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">plot_trajectories =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">initial_conditions =</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.012</span>, </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                                            <span class="fl">1.5</span>, <span class="fl">0.02</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                                            <span class="fl">0.1</span>, <span class="fl">1.6</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                                            <span class="fl">1.5</span>, <span class="fl">1.5</span>), </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                                          <span class="dv">4</span>, <span class="dv">2</span>, <span class="at">byrow =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>              <span class="at">xlims =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">ylims =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">2</span>), <span class="at">arrow_length =</span> <span class="fl">0.15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="ch2_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Depending on the value of the parameters, we have four cases; two in which the two lines do not meet in the positive orthant; and two cases in which they do. In particular:</p>
+<p>Depending on the value of the parameters, we have four cases; two in which the two lines do not meet in the positive orthant; and two cases in which they do.</p>
+<p>The isocline of zero growth for population <span class="math inline">\(x\)</span> intercepts the x-axis at 1 and the y-axis at <span class="math inline">\(1/A_{12}\)</span>; the isocline of zero growth for population <span class="math inline">\(y\)</span> intercepts the x-axis at <span class="math inline">\(\rho / A_{21}\)</span> and the y-axis at <span class="math inline">\(\rho\)</span>.</p>
 <ul>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
+<li>If <span class="math inline">\(1 &lt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &gt; 1/A_{12}\)</span>, the two isocline do not meet in the positive orthant; the isocline for <span class="math inline">\(y\)</span> is above that for <span class="math inline">\(x\)</span>; hence <span class="math inline">\(y\)</span> will keep growing while <span class="math inline">\(x\)</span> declines; eventually <span class="math inline">\(y\)</span> will displace <span class="math inline">\(x\)</span>.</li>
 </ul>
-<div class="callout callout-style-default callout-note callout-titled">
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>If <span class="math inline">\(1 &gt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>, the two isocline do not meet in the positive orthant; the isocline for <span class="math inline">\(x\)</span> is above that for <span class="math inline">\(y\)</span>; hence <span class="math inline">\(x\)</span> will keep growing while <span class="math inline">\(y\)</span> declines; eventually <span class="math inline">\(x\)</span> will displace <span class="math inline">\(y\)</span>.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>If <span class="math inline">\(1 &lt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>, the two isocline meet in the positive orthant. Each species can invade the other when the other species is at its marginal equilibrium. The coexistence equilibrium is stable.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>If <span class="math inline">\(1 &gt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &gt; 1/A_{12}\)</span>, the two isocline meet in the positive orthant. No population can invade the other when the other species is at its marginal equilibrium. The two marginal equilibria are (locally) stable. This is a case of bistability: depending on the initial conditions, we will end in one or the other equilibrium.</li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Classify points using isoclines
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Classify the equilibria by analyzing the flow in the phase plane:</p>
+<p><strong>a)</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>b)</strong></p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Having seen how to classify the equilibria using a graphical method, we show an analytical approach that can be used for an arbitrary number of populations.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -439,7 +451,7 @@ Eigenvalues and eigenvectors
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The product of a matrix and a vector is another vector:</p>
 <p><span class="math display">\[
@@ -557,7 +569,7 @@ M = \left. J \right|_{x^\star}
 \]</span></p>
 <p>i.e., we need to solve a linear system of ODEs.</p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -566,7 +578,7 @@ Solving systems of linear ODEs
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Consider the system of first-order, autnonomous ODEs:</p>
 <p><span class="math display">\[
@@ -672,6 +684,34 @@ M = \begin{pmatrix}
 \lambda_{12} = \dfrac{1}{2}\left(-(x^\star+y^\star) \pm \sqrt{(x^\star-y^\star)^2 + 4 A_{12}A_{21} x^\star y^\star} \right)
 \]</span></p>
 <p>Note that if <span class="math inline">\(A_{12}A_{21} = 1\)</span>, then we have that the eigenvalues are <span class="math inline">\(\frac{1}{2}(-(x^\star+y^\star) \pm (x^\star+y^\star))\)</span>, and thus one of them is zero. Hence, the equilibrium is stable as long as <span class="math inline">\(A_{12} A_{21} &lt; 1\)</span>.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: LV with mutualistic interactions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Consider the model:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dx}{dt} = x(1 - x + \alpha y)\\
+\dfrac{dy}{dt} = y(\rho - y + \beta x)\\
+\end{cases}
+\]</span></p>
+<ul>
+<li>find all equilibria</li>
+<li>for which combination of parameters will the system have a coexistence equilibrium?</li>
+<li>compute the Jacobian matrix for the system and the community matrices associated with each equilibrium</li>
+<li>classify the equilibria according to their local stability</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
 </section>
 <section id="lotka-volterra-predator-prey-model" class="level2">
@@ -712,7 +752,7 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 <p><strong>Isoclines of net zero growth</strong>. Clearly, the first equation is zero when either the prey is absent, or the predator is at <span class="math inline">\(y = 1\)</span>; the second equation is zero when either the predator is absent or the prey is at <span class="math inline">\(x = \alpha\)</span>; we can draw the two lines in a plane where we have <span class="math inline">\(x\)</span> on the x-axis and <span class="math inline">\(y\)</span> on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="ch2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="ch2_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p><strong>Direction of trajectories</strong></p>
@@ -726,12 +766,12 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 <p>We can show these directions visually, by computing <span class="math inline">\((dx/dt, dy/dt)\)</span> at different values of <span class="math inline">\((x, y)\)</span>:</p>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="ch2_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<p><img src="ch2_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<p><img src="ch2_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="ch2_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
