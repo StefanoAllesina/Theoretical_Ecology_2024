@@ -240,7 +240,7 @@ where $\lambda < 0$ is the decay rate of the isotope. The half-life of a radiois
 - The concentration in the atmosphere is about 1 atom of ${}^{14}$C for every $10^{12}$ atoms of carbon. You have a collected sample that contains $1/16$ atoms of ${}^{14}$C for every $10^{12}$ atoms of carbon; date the sample.
 :::
 
-## Logistic equation
+## Logistic growth
 
 We have a population that grows exponentially when at very low densities, but experiences a slow down in growth when densities are higher. The logistic growth equation is typically written as:
 
