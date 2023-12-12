@@ -470,7 +470,7 @@ with $0<\gamma < \kappa$.
 :::
 
 
-## Local asymptotic stability
+### Local asymptotic stability
 
 You might have noticed that, when performing the graphical analysis above, and equilibrium is stable if $dx/dt$ has a negative slope at $x^\star$. Here we formalize this notion, by considering small perturbations of the system resting at an equilibrium.
 
@@ -579,7 +579,7 @@ $$
 :::
 
 
-## Global Asymptotic Stability
+### Global Asymptotic Stability
 
 In certain models, we can show that whenever the population starts at a positive value, it will always reach a certain equilibrium $x^\star$. In this case, we say the equilibrium is globally asymptotically stable.
 

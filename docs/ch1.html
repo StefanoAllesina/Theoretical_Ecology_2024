@@ -176,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./ch3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Models for many populations</span></a>
+ <span class="menu-text">Models for disease dynamics</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -206,10 +206,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#qualitative-analysis" id="toc-qualitative-analysis" class="nav-link" data-scroll-target="#qualitative-analysis">Qualitative analysis</a>
   <ul class="collapse">
   <li><a href="#a-graphical-method" id="toc-a-graphical-method" class="nav-link" data-scroll-target="#a-graphical-method">A graphical method</a></li>
-  </ul></li>
   <li><a href="#local-asymptotic-stability" id="toc-local-asymptotic-stability" class="nav-link" data-scroll-target="#local-asymptotic-stability">Local asymptotic stability</a></li>
-  <li><a href="#global-asymptotic-stability" id="toc-global-asymptotic-stability" class="nav-link" data-scroll-target="#global-asymptotic-stability">Global Asymptotic Stability</a>
-  <ul class="collapse">
+  <li><a href="#global-asymptotic-stability" id="toc-global-asymptotic-stability" class="nav-link" data-scroll-target="#global-asymptotic-stability">Global Asymptotic Stability</a></li>
   <li><a href="#long-term-behavior" id="toc-long-term-behavior" class="nav-link" data-scroll-target="#long-term-behavior">Long-term behavior</a></li>
   </ul></li>
   <li><a href="#discrete-time-models" id="toc-discrete-time-models" class="nav-link" data-scroll-target="#discrete-time-models">Discrete-time models</a>
@@ -649,9 +647,8 @@ Exercise: Strong Allee effect
 </div>
 </div>
 </section>
-</section>
-<section id="local-asymptotic-stability" class="level2">
-<h2 class="anchored" data-anchor-id="local-asymptotic-stability">Local asymptotic stability</h2>
+<section id="local-asymptotic-stability" class="level3">
+<h3 class="anchored" data-anchor-id="local-asymptotic-stability">Local asymptotic stability</h3>
 <p>You might have noticed that, when performing the graphical analysis above, and equilibrium is stable if <span class="math inline">\(dx/dt\)</span> has a negative slope at <span class="math inline">\(x^\star\)</span>. Here we formalize this notion, by considering small perturbations of the system resting at an equilibrium.</p>
 <ul>
 <li>Take an ODE <span class="math inline">\(dx/dt = f(x)\)</span></li>
@@ -778,8 +775,8 @@ Exercise: Levins’ metapopulation model
 </div>
 </div>
 </section>
-<section id="global-asymptotic-stability" class="level2">
-<h2 class="anchored" data-anchor-id="global-asymptotic-stability">Global Asymptotic Stability</h2>
+<section id="global-asymptotic-stability" class="level3">
+<h3 class="anchored" data-anchor-id="global-asymptotic-stability">Global Asymptotic Stability</h3>
 <p>In certain models, we can show that whenever the population starts at a positive value, it will always reach a certain equilibrium <span class="math inline">\(x^\star\)</span>. In this case, we say the equilibrium is globally asymptotically stable.</p>
 <p>Because as we said solving differential equations is in general very difficult, and in many cases of interest impossible, we employ a proxy function, called a Lyapunov function.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -840,6 +837,7 @@ Exercise: Global stability of logistic growth
 </div>
 </div>
 </div>
+</section>
 <section id="long-term-behavior" class="level3">
 <h3 class="anchored" data-anchor-id="long-term-behavior">Long-term behavior</h3>
 <p>Autonomous, first-order ODE models with a single variable can have only two types of behavior: a) <span class="math inline">\(x(t)\)</span> eventually reaches a fixed point and remains there; b) <span class="math inline">\(x(t)\)</span> goes to <span class="math inline">\(\pm \infty\)</span>. This is a consequence of an important mathematical fact: if <span class="math inline">\(dx(t)/dt = f(x(t))\)</span> and the function <span class="math inline">\(f(x(t))\)</span> is “smooth” (e.g., continuously differentiable) then the solution for the ODE exists and <em>is unique</em>. This means that the equation can cross each point <span class="math inline">\(x(t) = \alpha\)</span> only once, or infinitely many times. In contrast, discrete models with a single variable can have very interesting behavior.</p>

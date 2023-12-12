@@ -1,4 +1,25 @@
-# Models for many populations
+# Models for disease dynamics
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+# to install
+# devtools::install_github('thomasp85/ggraph')
+library(ggraph)
+library(tidygraph)
+library(igraph)
+# simple box graphs for disease models
+
+SI_data <- matrix(c(0, 1, 0, 0), 2, 2, byrow = TRUE)
+colnames(SI_data) <- rownames(SI_data) <- c("S", "I")
+gr_SI <- graph_from_adjacency_matrix(SI_data) %>% as_tbl_graph()
+gr_SI
+#gg_SI <- ggraph(gr_SI, layout = "linear")
+#gg_SI$data <- gg_SI$data %>% mutate(x = x + 1) %>% as_tbl_graph()
+#gg_SI + geom_node_label(aes(label = name), size = 10) + geom_edge_parallel(arrow = arrow(length = unit(4, 'mm')), start_cap = circle(8, "mm"), end_cap = circle(8, 'mm'))
+```
+
 
 
 May R.M. 1972. Will a large complex system be stable? Nature 238:413-414
