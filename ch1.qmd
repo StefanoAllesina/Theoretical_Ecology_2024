@@ -28,7 +28,7 @@ $$
 x_{n} = \rho^n x_0
 $$
 
-where $x_0$ is the initial population size, and $n$ is the number of generations since we started tracking the population. We assume $x_0>0$, and thus the population grows whenever $\rho > 1$, declines whenever $\rho < 1$, and is constant whenever $\rho = 1$. Armed with $x_0$ and $\rho$ we can project the population forward in time for an arbitrary number of generations. 
+where $x_0$ is the initial population size, and $n$ is the number of generations since we started tracking the population. We assume $x_0>0$, and thus the population grows whenever $\rho > 1$, declines whenever $\rho < 1$, and is constant whenever $\rho = 1$. Armed with $x_0$ and $\rho$, we can project the population forward in time for an arbitrary number of generations. 
 
 ## Overlapping generations: exponential growth
 

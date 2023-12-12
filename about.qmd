@@ -4,6 +4,26 @@ title: "About"
 
 These lecture notes were prepared by Stefano Allesina (`sallesina@uchicago.edu`) for the graduate class *ECEV 42900, Theoretical Ecology*, taught at the University of Chicago in Winter Quarter 2024. The notes grew a set of notes from Sarah Cobey.
 
+Call-out sections contain special material:
+
+::: {.callout-note collapse="fales"}
+## Mathematical review
+
+This type of call-out contains brief reviews of important mathematical concepts.
+:::
+
+::: {.callout-tip collapse="false"}
+## Computing in `R`
+
+This type of call-out contains information about coding dynamical systems in `R`.
+:::
+
+::: {.callout-warning collapse="false"}
+## Exercises
+
+This type of call-out contains exercises that should be submitted by the following class.
+:::
+
 ### Resources
 
 These are good introductions to theoretical ecology:
@@ -24,14 +44,13 @@ Books on disease dynamics:
 
 ### Course policies
 
-The ethos of the course is collaborative rather than competitive. The instructors are happy to help with assignments and clarifications. Email Stefano Allesina `sallesina@uchicago.edu` or Greg Dwyer `gdwyer@uchicago.edu` to meet. 
+The ethos of the course is collaborative rather than competitive. The instructors and TA are happy to help with assignments and clarifications. Email Stefano Allesina `sallesina@uchicago.edu` or Greg Dwyer `gdwyer@uchicago.edu` to set up a meeting. 
 
 Students are expected to work in accordance with the University Policy of Academic Integrity, which can be found [here](https://college.uchicago.edu/student-services/academic-integrity-student-conduct).
 
-Students can collaborate, but graded homework should be completed by each student, and not copied from others or from online resources. Students ca use online resources (e.g. StackOverflow, ChatGPT, or other LLMs) to help with coding, but should explicitly acknowledge sources whenever this is the case.
+Students can collaborate, but graded homework should be completed by each student independently, and not copied from others or from online resources. Students can use online resources (e.g., StackOverflow, ChatGPT, or other LLMs) to help with coding, but should explicitly acknowledge sources whenever this is the case.
 
-Late homework: TODO 
-
+Grading: students should submit assigned homework by the beginning of the following class. Incomplete or late homework will be assigned zero points. The homework can be amended and resubmitted, as long as the original submission was complete, turned-in in time, and displayed solid effort. The grade is amended accordingly.
 
 ### Mathematical background
 
@@ -53,8 +72,4 @@ These are good websites offering a brief review of these materials, and cheat sh
 - Steve Brunton's (U. Washington) YouTube channel has extremely well-done lectures on dynamical systems; for example, here are reviews of [derivatives](https://www.youtube.com/watch?v=-NhgElcA3K8), [Taylor series](https://www.youtube.com/watch?v=ebfOSDj4j3I), [simulating the logistic map](https://www.youtube.com/watch?v=_BvAkyuWhOI), [integrating ODEs in a computer](https://www.youtube.com/watch?v=W-wxKgjBDnc).
 
 - Ziko Kolter has published a brief [review of linear algebra](https://cs229.stanford.edu/section/cs229-linalg.pdf) concepts.
-
-
-
-
 

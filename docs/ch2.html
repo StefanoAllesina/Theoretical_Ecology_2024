@@ -167,7 +167,12 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#local-stability" id="toc-local-stability" class="nav-link" data-scroll-target="#local-stability">Local stability</a></li>
   </ul></li>
-  <li><a href="#lotka-volterra-predator-prey-model" id="toc-lotka-volterra-predator-prey-model" class="nav-link" data-scroll-target="#lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</a></li>
+  <li><a href="#lotka-volterra-predator-prey-model" id="toc-lotka-volterra-predator-prey-model" class="nav-link" data-scroll-target="#lotka-volterra-predator-prey-model">Lotka-Volterra predator-prey model</a>
+  <ul class="collapse">
+  <li><a href="#constant-of-motion-for-lv-predator-prey" id="toc-constant-of-motion-for-lv-predator-prey" class="nav-link" data-scroll-target="#constant-of-motion-for-lv-predator-prey">Constant of motion for LV predator-prey</a></li>
+  <li><a href="#self-regulating-prey" id="toc-self-regulating-prey" class="nav-link" data-scroll-target="#self-regulating-prey">Self-regulating prey</a></li>
+  <li><a href="#global-stability-in-lv" id="toc-global-stability-in-lv" class="nav-link" data-scroll-target="#global-stability-in-lv">Global stability in LV</a></li>
+  </ul></li>
   <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
   </ul></li>
   </ul>
@@ -202,7 +207,7 @@ Matrices and vectors
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>A <em>matrix</em> <span class="math inline">\(A\)</span> is a rectangular arrays of numbers (the <em>entries</em> of the matrix, <span class="math inline">\(A_{ij}\)</span>). For this class, we will consider matrices with either real entries, <span class="math inline">\(A_{ij} \in \mathbb R; A_{ij} = \alpha\)</span>, or complex entries, <span class="math inline">\(A_{ij} \in \mathbb C; A_{ij}=\alpha + i \beta\)</span>. The <em>size</em> of the matrix is given by the number of rows <span class="math inline">\(n\)</span> and the number of columns <span class="math inline">\(m\)</span>. To show the size explicitly, we use <span class="math inline">\(A_{n \times m}\)</span>. If <span class="math inline">\(n = m\)</span> the matrix is <em>square</em>.</p>
+<p>A <em>matrix</em> <span class="math inline">\(A\)</span> is a rectangular array of numbers (the <em>entries</em> of the matrix, <span class="math inline">\(A_{ij}\)</span>). For this class, we will consider matrices with either real entries (<span class="math inline">\(A_{ij} \in \mathbb R; A_{ij} = \alpha\)</span>), or complex entries (<span class="math inline">\(A_{ij} \in \mathbb C; A_{ij}=\alpha + i \beta\)</span>). The <em>size</em> of the matrix is given by its number of rows <span class="math inline">\(n\)</span> and its number of columns <span class="math inline">\(m\)</span>. To show the size explicitly, we use <span class="math inline">\(A_{n \times m}\)</span>. If <span class="math inline">\(n = m\)</span> the matrix is <em>square</em>.</p>
 <p>A (column) vector <span class="math inline">\(b\)</span> is a matrix with a single column (i.e., size <span class="math inline">\(n \times 1\)</span>), and a row vector <span class="math inline">\(a^T\)</span> is of size <span class="math inline">\(1 \times m\)</span>. We use <span class="math inline">\({}^T\)</span> to denote transposition, an operation that turns the rows into columns and vice versa: <span class="math inline">\((A^T)_{ij} = A_{ji}\)</span>; if <span class="math inline">\(A_{n \times m}\)</span>, then <span class="math inline">\(A^{T}_{m \times n}\)</span>.</p>
 <p>Basic operations that can be performed with matrices:</p>
 <ul>
@@ -210,7 +215,7 @@ Matrices and vectors
 <li><p>Two matrices can be multiplied if the number of columns of the first matrix matches the number of rows of the second matrix: <span class="math inline">\(A_{n \times m} B_{m \times l} = C_{n \times l}\)</span> with <span class="math inline">\(C_{ij} = \sum_{k = 1}^{m} A_{ik} B_{kj}\)</span>. In general, <span class="math inline">\(AB \neq BA\)</span>: matrices do not generally commute.</p></li>
 <li><p>If two matrices have the same size, we can also take the Hadamard (element-by-element) product <span class="math inline">\(A \circ B = C\)</span>, with <span class="math inline">\(C_{ij} = A_{ij} B_{ij}\)</span>.</p></li>
 </ul>
-<p>In <code>R</code>, a vector can be defined by concatenation <code>v &lt;- c(1,2,3)</code>, and a matrix by reshaping a vector <code>M &lt;- matrix(c(1,2,3,4), 2, 2)</code> note that the entries are filled by column; if you want to fill them by row use <code>M &lt;- matrix(c(1,2,3,4), 2, 2, byrow = TRUE)</code>. The Hadamard product is coded as <code>*</code>, and the matrix multiplication as <code>%*%</code></p>
+<p>In <code>R</code>, a vector can be defined by concatenation <code>v &lt;- c(1,2,3)</code>, and a matrix by reshaping a vector <code>M &lt;- matrix(c(1,2,3,4), 2, 2)</code>. Note that entries are filled by column; if you want to fill them by row use <code>M &lt;- matrix(c(1,2,3,4), 2, 2, byrow = TRUE)</code>. The Hadamard product is coded as <code>*</code>, and the matrix multiplication as <code>%*%</code></p>
 </div>
 </div>
 </div>
@@ -229,6 +234,7 @@ B_{21} &amp; B_{22}
 <p><span class="math display">\[
 \dfrac{dZ}{d\tau} = D(Z)(r - BZ)
 \]</span></p>
+<p>Where <span class="math inline">\(D(Z)\)</span> is a diagonal matrix, with <span class="math inline">\(Z\)</span> on the diagonal, and zeros elsewhere.</p>
 <p><strong>Non-dimensionalization</strong></p>
 <p>We define:</p>
 <p><span class="math display">\[
@@ -252,7 +258,7 @@ c_3 = \dfrac{1}{r_1}\quad c_1 = \dfrac{r_1}{B_{11}}\quad c_2 = \dfrac{r_1}{B_{22
 \dfrac{dy}{d\tau} = y\left(\dfrac{r_2}{r_1} - \dfrac{B_{21}}{B_{11}} x - y \right)\\
 \end{cases}
 \]</span></p>
-<p>We define the ratio of intrinsic growth rates <span class="math inline">\(\rho = r_2 / r_1\)</span> and the ratio between the effect of <span class="math inline">\(y\)</span> on the growth of <span class="math inline">\(x\)</span> and the effect on itself <span class="math inline">\(A_{12} = B_{12} / B_{22}\)</span> and similarly <span class="math inline">\(A_{21} = B_{21} / B_{11}\)</span>, obtaining:</p>
+<p>We define the ratio of intrinsic growth rates <span class="math inline">\(\rho = r_2 / r_1\)</span>, the ratio between the effect of <span class="math inline">\(y\)</span> on the growth of <span class="math inline">\(x\)</span> and the effect on itself <span class="math inline">\(A_{12} = B_{12} / B_{22}\)</span>, and similarly <span class="math inline">\(A_{21} = B_{21} / B_{11}\)</span>, obtaining:</p>
 <p><span class="math display">\[
 \begin{cases}
 \dfrac{dx}{dt} = x\left(1  - x - A_{12 }y \right)\\
@@ -277,7 +283,7 @@ y^\star &amp;= \dfrac{\rho - A_{21}}{1 - A_{12}A_{21}}
 <p><span class="math display">\[
 x^\star = \dfrac{1 - A_{12} \rho}{1 - A_{12}A_{21}}
 \]</span></p>
-<p>If both values of <span class="math inline">\(x^\star\)</span> and <span class="math inline">\(y^\star\)</span> are positive, we have a coexistence equilibrium, if not then the point lies outside the nonnegative orthant <span class="math inline">\(\mathbb R^{2}_{0+}\)</span>, and thus cannot be reached by the dynamics.</p>
+<p>If both values of <span class="math inline">\(x^\star\)</span> and <span class="math inline">\(y^\star\)</span> are positive, we have a coexistence equilibrium, if not, then the point lies outside the nonnegative orthant <span class="math inline">\(\mathbb R^{2}_{0+}\)</span>, and thus cannot be reached by the dynamics.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -381,7 +387,7 @@ y\left(\rho - A_{21} x - y \right) = 0
 <p>Depending on the value of the parameters, we have four cases; two in which the two lines do not meet in the positive orthant; and two cases in which they do.</p>
 <p>The isocline of zero growth for population <span class="math inline">\(x\)</span> intercepts the x-axis at 1 and the y-axis at <span class="math inline">\(1/A_{12}\)</span>; the isocline of zero growth for population <span class="math inline">\(y\)</span> intercepts the x-axis at <span class="math inline">\(\rho / A_{21}\)</span> and the y-axis at <span class="math inline">\(\rho\)</span>.</p>
 <ul>
-<li>If <span class="math inline">\(1 &lt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &gt; 1/A_{12}\)</span>, the two isocline do not meet in the positive orthant; the isocline for <span class="math inline">\(y\)</span> is above that for <span class="math inline">\(x\)</span>; hence <span class="math inline">\(y\)</span> will keep growing while <span class="math inline">\(x\)</span> declines; eventually <span class="math inline">\(y\)</span> will displace <span class="math inline">\(x\)</span>.</li>
+<li>If <span class="math inline">\(1 &lt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &gt; 1/A_{12}\)</span>, the two isoclines do not meet in the positive orthant; the isocline for <span class="math inline">\(y\)</span> is above that for <span class="math inline">\(x\)</span>; hence <span class="math inline">\(y\)</span> will keep growing while <span class="math inline">\(x\)</span> declines; eventually <span class="math inline">\(y\)</span> will displace <span class="math inline">\(x\)</span>.</li>
 </ul>
 <div class="cell">
 <div class="cell-output-display">
@@ -389,7 +395,7 @@ y\left(\rho - A_{21} x - y \right) = 0
 </div>
 </div>
 <ul>
-<li>If <span class="math inline">\(1 &gt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>, the two isocline do not meet in the positive orthant; the isocline for <span class="math inline">\(x\)</span> is above that for <span class="math inline">\(y\)</span>; hence <span class="math inline">\(x\)</span> will keep growing while <span class="math inline">\(y\)</span> declines; eventually <span class="math inline">\(x\)</span> will displace <span class="math inline">\(y\)</span>.</li>
+<li>If <span class="math inline">\(1 &gt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>, the two isoclines do not meet in the positive orthant; the isocline for <span class="math inline">\(x\)</span> is above that for <span class="math inline">\(y\)</span>; hence <span class="math inline">\(x\)</span> will keep growing while <span class="math inline">\(y\)</span> declines; eventually <span class="math inline">\(x\)</span> will displace <span class="math inline">\(y\)</span>.</li>
 </ul>
 <div class="cell">
 <div class="cell-output-display">
@@ -397,7 +403,7 @@ y\left(\rho - A_{21} x - y \right) = 0
 </div>
 </div>
 <ul>
-<li>If <span class="math inline">\(1 &lt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>, the two isocline meet in the positive orthant. Each species can invade the other when the other species is at its marginal equilibrium. The coexistence equilibrium is stable.</li>
+<li>If <span class="math inline">\(1 &lt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>, the two isoclines meet in the positive orthant. Each species can invade the other when the other species is at its marginal equilibrium. The coexistence equilibrium is stable.</li>
 </ul>
 <div class="cell">
 <div class="cell-output-display">
@@ -405,7 +411,7 @@ y\left(\rho - A_{21} x - y \right) = 0
 </div>
 </div>
 <ul>
-<li>If <span class="math inline">\(1 &gt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &gt; 1/A_{12}\)</span>, the two isocline meet in the positive orthant. No population can invade the other when the other species is at its marginal equilibrium. The two marginal equilibria are (locally) stable. This is a case of bistability: depending on the initial conditions, we will end in one or the other equilibrium.</li>
+<li>If <span class="math inline">\(1 &gt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &gt; 1/A_{12}\)</span>, the two isoclines meet in the positive orthant. No population can invade the other when the other species is at its marginal equilibrium. The two marginal equilibria are (locally) stable. This is a case of bistability: depending on the initial conditions, we will end in one or the other equilibrium.</li>
 </ul>
 <div class="cell">
 <div class="cell-output-display">
@@ -464,7 +470,6 @@ A v = \lambda v
 <p><span class="math display">\[
 Aw = \gamma A v= \gamma \lambda v = \lambda w
 \]</span></p>
-<p>A matrix <span class="math inline">\(A\)</span> is called <em>diagonalizable</em> if there exists an invertible matrix <span class="math inline">\(P\)</span> such that <span class="math inline">\(PAP^{-1} = D\)</span>, where <span class="math inline">\(D\)</span> is a diagonal matrix, i.e., having nonzero values only on the diagonal.</p>
 <p><strong>Example</strong></p>
 <p><span class="math display">\[
 A = \begin{pmatrix}
@@ -480,6 +485,8 @@ Av = \begin{pmatrix}
 \end{pmatrix} = 5 v
 \]</span></p>
 <p>Then <span class="math inline">\(v= (1,2)^T\)</span> is an eigenvector of <span class="math inline">\(A\)</span> with eigenvalue <span class="math inline">\(\lambda = 5\)</span>.</p>
+<p><strong>Eigendecomposition</strong></p>
+<p>A matrix <span class="math inline">\(A\)</span> is called <em>diagonalizable</em> if there exists an invertible matrix <span class="math inline">\(P\)</span> such that <span class="math inline">\(PAP^{-1} = D\)</span>, where <span class="math inline">\(D\)</span> is a diagonal matrix, i.e., having nonzero values only on the diagonal.</p>
 <p>A diagonalizable matrix can be written as:</p>
 <p><span class="math display">\[
 A = Q \Lambda Q^{-1}
@@ -508,7 +515,7 @@ A &amp;= Q \Lambda Q^{-1}
 \]</span></p>
 <p>A matrix with real entries has eigenvalues that are either real, <span class="math inline">\(\lambda_i = \alpha\)</span>, or complex <span class="math inline">\(\lambda = \alpha + i \beta\)</span>; the complex root are paired: <span class="math inline">\(\lambda_{i,j} = \alpha \pm i \beta\)</span> (conjugate complex eigenvalues). A symmetric matrix <span class="math inline">\(A = A^T\)</span> has only real roots; a skew-symmetric matrix <span class="math inline">\(A = -A^T\)</span> has roots with real part zero.</p>
 <p>The diagonal matrix <span class="math inline">\(D(\alpha)\)</span> has eigenvalues <span class="math inline">\(\alpha\)</span>.</p>
-<p>The eigenvalues of the inverse <span class="math inline">\(A^{-1}\)</span> are the reciprocals of the eigenvalues of <span class="math inline">\(A\)</span>: if <span class="math inline">\(A\)</span> has eigenvalue <span class="math inline">\(\lambda\)</span>, then <span class="math inline">\(A^{-1}\)</span> has eigenvalue <span class="math inline">\(1/\lambda\)</span>. The eigenvectors are the same. The transpose <span class="math inline">\(A^T\)</span> has the same eigenvalues of <span class="math inline">\(A\)</span>; the eigenvectors are <span class="math inline">\(A^T = (Q \Lambda Q^{-1})^T = {Q^{-1}}^T \Lambda Q^T\)</span></p>
+<p>The eigenvalues of the inverse <span class="math inline">\(A^{-1}\)</span> are the reciprocals of the eigenvalues of <span class="math inline">\(A\)</span>: if <span class="math inline">\(A\)</span> has eigenvalue <span class="math inline">\(\lambda\)</span>, then <span class="math inline">\(A^{-1}\)</span> has eigenvalue <span class="math inline">\(1/\lambda\)</span>. The eigenvectors of <span class="math inline">\(A\)</span> and <span class="math inline">\(A^{-1}\)</span> are the same. The transpose <span class="math inline">\(A^T\)</span> has the same eigenvalues of <span class="math inline">\(A\)</span>; its eigenvectors are <span class="math inline">\(A^T = (Q \Lambda Q^{-1})^T = {Q^{-1}}^T \Lambda Q^T\)</span></p>
 <p>If a matrix has only positive, real eigenvalues it is <em>positive definite</em>, if it has only nonnegative eigenvalues it is <em>positive semi-definite</em>; if it has only negative eigenvalues it is negative definite.</p>
 <p>If <span class="math inline">\(A\)</span> is positive definite, then</p>
 <p><span class="math display">\[
@@ -620,22 +627,45 @@ x(t) = Q y(t) = Q e^{\Lambda t} y(0) = Q e^{\Lambda t} Q^{-1} x(0)
 \]</span></p>
 <p>Allowing to easily compute the solution for any linear systems of ODEs.</p>
 <p><strong>Stability of the origin</strong></p>
-<p>Suppose that <span class="math inline">\(\lambda_i\)</span> is a real number; then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = 0\)</span>. If <span class="math inline">\(\lambda_i\)</span> is positive, on the other hand, then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = \infty\)</span>. Thus, if any of the <span class="math inline">\(\lambda_i &gt; 0\)</span>, the system will move to <span class="math inline">\(\infty\)</span> in the direction specified by the corresponding eigenvector.</p>
+<p>Suppose that <span class="math inline">\(\lambda_i\)</span> is a real, negative number; then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = 0\)</span>. If <span class="math inline">\(\lambda_i\)</span> is positive, on the other hand, then <span class="math inline">\(\lim_{t \to \infty}e^{\lambda_i t} = \infty\)</span>. Thus, if any of the <span class="math inline">\(\lambda_i &gt; 0\)</span>, the system will move to <span class="math inline">\(\infty\)</span> in the direction specified by the corresponding eigenvector.</p>
 <p>Whenever <span class="math inline">\(\lambda_i\)</span> is complex (e.g., generically, when <span class="math inline">\(A\)</span> is not symmetric), then we need to consider:</p>
 <p><span class="math display">\[
 e^{\alpha t + i \beta t} = e^{\alpha t} e^{i \beta t} = e^{\alpha t} (\cos \beta + i \sin \beta )t
 \]</span></p>
-<p>where we have used Euler’s identity. Importantly, <span class="math inline">\((\cos \beta + i \sin \beta )\)</span> is bounded, and in fact its real (imaginary) part is <span class="math inline">\(\leq 1\)</span>. Then, <span class="math inline">\(\lim_{t \to \infty} e^{\alpha t + i \beta t} = 0\)</span> if <span class="math inline">\(\alpha &lt; 0\)</span>.</p>
+<p>where we have used Euler’s formula. Importantly, <span class="math inline">\((\cos \beta + i \sin \beta )\)</span> is bounded, and in fact its real (imaginary) part is <span class="math inline">\(\leq 1\)</span> (the equation describes a unit circle in the complex plane). Then, <span class="math inline">\(\lim_{t \to \infty} e^{\alpha t + i \beta t} = 0\)</span> if <span class="math inline">\(\alpha &lt; 0\)</span>.</p>
 <p>Therefore, the vector <span class="math inline">\(0_n\)</span> is an asymptotically stable equilibrium of the system <span class="math inline">\(\dfrac{dx}{dt} = A x\)</span> if and only if <em>all</em> the eigenvalues of <span class="math inline">\(A\)</span> have negative real part.</p>
+<p><strong>Stability of the origin for <span class="math inline">\(A_{2 \times 2}\)</span></strong></p>
+<p>As we have shown above, the eigenvalues of a <span class="math inline">\(2\times2\)</span> matrix <span class="math inline">\(A\)</span>:</p>
+<p><span class="math display">\[
+A = \begin{pmatrix}
+a &amp; b\\
+c &amp; d
+\end{pmatrix}
+\]</span></p>
+<p>are:</p>
+<p><span class="math display">\[
+\lambda = \dfrac{a + d \pm \sqrt{4bc + (a-d)^2}}{2}
+\]</span></p>
+<p>We can rewrite the values as:</p>
+<p><span class="math display">\[
+\lambda = \dfrac{1}{2} \left(\text{Tr}A \pm\sqrt{\left(\text{Tr}A \right)^2 - 4 \det A} \right)
+\]</span></p>
+<p>If the trace is negative, and the determinant positive, then the eigenvalues have negative real part, and thus the origin is stable for the corresponding system of linear ODEs. In fact, knowing the trace and the determinant is in this case sufficient to determine the type of dynamics around equilibrium:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Stability_Diagram.png" class="img-fluid figure-img" width="600"></p>
+<figcaption class="figure-caption">Characterizing dynamics using trace and determinant</figcaption>
+</figure>
 </div>
 </div>
 </div>
-<p>Thus, to probe the local asymptotic stability of each of the equilibria, we can:</p>
+</div>
+<p>To probe the local asymptotic stability of the equilibria, we can:</p>
 <ul>
 <li>Calculate the Jacobian matrix, <span class="math inline">\(J\)</span></li>
 <li>Plug in an equilibrium, obtaining the corresponding community matrix <span class="math inline">\(M\)</span></li>
 <li>Compute the eigenvalues of <span class="math inline">\(M\)</span>, <span class="math inline">\(\lambda_i\)</span></li>
-<li>If <em>all</em> the eigenvalues have negative real part, <span class="math inline">\(\Re (\lambda_i) &lt; 0\)</span>, then the equilibrium is locally asymptotically stable</li>
+<li>If <em>all</em> the eigenvalues have negative real part, <span class="math inline">\(\Re (\lambda_i) &lt; 0\)</span>, then the equilibrium is locally asymptotically stable; if <em>any</em> <span class="math inline">\(\Re (\lambda_i) &gt; 0\)</span>, then the equilibrium is unstable, and there are small perturbations that will amplify</li>
 </ul>
 <p>For example, for the system above, we have:</p>
 <p><span class="math display">\[
@@ -671,7 +701,7 @@ M = \begin{pmatrix}
 1 - A_{12} \rho &amp; 0\\
 -A_{21} \rho &amp; -\rho
 \end{pmatrix}
-\]</span> with eigenvalues <span class="math inline">\(-\rho\)</span> and <span class="math inline">\(1 - A_{12} \rho\)</span>. Thus, the equilibrium is stable whenever <span class="math inline">\(1/\rho &lt; A_{12}\)</span> and unstable when <span class="math inline">\(1/\rho &gt; A_{12}\)</span>.</p>
+\]</span> with eigenvalues <span class="math inline">\(-\rho\)</span> and <span class="math inline">\(1 - A_{12} \rho\)</span>. Thus, the equilibrium is stable whenever <span class="math inline">\(\rho &gt; 1/A_{12}\)</span> and unstable when <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>.</p>
 <p>Finally, whenever a feasible equilibrium <span class="math inline">\((x^\star, y^\star) &gt; (0,0)\)</span> we have that the terms in parenthesis are zero. Thus <span class="math inline">\((1 - x^\star - A_{12} y^\star) = 0\)</span> and <span class="math inline">\((\rho - y^\star - A_{21} x^\star)\)</span>, yielding:</p>
 <p><span class="math display">\[
 M = \begin{pmatrix}
@@ -683,7 +713,7 @@ M = \begin{pmatrix}
 <p><span class="math display">\[
 \lambda_{12} = \dfrac{1}{2}\left(-(x^\star+y^\star) \pm \sqrt{(x^\star-y^\star)^2 + 4 A_{12}A_{21} x^\star y^\star} \right)
 \]</span></p>
-<p>Note that if <span class="math inline">\(A_{12}A_{21} = 1\)</span>, then we have that the eigenvalues are <span class="math inline">\(\frac{1}{2}(-(x^\star+y^\star) \pm (x^\star+y^\star))\)</span>, and thus one of them is zero. Hence, the equilibrium is stable as long as <span class="math inline">\(A_{12} A_{21} &lt; 1\)</span>.</p>
+<p>Note that if <span class="math inline">\(A_{12}A_{21} = 1\)</span>, then we have that the eigenvalues are <span class="math inline">\(\frac{1}{2}(-(x^\star+y^\star) \pm (x^\star+y^\star))\)</span>, and thus one of them is zero. Hence, the equilibrium is stable as long as <span class="math inline">\(A_{12} A_{21} &lt; 1\)</span>. One can also see that the term under the square root is always positive whenever <span class="math inline">\(A_{12} A_{21}&gt;0\)</span>, and thus the eigenvalues are always real.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -696,7 +726,7 @@ Exercise: LV with mutualistic interactions
 </div>
 <div id="callout-6" class="callout-6-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Consider the model:</p>
+<p>Consider a LV model in which populations are facultative mutualists:</p>
 <p><span class="math display">\[
 \begin{cases}
 \dfrac{dx}{dt} = x(1 - x + \alpha y)\\
@@ -734,7 +764,8 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 \dfrac{c_1}{c_3}\dfrac{dx}{dt} = c_1 x(\rho - \alpha c_2 y)\\
 \dfrac{c_2}{c_3}\dfrac{dy}{dt} = c_2 y(-\delta + \beta c_1 x)
 \end{cases}
-\]</span> and thus</p>
+\]</span></p>
+<p>and thus</p>
 <p><span class="math display">\[
 \begin{cases}
 \dfrac{dx}{dt} = x(c_3 \rho - \alpha c_2 c_3 y)\\
@@ -748,7 +779,7 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 \dfrac{dy}{dt} = y(-\frac{\delta}{\rho} + x) = y(-\alpha + x)
 \end{cases}
 \]</span></p>
-<p>We can therefore analyze the case in which we have only a single free parameter, <span class="math inline">\(\alpha = \rho / \delta &gt; 0\)</span>. The equilibria are <span class="math inline">\((x,y) = (0,0)\)</span> and <span class="math inline">\((x, y) = (\alpha, 1)\)</span>.</p>
+<p>We can therefore analyze the case in which we have only a single free parameter, <span class="math inline">\(\alpha = \rho / \delta &gt; 0\)</span>. The equilibria are <span class="math inline">\((x^\star,y^\star) = (0,0)\)</span> and <span class="math inline">\((x^\star, y^\star) = (\alpha, 1)\)</span>.</p>
 <p><strong>Isoclines of net zero growth</strong>. Clearly, the first equation is zero when either the prey is absent, or the predator is at <span class="math inline">\(y = 1\)</span>; the second equation is zero when either the predator is absent or the prey is at <span class="math inline">\(x = \alpha\)</span>; we can draw the two lines in a plane where we have <span class="math inline">\(x\)</span> on the x-axis and <span class="math inline">\(y\)</span> on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -769,21 +800,164 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 <p><img src="ch2_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>We would like to characterize the stability of the equilibria. The trivial equilibrium <span class="math inline">\((0,0)\)</span> is clearly unstable, because the arrows move away from it. The flow for the system cycles counterclockwise around the coexistence equilibrium; stability cannot be determined because trajectories could spiral away from the equilibrium, spiral toward the equilibrium, or form closed orbits.</p>
+<p>We therefore compute the Jacobian:</p>
+<p><span class="math display">\[
+J = \begin{pmatrix}
+1-y &amp; -x\\
+y &amp; x-\alpha
+\end{pmatrix}
+\]</span></p>
+<p>Plugging <span class="math inline">\((x^\star, y^\star) = (0,0)\)</span>, we obtain:</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+1 &amp; 0\\
+0 &amp; -\alpha
+\end{pmatrix}
+\]</span></p>
+<p>with eigenvalues <span class="math inline">\(\lambda = 1\)</span> and <span class="math inline">\(\lambda = -\alpha\)</span>; the equilibrium is indeed unstable.</p>
+<p>Plugging in the <span class="math inline">\((x^\star, y^\star) = (\alpha, 1)\)</span>, we obtain the matrix:</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+0 &amp; -\alpha\\
+1 &amp; 0
+\end{pmatrix}
+\]</span></p>
+<p>with purely imaginary eigenvalues <span class="math inline">\(\lambda = \pm \sqrt{-\alpha} = \pm i \sqrt{\alpha}\)</span>. Because the real part is exactly zero, we have what is called a “center”: trajectories around the equilibrium form closed orbits.</p>
+<p>If we look at the trajectories, we see the amplitude of the orbits is determined by the initial conditions:</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ch2_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<section id="constant-of-motion-for-lv-predator-prey" class="level3">
+<h3 class="anchored" data-anchor-id="constant-of-motion-for-lv-predator-prey">Constant of motion for LV predator-prey</h3>
+<p>We can write the dynamics for <span class="math inline">\(dx / dy\)</span>—by chain rule:</p>
+<p><span class="math display">\[
+\dfrac{d x} {d y} = \dfrac{x(1-y)}{y(-\alpha + x)} = \dfrac{x - xy}{-\alpha y + xy}
+\]</span></p>
+<p>The equation is separable:</p>
+<p><span class="math display">\[
+\begin{aligned}
+(-\alpha y + x y)d x &amp;= (x-xy)dy\\
+\left(-\dfrac{\alpha}{x} + 1 \right)dx &amp;= \left(\dfrac{1}{y}- 1\right) dy\\
+\int dx - \alpha \int \dfrac{1}{x}dx &amp;= \int \dfrac{1}{y} dy - \int dy + \mathcal c\\
+x - \alpha \log x &amp;= \log y - y + \mathcal c\\
+x + y - \alpha \log x - \log y &amp;= \mathcal c
+\end{aligned}
+\]</span></p>
+<p>At the initial conditions, we have that:</p>
+<p><span class="math display">\[
+\left.V(x, y)\right|_{(x_0, y_0)} = \left(x+y-\alpha \log x - \log y\right)|_{(x_0, y_0)} = c_0
+\]</span></p>
+<p>Taking the derivative w.r.t. time, we obtain:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{dV}{dt} &amp;= \dfrac{dx}{dt} - \alpha \dfrac{1}{x}\dfrac{dx}{dt} + \dfrac{dy}{dt} - \dfrac{1}{y} \dfrac{dy}{dt}\\
+&amp;= (x - \alpha)(1-y)+ (y-1)(x-\alpha)\\
+&amp;=0
+\end{aligned}
+\]</span></p>
+<p>Thus, the quantity is conserved: it is a <em>constant of motion</em>. The curves described by the trajectories connect all the points in the phase plane for which <span class="math inline">\(x+y-\alpha \log x - \log y = c_0\)</span>.</p>
+</section>
+<section id="self-regulating-prey" class="level3">
+<h3 class="anchored" data-anchor-id="self-regulating-prey">Self-regulating prey</h3>
+<p>In the classic LV predator-prey model, the prey grows exponentially if not kept in check by the predator. If we include a term to have the prey growing logistically, we obtain:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dx}{dt} = x(1 - \epsilon x - y)\\
+\dfrac{dy}{dt} = y(-\alpha + x)
+\end{cases}
+\]</span></p>
+<p>We now have three equilibria: <span class="math inline">\((x^\star, y^\star) = (0,0)\)</span>, <span class="math inline">\((x^\star, y^\star) = (\frac{1}{\epsilon},0)\)</span>, and <span class="math inline">\((x^\star, y^\star) = \left(\alpha, 1 - \epsilon \alpha\right)\)</span>. Compute the community matrix for the coexistence equilibrium:</p>
+<p><span class="math display">\[
+J = \begin{pmatrix}
+(1 - 2 \epsilon x - y) &amp; -x\\
+y &amp; x-\alpha
+\end{pmatrix}
+\]</span></p>
+<p>Substituting the equilibrium:</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+- \epsilon x^\star &amp; -x^\star\\
+y^\star &amp; 0
+\end{pmatrix}
+\]</span></p>
+<p>The eigenvalues are now:</p>
+<p><span class="math display">\[
+\lambda = \dfrac{1}{2} \left(-\epsilon x^\star \pm \sqrt{(\epsilon x^\star)^2 - 4 x^\star y^\star} \right)
+\]</span></p>
+<p>And thus have negative real part. Drawing the trajectories suggests global stability:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="global-stability-in-lv" class="level3">
+<h3 class="anchored" data-anchor-id="global-stability-in-lv">Global stability in LV</h3>
+<p>In 1977, BS Goh proposed a variation on the function found by Lotka and Volterra, that can be used as a Lyapunov function for the system to prove global stability. The function provides <em>sufficient</em> conditions, but not <em>necessary</em> conditions; i.e., if the function can be used to prove the stability of an equilibrium, the equilibrium is globally stable; however, there are cases in which the system is globally stable, and yet the function cannot be used to prove stability.</p>
+<p>For two species, the function can be written as:</p>
+<p><span class="math display">\[
+V(x, y) = (x - x^\star - x^\star \log \dfrac{x}{x^\star}) + w (y - y^\star - y^\star \log \dfrac{y}{y^\star})
+\]</span></p>
+<p>where <span class="math inline">\(w&gt;0\)</span> can be chosen in the most convenient way. The function is always nonnegative and is zero only at equilibrium. Taking the derivative w.r.t time, we have:</p>
+<p><span class="math display">\[
+\dfrac{dV}{dt} = (x - x^\star) \dfrac{1}{x} \dfrac{dx}{dt} + w (y - y^\star)\dfrac{1}{y} \dfrac{dy}{dt}
+\]</span></p>
+<p><strong>Example</strong></p>
+<p>For the predator-prey system with the prey growing logistically, with equilibrium <span class="math inline">\((x^\star, y^\star) = \left(\alpha, 1 - \epsilon \alpha\right)\)</span> (and thus <span class="math inline">\(y^\star = 1 - \epsilon x^\star\)</span>), we have:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{dV}{dt} &amp;= (x - x^\star) (1 - \epsilon x - y) + w(y-y^\star)(x - \alpha)\\
+&amp;= (x - x^\star) (1 - \epsilon x - y) + w(y-y^\star)(x - x^\star)\\
+&amp;=(x - x^\star) (y^\star + \epsilon x^\star - \epsilon x - y) + w(y-y^\star)(x - x^\star)\\
+&amp;=-\epsilon (x - x^\star)^2 + (w-1)(x - x^\star)(y - y^\star)
+\end{aligned}
+\]</span></p>
+<p>if we choose <span class="math inline">\(w = 1\)</span>, the function is negative unless <span class="math inline">\(x = x^\star\)</span>:</p>
+<p><span class="math display">\[
+\dfrac{dV}{dt} =-\epsilon (x - x^\star)^2
+\]</span></p>
+<p>but when this is the case, we have <span class="math inline">\(dy/dt = 0\)</span>, and thus <span class="math inline">\(y = y^\star\)</span>. The equilibrium is therefore globally asymptotically stable.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Global stability for LV competition
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Prove the global asymptotic stability of the coexistence equilibrium in the LV competition model above when <span class="math inline">\(1 &lt; \rho / A_{21}\)</span> and <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>.</p>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="classic-papers" class="level2">
 <h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>
-<p>Vito Volterra (1926) Fluctuations in the Abundance of a Species Considered Mathematically Nature 118 : 558-60</p>
-<p>Gause, G.F. 1934. Experimental Analysis of Vito Volterra’S Mathematical Theory of the Struggle for Existence. Science 79:16-17</p>
-<p>Chesson, P. 2000. Mechanisms of Maintenance of Species Diversity. Annual Review of Ecology and Systematics 31:343-366</p>
-<p>May R.M. 1972. Will a large complex system be stable? Nature 238:413-414</p>
-<p>Anderson, R.M; May, R.M. 1978. Regulation and Stability of Host-Parasite Population Interactions. Journal of Animal Ecology 47:219-247</p>
-<p>May R.M. &amp; Anderson, R.M. 1979. Population biology of infectious diseases: Part II. Nature 280:455-461</p>
-<p>McCann, K.S. 2000. The diversity - stability debate. Nature 405:228-233</p>
+<p>The Lotka-Volterra predator-prey model was discovered independently by Alfred J. Lotka and Vito Volterra:</p>
+<ul>
+<li><p>Alfred J. Lotka, 1920. <a href="https://www.pnas.org/doi/10.1073/pnas.6.7.410"><em>Analytical Note on Certain Rhythmic Relations in Organic Systems</em></a>. PNAS 6 (7) 410-415</p></li>
+<li><p>Vito Volterra, 1926. <a href="https://www.nature.com/articles/118558a0"><em>Fluctuations in the Abundance of a Species Considered Mathematically</em></a>. Nature 118:558-60</p></li>
+</ul>
+<p>You can read their exchange <a href="https://www.nature.com/articles/119012b0">here</a>.</p>
+<p>The constant of motion was derived by Lotka in 1920:</p>
+<ul>
+<li>Alfred J. Lotka, 1920. <a href="https://pubs.acs.org/doi/pdf/10.1021/ja01453a010"><em>Undamped oscillations derived from the law of mass action</em></a>. Journal of the American Chemical Society 42:1595-1599</li>
+</ul>
+<p>Volterra considered many variations, including the competition between species. His results caught the eye of an experimentalist, who validated the principle of competitive exclusion using protozoans:</p>
+<ul>
+<li>G.F. Gause, 1934. <a href="https://www.science.org/doi/10.1126/science.79.2036.16.b">Experimental Analysis of Vito Volterra’s Mathematical Theory of the Struggle for Existence</a>. Science 79:16-17</li>
+</ul>
+<p>The analysis of two-species competitive Lotka-Volterra inspired the so-called Modern Coexistence Theory:</p>
+<ul>
+<li>Chesson, P. 2000. <a href="https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343">Mechanisms of Maintenance of Species Diversity</a>. Annual Review of Ecology and Systematics 31:343-366</li>
+</ul>
 
 
 </section>
