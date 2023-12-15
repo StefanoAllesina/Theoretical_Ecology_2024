@@ -572,7 +572,7 @@ A &= Q \Lambda Q^{-1}
 \end{aligned}
 $$
 
-The *trace* of a matrix is the sum of the diagonal entries, it is also the sum of the eigenvalues:
+The *trace* of a matrix is the sum of the diagonal entries; it is also the sum of the eigenvalues:
 
 $$
 \text{Tr}\, A = \sum_i A_{ii} = \sum_i \lambda_i
@@ -592,7 +592,7 @@ $$
 \det (A - \lambda I) = p(\lambda)
 $$
 
-A matrix with real entries has eigenvalues that are either real, $\lambda_i = \alpha$, or complex $\lambda = \alpha + i \beta$; the complex root are paired: $\lambda_{i,j} = \alpha \pm i \beta$ (conjugate complex eigenvalues). A symmetric matrix $A = A^T$ has only real roots; a skew-symmetric matrix $A = -A^T$ has roots with real part zero. 
+A matrix with real entries has eigenvalues that are either real, $\lambda_i = \alpha$, or complex, $\lambda = \alpha + i \beta$; the complex root are paired: $\lambda_{i,j} = \alpha \pm i \beta$ (complex conjugate eigenvalues). A symmetric matrix $A = A^T$ has only real eigenvalues; a skew-symmetric matrix $A = -A^T$ has only eigenvalues with real part zero. 
 
 The diagonal matrix $D(\alpha)$ has eigenvalues $\alpha$.
 
@@ -637,7 +637,7 @@ $$
 and thus
 
 $$
-\lambda = \dfrac{a + d \pm \sqrt{4bc + (a-d)^2}}{2}
+\lambda = \dfrac{a + d \pm \sqrt{4bc + (a-d)^2}}{2} =\dfrac{1}{2}\left(\text{Tr}{A} \pm \sqrt{(\text{Tr}{A})^2 - 4 \det A} \right)
 $$
 
 The eigenvectors can be found by setting one of the entries to an arbitrary value (e.g., $v_1 = 1$), and solving the equations:
@@ -840,7 +840,7 @@ M = \begin{pmatrix}
 $$
 with eigenvalues $-\rho$ and $1 - A_{12} \rho$. Thus, the equilibrium is stable whenever $\rho > 1/A_{12}$ and unstable when $\rho < 1/A_{12}$.
 
-Finally, whenever a feasible equilibrium $(x^\star, y^\star) > (0,0)$ we have that the terms in parenthesis are zero. Thus $(1 - x^\star - A_{12} y^\star) = 0$ and $(\rho - y^\star - A_{21} x^\star)$, yielding:
+Finally, whenever a feasible equilibrium $(x^\star, y^\star) > (0,0)$ we have that the terms in parenthesis are zero. Thus $(1 - x^\star - A_{12} y^\star) = 0$ and $(\rho - y^\star - A_{21} x^\star) =0$, yielding:
 
 $$
 M = \begin{pmatrix}
@@ -871,8 +871,8 @@ $$
 
 - find all equilibria
 - for which combination of parameters will the system have a coexistence equilibrium?
-- compute the Jacobian matrix for the system and the community matrices associated with each equilibrium
-- classify the equilibria according to their local stability
+- compute the Jacobian matrix for the system, and the community matrices associated with each equilibrium
+- classify the equilibria according to their local asymptotic stability
 :::
 
 ## Lotka-Volterra predator-prey model
@@ -923,7 +923,7 @@ $$
 
 We can therefore analyze the case in which we have only a single free parameter, $\alpha = \rho / \delta > 0$. The equilibria are $(x^\star,y^\star) = (0,0)$ and $(x^\star, y^\star) = (\alpha, 1)$.
 
-**Isoclines of net zero growth**. Clearly, the first equation is zero when either the prey is absent, or the predator is at $y = 1$; the second equation is zero when either the predator is absent or the prey is at $x = \alpha$; we can draw the two lines in a plane where we have $x$ on the x-axis and $y$ on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:
+**Isoclines of net zero growth**. Clearly, the first equation is zero when either the prey is absent, or the predator is at $y^\star = 1$; the second equation is zero when either the predator is absent or the prey is at $x^\star = \alpha$; we can draw the two lines in a plane where we have $x$ on the x-axis and $y$ on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:
 
 ```{r}
 #| echo: false
@@ -942,7 +942,7 @@ glv2_plot_all(parms = parms_lv_pred_prey,
 
 We have four quadrants surrounding the positive equilibrium:
 
-- $x < \alpha, y < 1$: in the bottom-left corner, we have $dx/dt > 0$ and $dy/dt < 0$; accordingly, the prey will grow and the predator decline.
+- $x < \alpha, y < 1$: in the bottom-left corner, we have $dx/dt > 0$ and $dy/dt < 0$; accordingly, the prey will grow and the predator decline
 
 - $x > \alpha, y < 1$: in the bottom-right corner, we have $dx/dt > 0$ and $dy/dt > 0$; accordingly, both populations will grow
 
@@ -963,7 +963,7 @@ glv2_plot_all(parms = parms_lv_pred_prey,
 )
 ```
 
-We would like to characterize the stability of the equilibria. The trivial equilibrium $(0,0)$ is clearly unstable, because the arrows move away from it. The flow for the system cycles counterclockwise around the coexistence equilibrium; stability cannot be determined because trajectories could spiral away from the equilibrium, spiral toward the equilibrium, or form closed orbits. 
+We would like to characterize the stability of the equilibria. The trivial equilibrium $(0,0)$ is clearly unstable, because the arrows move away from it. The flow for the system cycles counter-clockwise around the coexistence equilibrium; stability cannot be determined because trajectories could spiral away from the equilibrium, spiral toward the equilibrium, or form closed orbits. 
 
 We therefore compute the Jacobian:
 
@@ -1091,7 +1091,6 @@ $$
 
 And thus have negative real part. Drawing the trajectories suggests global stability:
 
-
 ```{r}
 #| echo: false
 epsilon <- 0.25
@@ -1113,12 +1112,12 @@ glv2_plot_all(parms = list(r = c(1, -alpha), A = matrix(c(-epsilon, -1,
 
 ### Global stability in LV
 
-In 1977, BS Goh proposed a variation on the function found by Lotka and Volterra, that can be used as a Lyapunov function for the system to prove global stability. The function provides *sufficient* conditions, but not *necessary* conditions; i.e., if the function can be used to prove the stability of an equilibrium, the equilibrium is globally stable; however, there are cases in which the system is globally stable, and yet the function cannot be used to prove stability.
+In 1977, BS Goh proposed a variation on the contant of motion found by Lotka and Volterra, that can be used as a Lyapunov function for the system to prove global stability. The function provides *sufficient* conditions, but not *necessary* conditions; i.e., if the function can be used to prove the stability of an equilibrium, the equilibrium is globally stable; however, there are cases in which the system is globally stable, and yet the function cannot be used to prove stability.
 
 For two species, the function can be written as:
 
 $$
-V(x, y) = (x - x^\star - x^\star \log \dfrac{x}{x^\star}) + w (y - y^\star - y^\star \log \dfrac{y}{y^\star})
+V(x, y) = \left(x - x^\star - x^\star \log \dfrac{x}{x^\star}\right) + w \left(y - y^\star - y^\star \log \dfrac{y}{y^\star} \right)
 $$
 
 where $w>0$ can be chosen in the most convenient way. The function is always nonnegative and is zero only at equilibrium. Taking the derivative w.r.t time, we have:
@@ -1126,6 +1125,8 @@ where $w>0$ can be chosen in the most convenient way. The function is always non
 $$
 \dfrac{dV}{dt} = (x - x^\star) \dfrac{1}{x} \dfrac{dx}{dt} + w (y - y^\star)\dfrac{1}{y} \dfrac{dy}{dt}
 $$
+
+If we can prove that $dV/dt$ is always negative unless the system is at equilibrium, we have proven the global asymptotic stability of the equilibrium.
 
 **Example**
 
@@ -1155,7 +1156,519 @@ Prove the global asymptotic stability of the coexistence equilibrium in the LV c
 :::
 
 
+## Functional responses and the paradox of enrichment
 
+We previously considered predator-prey interactions in which predation is proportional to the prey density, i.e.,
+
+$$
+\dfrac{dx}{dt} = x(r -a x) -\alpha xy \quad \dfrac{dy}{dt} = -m y + \beta \alpha \, xy
+$$
+
+where $\alpha$ the probability of "effective encounters" (from the predator's perspective) per unit time, and $\beta$ is the efficiency of converting prey to predators. The *functional response* is the rate at which predators capture prey. The model above shows a linear functional response, which is also known as a *Holling type I* functional response: there is a linear relationship between the number of prey eaten per unit time and the density of the prey.
+
+```{r}
+#| fig-height: 3
+#| echo: false
+#| message: false
+t1 <- function(x, alpha) return(alpha * x)
+t2 <- function(x, alpha, h) return(alpha * x / (h +  x))
+t3 <- function(x, alpha, h) return(alpha * x^2 / (h + x^2))
+
+alpha <- 1
+h <- 1
+x <- seq(0, 5, by =0.01)
+dt <- tibble(x = x, y = t1(x, alpha), label = "Holling Type I")
+dt <- bind_rows(dt, 
+      tibble(x = x, y = t2(x, alpha, h), label = "Holling Type II"))
+dt <- bind_rows(dt, 
+      tibble(x = x, y = t3(x, 5*alpha, h), label = "Holling Type III"))
+ggplot(dt, aes(x = x, y = y)) + geom_line() + facet_wrap(~label,scales = "free") + theme_bw()
+```
+
+Ecologists have traditionally focused on three different functional responses, which were originally described by Crawford S. Holling (b. 1930). The *Holling type II* assumes predation saturates with higher prey density. This model is justified if we assume predation is limited by prey handling time. Let $T$ be total time, $T_{\text{h}}$ the handling time per prey item, and $X$ the number of potential prey. We can model the number of prey caught, $V$, as
+
+$$
+V= \alpha (T-VT_{\text{h}})X
+$$
+
+where $\alpha$ is a proportionality constant. The basic idea is that the number of prey caught is a function both of handling and searching time. Solving for $V$, we obtain
+
+$$
+V=\frac{\alpha TX}{1+\alpha T_{\text{h}}X}
+$$
+
+which can be rewritten more generally as
+
+$$
+f(X)= \frac{cX}{a+X}
+$$
+
+where $a$ is the half-saturation constant.
+
+The *Holling type III* functional response is a sigmoidal curve. It has the form
+
+$$
+f(X)= \frac{cX^2}{a^2+X^2}
+$$
+
+It assumes that predators are less efficient when prey density is low. At high prey density, their rate saturates.
+
+Are the differences between these forms dynamically important? They can be. Assume we have two species, a predator (consumer) $Y$ and resource (prey) $X$ that are stably coexisting. Assume that predation follows the type II functional response, i.e., that it saturates at high prey densities. The equations can be written as:
+
+$$
+\begin{cases}
+\dfrac{dX}{d\tau} = rX\left(1-\dfrac{X}{K}\right)-\dfrac{cXY}{b+X}\\
+\dfrac{dY}{d\tau} = -m Y + \dfrac{aXY}{b+X}
+\end{cases}
+$$
+
+where $r$ is the prey's growth rate, $K$ is the prey's carrying capacity, $m$ is the per capita mortality rate of the predator, and $a$, $b$, and $c$ control the rate of predation and the conversion of prey into predators (efficiency).
+
+We change variables to have fewer parameters:
+
+$$
+x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
+$$
+For example, choosing $c_3 = 1/r$, $c_1 = b$, $c_2 = b r /c$, and defining: $\alpha = a / r$, $\beta = b / K$ and $\delta = m/r$ we reduce the system to:
+
+$$
+\begin{cases}
+\dfrac{dx}{dt} = x \left(1 - \beta x - \dfrac{y}{1+x} \right)\\
+\dfrac{dy}{dt} = y \left(- \delta + \dfrac{\alpha x}{1+x} \right)\\
+\end{cases}
+$$
+
+where all parameters are considered positive.
+
+**Equilibria**
+
+The system has up to three equilibria: $(x^\star, y^\star) = (0,0)$ (trivial equilibrium); $(x^\star, y^\star) = (1/\beta,0)$ (absence of the predator); $(x^\star, y^\star) = (\delta/(\alpha - \delta), \alpha(\alpha - (1 + \beta) \delta)/(\alpha - \delta)^2)$ (coexistence equilibrium). With some calculations, one can show that the coexistence equilibrium is in the positive orthant whenever:
+
+$$
+\alpha > \delta (1 + \beta)
+$$
+
+**Nullclines**
+
+As before, we can draw the nullclines. The equation for the prey is zero whenever either the prey is absent, or:
+
+$$
+y = - \beta x^2 + (1-\beta) x+1
+$$
+
+a downward facing parabola, intercepting the y-axis at $1$, and the x-axis at $1/\beta$. The prey grows at points below the curve, and declines at points above it.
+
+The equation for the predator is zero when the predator is absent or whenever:
+
+$$
+x = \dfrac{\delta}{\alpha - \delta}
+$$
+
+a vertical line, which is in the positive orthant when $\alpha > \delta$.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+alpha <- 2 
+delta <- 1
+beta <- 1/2
+x <- seq(0, 1/beta, by = 0.01)
+dt <- tibble(x = x) %>% mutate(y = -beta * x^2 + (1-beta) * x+1)
+ggplot(dt) + aes(x = x, y = y) + geom_line(linetype = 2) + 
+  geom_vline(xintercept = delta / (alpha - delta), linetype = 3) + geom_point(data = tibble(x = 0, y = 0), shape = 1, size =3) + 
+  geom_point(data = tibble(x = 1/ beta, y =0), shape = 1, size = 3) + geom_point(data = tibble(x = delta/ (alpha - delta), y = alpha * (alpha - delta * (1+ beta))/ (alpha - delta)^2), shape = 1, size =3 ) + theme_bw()
+```
+
+**Jacobian matrix**
+
+We compute the Jacobian, obtaining:
+
+$$
+J = \begin{pmatrix}
+1 - 2 \beta x - \dfrac{y}{(1+x)^2} & - 1 + \dfrac{1}{1+x}\\
+\dfrac{\alpha y}{(1+x)^2} & -\delta + \dfrac{\alpha x}{1+x}
+\end{pmatrix}
+$$
+We first derive conditions for the stability of the coexistence equilibrium (when present):
+
+$$
+M = \begin{pmatrix}
+ 2 \beta +\dfrac{(\beta +1) \delta }{\alpha } - \dfrac{2 \alpha  \beta }{\alpha -\delta}& -\dfrac{\delta }{\alpha } \\
+ \alpha -(\beta +1) \delta  & 0 \\
+\end{pmatrix}
+$$
+
+The determinant of $M$ is always positive when the coexistence equilibrium exists:
+
+$$
+\det M = \dfrac{\delta  (\alpha -(\beta +1) \delta )}{\alpha } > 0 \quad \text{if}\, \alpha > \delta (1 + \beta)
+$$
+
+The trace of the matrix, however, can be positive or negative depending on the parameter values:
+
+$$
+\text{Tr}M = 2 \beta +\dfrac{(\beta +1) \delta }{\alpha } - \dfrac{2 \alpha  \beta }{\alpha -\delta} < 0\quad \text{if}\, \alpha> \delta (1 + \beta)\, \text{and}\, \alpha -\delta < \beta (\alpha + \delta)
+$$
+
+Thus, the stability depends on the carrying capacity, $1/\beta$. Specifically, increasing the carrying capacity ("enrichment"--subsidizing the prey) causes the equilibrium to move from stable to unstable. 
+
+Similarly, changes in the mortality $\delta$ or the efficiency of transformation $\alpha$,can also push the equilibrium from stable to unstable---specifically, to a limit cycle. 
+
+For example, let's look at a case in which the equilibrium is stable:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+t2_pp <- function(t, z, pars){
+  z[z < 10^-10] <- 0
+  x <- z[1]
+  y <- z[2]
+  dxdt <- x * (1 - pars$beta * x - y / (1+x))
+  dydt <- y * (-pars$delta + pars$alpha * x / (1+x))
+  return(list(c(dxdt, dydt)))
+}
+
+get_coex <- function(parms){
+  alpha <- parms$alpha
+  beta <- parms$beta
+  delta <- parms$delta
+  return(c(
+    delta / (alpha - delta),
+    alpha * (alpha - (1 + beta) * delta)/(alpha - delta)^2
+    )
+  )
+}
+
+my_time <- seq(0, 50, by = 0.05)
+parms_stable <- list(alpha = 2.25, beta = 1/2, delta = 1)
+out_stable <- ode(y = c(0.1, 0.5), times = my_time, func = t2_pp, 
+                  parms = parms_stable,
+                  method = "ode45") %>% as.data.frame()
+colnames(out_stable) <- c("t", "x", "y")
+equil_stable <- get_coex(parms_stable)
+out_stable <- out_stable %>% pivot_longer(names_to = "population", values_to = "density", cols = -t)
+ggplot(out_stable) + aes(x = t, y = density, colour = population) + geom_line() + geom_hline(yintercept = equil_stable[[1]], linetype = 2) + geom_hline(yintercept = equil_stable[[2]], linetype = 3) + theme_bw() + theme(legend.position = "bottom")
+```
+
+Trajectories converge to the equilibrium with dampened oscillations. 
+
+Now a case in which the interior equilibrium is unstable:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+parms_unstable <- list(alpha = 2, beta = 1/4, delta = 1)
+out_unstable <- ode(y = c(0.1, 0.5), times = my_time * 2, func = t2_pp, parms = parms_unstable,
+                  method = "ode45") %>% as.data.frame()
+colnames(out_unstable) <- c("t", "x", "y")
+equil_unstable <- get_coex(parms_unstable)
+out_unstable <- out_unstable %>% pivot_longer(names_to = "population", values_to = "density", cols = -t)
+ggplot(out_unstable) + aes(x = t, y = density, colour = population) + geom_line() + geom_hline(yintercept = equil_stable[[1]], linetype = 2) + geom_hline(yintercept = equil_stable[[2]], linetype = 3) + theme_bw() + theme(legend.position = "bottom")
+```
+
+i.e., dynamics converge to a stable *limit cycle*. This is easier to see in the phase plane:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+out_unstable %>% pivot_wider(names_from = population, values_from = density) %>% 
+  ggplot(aes(x = x, y = y, colour = t)) + geom_path() + theme_bw()
+```
+
+With oscillations, both the predator and prey can approach zero. If the prey goes extinct first, both will die out. Alternatively, the predator may go extinct first, and the prey will settle at its carrying capacity. The "paradox of enrichment" was first described by Michael Rosenzweig (b. 1941) in 1971. It demonstrates that the functional form of predation can have important dynamical consequences.
+
+## Discrete-time: Nicholson-Bailey model
+This is a model for host-parasitoid dynamics. Parasitoids are typically insects whose larvae develop inside an host, usually killing the host when they emerge. The model assumes that hosts are randomly distributed with density $H_t$, parasitoids search for hosts with efficiency $a$.  Each parasitized host at time $t$ will produce one parasitoid at time $t+1$.  Each non-parasitized host gives rise to $R>1$ new hosts at time $t+1$.
+The probability of a host escaping an encounter with a parasitoid is $e^{-aP_t}$. This gives us a simple model:
+
+$$
+\begin{cases}
+  H_{t+1}=RH_t e^{-aP_t}\\
+  P_{t+1}=H_t \left(1- e^{-aP_t} \right)
+\end{cases}
+$$
+
+We could assume that parasitoids lay $c$ eggs in hosts that survive to become parasitoids, which would yield $P_{t+1}=cH_t(1- e^{-aP_t})$, but we'll let $c=1$. All the parameters are positive.
+
+### Fixed points
+
+We want to find points for which:
+
+$$
+\begin{cases}
+      H_{t+1}=H_t=H^\star\\
+      P_{t+1}=P_t =P^\star
+    \end{cases}
+$$
+
+First, we can see that $(H^\star, P^\star) = (0, 0)$ is a trivial equilibrium. Then, if the predator is absent we have $H^\star = R H^\star$, which happens only if $R = 1$. If the predator is present, we have that at equilibrium $H^\star = R H^\star e^{-aP^\star}$ and thus 
+
+$$
+\begin{aligned}
+1 &= R e^{-a P^\star}\\
+0 &= \log R - a P^\star\\
+P^\star &= \dfrac{\log R}{ a}
+\end{aligned}
+$$
+meaning that the parasitoid can reach a positive equilibrium only when $R > 1$. If this is the case, the equilibrium for the host is:
+
+$$
+\begin{aligned}
+\dfrac{\log R}{a} &= H^\star \left(1 -  \dfrac{1}{R}\right)\\
+H^\star &= \dfrac{R\log R}{a(R-1)}
+\end{aligned}
+$$
+
+### Stability analysis
+
+::: {.callout-note collapse="true"}
+## Stability of discrete-time systems
+
+We consider $x_t$, a vector containing the population densities, and we have $x_{t+1} = f(x_t)$, where each entry of $f(x_t)$, $f_i(x_t)$ is a function describing the dynamics of population $i$. As done before, we want to evaluate the asymptotic stability of equilibria, i.e., vectors at which $f({x}^\star) = x^\star$.
+
+We take a perturbation of the equilibrium $x_t = {x}^\star + p_t$, and we Taylor-expand each $f_i(x_t)$ around this point. Taking only the first two terms we find:
+
+$$
+\begin{aligned}
+f_i(x^\star + p_t) &\approx f_i(x^\star) + \sum_j \left.\dfrac{\partial f_i}{\partial x_j}\right|_{x^\star}(x_j^\star + {p_j}_t - x_j^\star)\\
+&\approx x_j^\star + \sum_j \left. J_{ij} \right|_{x^\star}{p_j}_t
+\end{aligned}
+$$
+
+Which we can write in matrix form:
+
+$$
+\begin{aligned}
+x_{t + 1} &= f(x_t)\\
+x^\star + p_{t+1} &= f(x^\star + p_t)\\
+x^\star + p_{t+1} &\approx x^\star + \left. J\right|_{x^\star} p_t\\
+p_{t+1} &\approx Mp_t
+\end{aligned}
+$$
+
+Where $M$ again is the community matrix, and we have obtained a linear system in discrete time. Naturally, we can iterate:
+
+$$
+p_{t+2} = Mp_{t+1} = MMp_t= M^2p_t
+$$
+
+and in general 
+
+$$
+p_{t+n} = M^{n} p_t
+$$
+
+If the equilibrium is stable, eventually $p_{t+n} = 0_n$, i.e., the perturbation will die out. 
+
+Consider the real number $a$. We have that:
+
+$$
+\begin{aligned}
+\lim_{n \to \infty} |a|^n &= 0 & \text{iff} \quad |a| < 1\\
+\lim_{n \to \infty} |a|^n &= \infty & \text{iff} \quad |a| > 1
+\end{aligned}
+$$
+
+A similar result is found for matrices, but instead of taking the absolute value of the real number, we need to consider the *spectral radius* of the matrix, i.e., the largest *modulus* (absolute value) of its eigenvalues. An eigenvalue is in general a complex number $\lambda = \alpha + i \beta$. Its modulus is $|\lambda|= \sqrt{\alpha^2 + \beta^2}$. We then have that the spectral radius $\rho(A) = \max |\lambda_i|$, where $\lambda_i$ are the eigenvalues of $A$.
+
+Then
+
+$$
+\lim_{n \to \infty}A^n = 0_{n \times n} \quad \text{iff } \, \rho(A) < 1
+$$
+As such, an equilibrium $x^\star$ is asymptotically stable if the associated community matrix $M$ has spectral radius $\rho(M) < 1$.
+
+For a $2 \times 2$ matrix, we have that $\text{Tr} A = t$ and $\det A = d$; then 
+
+$$
+\lambda = \dfrac{1}{2} \left(t \pm \sqrt{t^2 - 4d} \right)
+$$
+
+There are two cases:
+
+- when $t^2 < 4d$, both eigenvalues are complex: $\lambda_1 = \frac{1}{2} (t + i \sqrt{4d -t^2})$ and $\lambda_2 = \frac{1}{2} (t - i \sqrt{4d -t^2})$; but then $\rho(A)^2 = \Re(\lambda_i)^2 + \Im(\lambda_i)^2 = \lambda_i \lambda_2 = \det A$, meaning that the condition for stability is simply $0<\det A < 1$. Combined with $t^2 < 4d$, yielding $|t| < 2 \sqrt{d} < 2$, we obtain:
+
+$$
+|\text{Tr}A| - 1< \det A < 1
+$$
+
+- when $t^2 > 4d$ both eigenvalues are real, and thus the spectral radius is $(|t|+\sqrt{t^2 -4d})/2$, which is less than one if $|t|-1 < d$ (from $|t| - 2 > \sqrt{t^2 - 4d}$, $t^2 - 4 |t| + 4 > t^2 - 4d$). Combining this condition with $|t| <2$, we have $t^2 < 4$ and thus $d < 1$, obtaining the same formula as above.
+
+As done before, we can characterize the dynamics around the equilibrium point for a 2-dimensional system:
+
+- $0<\lambda_1<1<\lambda_2\; \implies$ Saddle (unstable)
+- $0<\lambda_1<\lambda_2<1\; \implies$ Stable node
+- $\lambda_2>\lambda_1>1\; \implies$ Unstable node
+- $\lambda=a \pm ib, \; |\lambda|<1, \; b \neq 0\; \implies$ Stable spiral
+- $\lambda=a \pm ib, \; |\lambda|>1, \; b \neq 0\; \implies$ Unstable spiral
+- $\lambda=a \pm ib, \; |\lambda|=1, \; b \neq 0\; \implies$ Center
+- $-1< \lambda_1<0, \; \lambda_2<-1\; \implies$ Oscillatory saddle (unstable)
+- $\lambda_1>1, \; \lambda_2>-1\; \implies$ Oscillatory source (unstable)
+
+:::
+
+For the Nicholson-Baley model, the Jacobian is:
+
+$$
+J = \begin{pmatrix}
+R e^{-a P} & -a R H e^{-a P}\\
+1 - e^{-a P} & H a e^{-aP}
+\end{pmatrix}
+$$
+
+The community matrix is therefore:
+
+$$
+M = \begin{pmatrix}
+ 1 & -\dfrac{R \log R}{R-1} \\
+ \dfrac{R-1}{R} & \dfrac{\log (R)}{R-1} \\
+\end{pmatrix}
+$$
+the determinant of $M$ is
+
+$$
+\det M = \dfrac{R \log R}{R -1}
+$$
+
+Remember that to have a coexistence equilibrium we need $R>1$. The determinant of $M$ is greater than 1 if
+
+$$
+\begin{aligned}
+R \log R &> R-1\\
+-\log \dfrac{1}{R} &> 1 - \dfrac{1}{R}\\
+\log r &< r - 1
+\end{aligned}
+$$
+where $r = 1/R$. The inequality is met for any $r > 0$ besides $r = 1$. Hence, the equilibrium is always unstable.
+
+::: {.callout-warning collapse="true"}
+## Exercise: Spatial Nicholson-Bailey model (Long!)
+
+We have studied the "mean field" Nicholson-Bailey model:
+
+$$
+\begin{aligned}
+H_{t+1}&=R\,e^{-aP_t}H_t\\
+P_{t+1}&=c\left(1-e^{-aP_t}\right)H_t
+\end{aligned}
+$$
+
+We now want to extend it to a $N \times N$ lattice, i.e., a grid in which in each cell we have local dynamics, and we allow neighboring cells to exchange individuals. The lattice is periodic, i.e., the top and the bottom boundaries of the grid are coincident, the right and the left boundaries are coincident, so that the system runs on a torus -- a donut-shaped surface.
+
+We write the dynamics for the density of the host and the parasitoid in each cell ($H_{ij}$ and $P_{ij}$):
+
+$$
+\begin{aligned}
+{H_{ij}}_{t+1}&=R\,e^{-a{\tilde{P}_{ij}}_t}{\tilde{H}_{ij}}_t\\
+{P_{ij}}_{t+1}&=c(1-e^{-a{\tilde{P}_{ij}}_t}){\tilde{H}_{ij}}_t
+\end{aligned}
+$$
+
+where
+
+$$
+  {\tilde{H}_{ij}}_t=(1-d_h){H_{ij}}_t +\frac{d_h}{8} \sum_{\text{neighbors}\, k,l}{H_{kl}}_t
+$$
+
+the sum is taken across the 8 nearest neighbors of the cell ${i,j}$. The parameter $d_h$ is the dispersal rate of the host. Similarly, 
+
+$$
+  {\tilde{P}_{ij}}_t =(1-d_p){P_{ij}}_t+\frac{d_p}{8}
+  \sum_{\text{neighbors}\, k,l} {P_{kl}}_t
+$$
+
+Start with a $51 \times 51$ lattice, and set the density of host and parasites to zero everywhere but in cell $26,26$, where $H_{26,26}(0)=4$ and $P_{26,26}(0)=1$. Set $d_h=p_h=0.1$, $R=2.0$, $a=c=1.0$. Evolve the system for 1000 time steps and plot the density of host using image every 5 time steps (Note: `R` is really poor for doing animations. If you plot every time step and have a fast enough computer, you will get a nice "photosensitive epilectic seizure effect").
+
+### Implementation
+
+There are at least three strategies to code the model. At each time step, we have to have the matrices for $H$ and $P$ at time $t$ and use these to build the matrices at time $t+1$. Then we can overwrite the matrices and repeat. The main problem is how to deal with the neighbors. We can:
+
+- Compute the neighbors on the fly. This is very easy to implement (just remember that when a cell is at the border it disperses on the other side of the lattice). However, in `R` it is likely to be extremely slow.
+  
+- Store all the neighbors. Basically, you can have a matrix of $(N^2)\times 8$ in which for every cell you store the neighbors. This is going to require some memory, but it should pay off in terms of speed.
+
+- Build a large matrix $(N^2)\times (N^2)$ in which for each cell we have the dispersal rate to any other cell. The good point is that  then the whole model becomes simple matrix multiplication, but it requires a lot of memory to store an enormous matrix whose elements are going to be 0 most of the times.
+
+- Other solutions...
+
+### `R` Tips for Spatial Nicholson-Bailey
+
+Here's the code that you could write using implementation 1. Choose any of the other method to implement your own code.
+
+```{r}
+#| eval: false
+# list the coordinates of the eight neighboring cells to a
+# particular cell of interest
+neighboring_cells <- function(ii, jj, N){
+    # This is tedious to write, but fast to run
+    my_neighbors <- matrix(0, 8, 2)
+    my_neighbors[1,] <- c(ii+1, jj+1)
+    my_neighbors[2,] <- c(ii+1, jj)
+    my_neighbors[3,] <- c(ii+1, jj-1)
+    my_neighbors[4,] <- c(ii, jj+1)
+    my_neighbors[5,] <- c(ii, jj-1)
+    my_neighbors[6,] <- c(ii-1, jj-1)
+    my_neighbors[7,] <- c(ii-1, jj)
+    my_neighbors[8,] <- c(ii-1, jj+1)
+    # Wrap the lattice by replacing off-grid elements with
+    # the first index on the opposite side of the grid
+    my_neighbors[my_neighbors == 0] <- N
+    my_neighbors[my_neighbors == N+1] <- 1
+    return(my_neighbors)
+}
+
+# Run the spatial Nicholson-Bailey model, staring with initial
+# matrices of host and parasitoid counts/locations H0 and P0,
+# dispersal rates dh and dp, host growth rate R, parasitoid
+# reproductive rate c, and parasitoid search efficiency a. The
+# remaining parameters set the number of time steps to take and
+# a logical flag for whether to plot the results or not.
+spatial_nicholson_bailey <- function(H, P, dh, dp, R, c, a,
+                                     n_time_steps, plot_graph){
+    # Extract size of (square) grid from matrix of populations
+    N <- nrow(H)
+    # For each time step
+    for (zz in 1:n_time_steps){
+        # Plot every 5 time steps (we use base plotting here
+        # because it is faster)
+        if (plot_graph == TRUE) if (zz %% 5 == 0) image(H)
+        # For each cell
+        for (ii in 1:N) {
+            for (jj in 1:N) {
+                # Find the neighbors
+                my_neighbors <- neighboring_cells(ii, jj, N)
+                # Calculate the equilibrium values for each
+                # cell based on its neighbors
+                HStar <- (1 - dh) * H[ii,jj] +
+                    dh * sum(H[my_neighbors])/8
+                PStar <- (1 - dp) * P[ii,jj] +
+                    dp * sum(P[my_neighbors])/8
+                # Update the matrices
+                H[ii,jj] <- R * HStar * exp(-a * PStar)
+                P[ii,jj] <- c * HStar * (1 - exp(-a * PStar))
+            }
+        }
+    }
+    return(0)
+}
+
+# Initialize the system
+N <- 51
+H <- matrix(0, N, N)
+P <- matrix(0, N, N)
+# put some hosts, parasitoids in the middle
+H[round(N/2), round(N/2)] <- 4
+P[round(N/2), round(N/2)] <- 1
+# Run the system
+spatial_nicholson_bailey(H, P, dh=0.2, dp=0.2, R=2, c=1, a=1,
+                         n_time_steps=100, plot_graph=TRUE)
+```
+
+:::
 
 ## Classic papers
 
@@ -1178,4 +1691,28 @@ Volterra considered many variations, including the competition between species. 
 The analysis of two-species competitive Lotka-Volterra inspired the so-called Modern Coexistence Theory:
 
 - Chesson, P. 2000. [Mechanisms of Maintenance of Species Diversity](https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343). Annual Review of Ecology and Systematics 31:343-366
+
+On functional responses:
+
+- Crawford S. Holling, 1959. [Some Characteristics of Simple Types of Predation and Parasitism](https://www.cambridge.org/core/journals/canadian-entomologist/article/abs/some-characteristics-of-simple-types-of-predation-and-parasitism1/9E1E7D2CCC314766A424680444F4EA9F). 
+The Canadian Entomologist 91:385-398
+
+The paper proposing the paradox of enrichment:
+
+- Rosenzweig, Michael, 1971. [The Paradox of Enrichment](https://www.jstor.org/stable/1731139?origin=ads&seq=3). Science 171: 385–387
+
+More on limit cycles in predator-prey systems:
+
+- Robert M. May, 1972. [Limit Cycles in Predator-Prey Communities](https://www.jstor.org/stable/1734806?seq=3) Science 177:900-902
+
+- Michael E. Gilpin, 1972. [Enriched Predator-Prey Systems: Theoretical Stability](https://www.science.org/doi/10.1126/science.177.4052.902) Science 177:902-904
+
+The Nicholson-Bailey model:
+
+- A.J. Nicholson, V.A. Bailey, 1935. [The Balance of Animal Populations. Part I](https://zslpublications.onlinelibrary.wiley.com/doi/10.1111/j.1096-3642.1935.tb01680.x). Proceedings of the Zoological Society of London. 105: 551–598
+
+and its spatial version:
+
+- H.N. Comins, M.P. Hassell, R.M. May, 1992. [The Spatial Dynamics of Host--Parasitoid Systems](https://www.jstor.org/stable/5627?seq=4). Journal of Animal Ecology 61:735-748 
+
 

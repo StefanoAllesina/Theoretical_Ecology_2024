@@ -61,7 +61,7 @@ Following the material requires basic notions in calculus, linear algebra and dy
 - Derivatives and chain rule
 - Integration of functions in one and several variables
 
-These concepts will be briefly reviewed in class, students who feel they will need to work on these at their own pace are encouraged to approach them before class:
+These concepts will be briefly reviewed in class; students who feel they will need to work on these at their own pace are encouraged to approach them before class:
 
 - Taylor series
 - Vectors, dot product, cross product
@@ -72,7 +72,7 @@ These are good websites offering a brief review of these materials, and cheat sh
 
 - [Paul's Online Notes](https://tutorial.math.lamar.edu/) covering calculus I, II and III as well as dynamical systems; the cheat sheets are excellent.
 
-- The legendary Linear Algebra class by [Gilbert Strang](https://www.youtube.com/watch?v=7UJ4CFRGd-U&list=PLE7DDD91010BC51F8), who has written excellent books on the subject, and taught legions at MIT.
+- The legendary Linear Algebra class by [Gilbert Strang](https://www.youtube.com/watch?v=7UJ4CFRGd-U&list=PLE7DDD91010BC51F8), who has written popular books on the subject, and taught legions of students at MIT.
 
 - Ziko Kolter has published a brief [review of linear algebra](https://cs229.stanford.edu/section/cs229-linalg.pdf) concepts.
 

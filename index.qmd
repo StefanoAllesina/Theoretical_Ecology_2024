@@ -4,8 +4,8 @@ The class is divided in two parts. The first part of the class deals with models
 
 - Models for a single population
 - Models for two populations
-- Models for many populations
 - Models for disease dynamics
+- Models for many populations (if time allows)
 
 ## Computing
 
@@ -31,5 +31,3 @@ library(deSolve) # integrate differential equations
   - $I$ is the identity matrix (i.e., a matrix with $1_n$ on the diagonal, and zeros elsewhere)
   - $D(a)$ is a diagonal matrix with vector $a$ on the diagonal
   - $\dfrac{d x(t)}{dt}$ is sometimes written as $\dfrac{d x}{dt}$ or $\dot{x}$
-
-

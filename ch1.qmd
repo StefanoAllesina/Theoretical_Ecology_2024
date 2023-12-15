@@ -610,8 +610,8 @@ $$
 \begin{aligned}
 \dfrac{dV(t)}{dt} &= \dfrac{dV(t)}{dx(t)}\dfrac{dx(t)}{dt}\\
 &= 2(x(t) - x^\star)\dfrac{dx(t)}{dt}\\
-&=2(x(t)-1) x(t)(x(t)-1)\\
-&=2 x(t) (x(t)-1)^2 \geq 0
+&=-2(x(t)-1) x(t)(x(t)-1)\\
+&=-2 x(t) (x(t)-1)^2 \leq 0
 \end{aligned}
 $$
 :::
@@ -968,6 +968,85 @@ $$
 again taking values of $r$ between 1.95 and 4, and values of $x_0$ between 0 and 1.
 :::
 
+## Hysteresis
+
+Sudden shifts in populations, such as sharp spikes and collapses (even extinctions), capture attention. Our intuition might be that such changes arise from exogenous influences, such as extreme weather events. One of the first powerful examples showing that sudden shifts can arise from gradual (arguably endogenous) changes comes from a model of the spruce budworm. The spruce budworm has huge outbreaks roughly every 40 years in North America. These dynamics were modeled by Ludwig, Jones, and Holling in 1978.
+
+The change in the budworm population $B$ can be described by
+$$
+\dfrac{dB}{d\tau} = rB\left(1-\frac{B}{K}\right)-b \dfrac{B^2}{a^2 + B^2}
+$$
+Predation in this model arises from birds, causing the mortality term. We can reduce the number of parameters by setting:
+
+$$
+x = c_1 B \quad t = c_2 \tau
+$$
+
+Choosing $c_1 = 1/a$, and $c_2 = 1/b$, we obtain:
+
+$$
+\dfrac{dx}{dt} = \dfrac{a r}{b}x\left(1 - \dfrac{a}{K} x \right) - \dfrac{x^2}{1+x^2}
+$$
+
+And defining $\rho = a r / b$ and $\gamma = K/a$, we finally have:
+
+$$
+\dfrac{dx}{dt} = \rho x\left(1 - \dfrac{x}{\gamma}  \right)- \dfrac{x^2}{1+x^2}
+$$
+
+The trivial equilibrium is $x^\star = 0$. Depending on the value of $\gamma$, we can have one, two or three equilibria at which:
+
+$$
+\rho \left(1 - \dfrac{x^\star}{\gamma}\right) = \dfrac{x^\star}{1 + {x^\star}^2}
+$$
+
+Because solving for the equilibria is involved, we can plot the l.h.s. and the r.h.s for different values of $\rho$ and $\gamma$. 
+
+```{r}
+#| echo: false
+#| warning: false
+dt_lhs <- tibble(x = seq(0, 10, by = 0.01), y = x / (1+x^2), label = "l.h.s.")
+pl <- ggplot(dt_lhs) + aes(x = x, y = y, colour = label) + geom_line(linetype = 1)
+values_rho_gamma <- tibble(intercepts = c(0.5,0.2,0.383971,1), slopes = c(-1/20,-0.2/10,-0.0383971,-1/10), label = "r.h.s.", lty = as.factor(2:5))
+pl + geom_abline(data = values_rho_gamma, aes(slope =slopes, intercept = intercepts, linetype = lty, colour = label)) + 
+  scale_linetype_manual(values = 2:5) + theme_bw() + theme(legend.position = "none") + 
+  geom_point(data = tibble(x = c(2, 4 + sqrt(11), 4 - sqrt(11), 0.204078, 0.437432, 4.78128,8.88908), colour = as.factor(c(1,1,1,2, 3,3, 4))) %>% mutate(y = x/(1+x^2), label = ""), aes(colour = colour)) + ylab(expression(rho))
+```
+
+The r.h.s. is the solid line, and the dashed lines represent different choices of r.h.s. when we vary the parameters $\rho$, $\gamma$. Depending on the choice of parameters, we can have a single equilibrium at which the spruce budworm is at low level (dotted line); two equilibria (dashed-dotted line), three equilibria (dashed line), and back to one equilibrium (long-dashed line).
+
+The authors interpreted $\rho$ and $\gamma$ as "slow" parameters that relate to forest development. Keeping the x-intercept ($\gamma$) fixed, and starting with a single (stable) positive equilibrium yiedling low values of $x$; this is called a "refuge" in the literature. When we increase $\rho$, we transition to two positive equilibria (one stable, the other metastable), and then to three equilibria (with the first and the third that are stable); thus depending on the initial conditions, we can have a large or small population size. Finally, increasing $\rho$ even more takes us back to a single stable equilibrium with very high values of $x$ ("outbreak"). The authors hypothesized that gradual shifts in forest conditions, effected mostly through $\rho$, could thus generate sudden outbreaks of the spruce budworm. We can recapitulate these behaviors by producing a bifurcation plot, in which we slowly vary $\rho$, and mark the equilibria and their stability. 
+
+
+```{r}
+#| echo: false
+#| warning: false
+get_sols_spruce <- function(rho){
+  Real_part <- c(0)
+  Imaginary_part <- c(0)
+  rho <- as.complex(rho)
+  z1 <- (10 * (45 - 109 * rho) * rho^2 + 
+  3 * sqrt(3) * sqrt(rho^3 * (1000 + rho * (-2200 + rho * (-4970 + 10201 * rho)))))^(1/3)
+  x1 <- 1/3 * (10 + (30-97 * rho) / z1- z1/rho )
+  Real_part <- c(Real_part, Re(x1))
+  Imaginary_part <- c(Imaginary_part, Im(x1))
+  x2 <- 1/6 * (20 + (97 * rho- 30) * (1 + sqrt(3)*1i)/z1 + (1- sqrt(3) * 1i) * z1/ rho)
+  Real_part <- c(Real_part, Re(x2))
+  Imaginary_part <- c(Imaginary_part, Im(x2))
+  x3 <-1/6 * (20 + (97 * rho- 30) * (1 - sqrt(3)*1i)/z1 + (1 + sqrt(3) * 1i) * z1/ rho)
+  Real_part <- c(Real_part, Re(x3))
+  Imaginary_part <- c(Imaginary_part, Im(x3))
+  return(tibble(Real_part = Real_part, Imaginary_part = Imaginary_part, rho = Re(rho)))
+}
+
+solutions_spruce <- map_df(seq(0.25, 0.65, by = 0.001), get_sols_spruce) %>% filter(abs(Imaginary_part) < 10^-10, Real_part >= 0) %>% select(rho, Real_part) %>% 
+  rename(x = Real_part) %>% mutate(stable = -2 * x /(1+x^2)^2 + rho - rho * x / 5)
+ggplot(solutions_spruce, aes(x = rho, y = x, colour = as.factor(sign(stable)))) + geom_point() + theme_bw() + theme(legend.position = "none") + xlab(expression(rho))
+```
+
+
+This dynamic is an example of *hysteresis*. It shows that the position of $x$ at a given ($\rho$, $\gamma$) depends on the recent dynamics of the system. Hysteretic models have also been used to explain sudden shifts in nutrient loading in lakes (e.g., from eutrophic to oligotrophic). Hysteretic systems can get "stuck" in regimes (e.g., high $x$), and getting back to the starting point can require more than just reversing some parameter (like $\gamma$) to its previous position.
+
 ::: {.callout-tip collapse="true"}
 ## Euler's method
 
@@ -1020,3 +1099,7 @@ This paper shows the onset of chaos in simple discrete-time models:
 This paper discusses how simple models relates to experimental data on population growth:
 
 - Michael P. Hassell, John H. Lawton, Robert M. May, 1976. [*Patterns of dynamical behavior in single species populations*](https://www.jstor.org/stable/3886). Journal of Animal Ecology 45:471-486
+
+The paper analyzing the dynamics of the spruce budworm:
+
+- Donald Ludwig, D. D. Jones, Crawford S. Holling, 1978. [Qualitative Analysis of Insect Outbreak Systems: The Spruce Budworm and Forest](https://www.jstor.org/stable/3939?seq=1). Journal of Animal Ecology, 47:315-332

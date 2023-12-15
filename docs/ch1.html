@@ -219,6 +219,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#chaos" id="toc-chaos" class="nav-link" data-scroll-target="#chaos">Chaos</a></li>
   <li><a href="#bifurcation-diagram" id="toc-bifurcation-diagram" class="nav-link" data-scroll-target="#bifurcation-diagram">Bifurcation diagram</a></li>
   </ul></li>
+  <li><a href="#hysteresis" id="toc-hysteresis" class="nav-link" data-scroll-target="#hysteresis">Hysteresis</a></li>
   <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
   </ul></li>
   </ul>
@@ -810,8 +811,8 @@ Lyapunov functions
 \begin{aligned}
 \dfrac{dV(t)}{dt} &amp;= \dfrac{dV(t)}{dx(t)}\dfrac{dx(t)}{dt}\\
 &amp;= 2(x(t) - x^\star)\dfrac{dx(t)}{dt}\\
-&amp;=2(x(t)-1) x(t)(x(t)-1)\\
-&amp;=2 x(t) (x(t)-1)^2 \geq 0
+&amp;=-2(x(t)-1) x(t)(x(t)-1)\\
+&amp;=-2 x(t) (x(t)-1)^2 \leq 0
 \end{aligned}
 \]</span></p>
 </div>
@@ -1078,6 +1079,43 @@ x_{t+1} = x_t e^{r(1-x_t)}
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="hysteresis" class="level2">
+<h2 class="anchored" data-anchor-id="hysteresis">Hysteresis</h2>
+<p>Sudden shifts in populations, such as sharp spikes and collapses (even extinctions), capture attention. Our intuition might be that such changes arise from exogenous influences, such as extreme weather events. One of the first powerful examples showing that sudden shifts can arise from gradual (arguably endogenous) changes comes from a model of the spruce budworm. The spruce budworm has huge outbreaks roughly every 40 years in North America. These dynamics were modeled by Ludwig, Jones, and Holling in 1978.</p>
+<p>The change in the budworm population <span class="math inline">\(B\)</span> can be described by <span class="math display">\[
+\dfrac{dB}{d\tau} = rB\left(1-\frac{B}{K}\right)-b \dfrac{B^2}{a^2 + B^2}
+\]</span> Predation in this model arises from birds, causing the mortality term. We can reduce the number of parameters by setting:</p>
+<p><span class="math display">\[
+x = c_1 B \quad t = c_2 \tau
+\]</span></p>
+<p>Choosing <span class="math inline">\(c_1 = 1/a\)</span>, and <span class="math inline">\(c_2 = 1/b\)</span>, we obtain:</p>
+<p><span class="math display">\[
+\dfrac{dx}{dt} = \dfrac{a r}{b}x\left(1 - \dfrac{a}{K} x \right) - \dfrac{x^2}{1+x^2}
+\]</span></p>
+<p>And defining <span class="math inline">\(\rho = a r / b\)</span> and <span class="math inline">\(\gamma = K/a\)</span>, we finally have:</p>
+<p><span class="math display">\[
+\dfrac{dx}{dt} = \rho x\left(1 - \dfrac{x}{\gamma}  \right)- \dfrac{x^2}{1+x^2}
+\]</span></p>
+<p>The trivial equilibrium is <span class="math inline">\(x^\star = 0\)</span>. Depending on the value of <span class="math inline">\(\gamma\)</span>, we can have one, two or three equilibria at which:</p>
+<p><span class="math display">\[
+\rho \left(1 - \dfrac{x^\star}{\gamma}\right) = \dfrac{x^\star}{1 + {x^\star}^2}
+\]</span></p>
+<p>Because solving for the equilibria is involved, we can plot the l.h.s. and the r.h.s for different values of <span class="math inline">\(\rho\)</span> and <span class="math inline">\(\gamma\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>The r.h.s. is the solid line, and the dashed lines represent different choices of r.h.s. when we vary the parameters <span class="math inline">\(\rho\)</span>, <span class="math inline">\(\gamma\)</span>. Depending on the choice of parameters, we can have a single equilibrium at which the spruce budworm is at low level (dotted line); two equilibria (dashed-dotted line), three equilibria (dashed line), and back to one equilibrium (long-dashed line).</p>
+<p>The authors interpreted <span class="math inline">\(\rho\)</span> and <span class="math inline">\(\gamma\)</span> as “slow” parameters that relate to forest development. Keeping the x-intercept (<span class="math inline">\(\gamma\)</span>) fixed, and starting with a single (stable) positive equilibrium yiedling low values of <span class="math inline">\(x\)</span>; this is called a “refuge” in the literature. When we increase <span class="math inline">\(\rho\)</span>, we transition to two positive equilibria (one stable, the other metastable), and then to three equilibria (with the first and the third that are stable); thus depending on the initial conditions, we can have a large or small population size. Finally, increasing <span class="math inline">\(\rho\)</span> even more takes us back to a single stable equilibrium with very high values of <span class="math inline">\(x\)</span> (“outbreak”). The authors hypothesized that gradual shifts in forest conditions, effected mostly through <span class="math inline">\(\rho\)</span>, could thus generate sudden outbreaks of the spruce budworm. We can recapitulate these behaviors by producing a bifurcation plot, in which we slowly vary <span class="math inline">\(\rho\)</span>, and mark the equilibria and their stability.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch1_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>This dynamic is an example of <em>hysteresis</em>. It shows that the position of <span class="math inline">\(x\)</span> at a given (<span class="math inline">\(\rho\)</span>, <span class="math inline">\(\gamma\)</span>) depends on the recent dynamics of the system. Hysteretic models have also been used to explain sudden shifts in nutrient loading in lakes (e.g., from eutrophic to oligotrophic). Hysteretic systems can get “stuck” in regimes (e.g., high <span class="math inline">\(x\)</span>), and getting back to the starting point can require more than just reversing some parameter (like <span class="math inline">\(\gamma\)</span>) to its previous position.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -1114,7 +1152,6 @@ x_{t + \Delta t} &amp;= x_t + \frac{1}{2}(f(x_t) + f(y_{t + \Delta t}))
 </div>
 </div>
 </section>
-</section>
 <section id="classic-papers" class="level2">
 <h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>
 <p>A brief paper discussing how to build models in biology:</p>
@@ -1132,6 +1169,10 @@ x_{t + \Delta t} &amp;= x_t + \frac{1}{2}(f(x_t) + f(y_{t + \Delta t}))
 <p>This paper discusses how simple models relates to experimental data on population growth:</p>
 <ul>
 <li>Michael P. Hassell, John H. Lawton, Robert M. May, 1976. <a href="https://www.jstor.org/stable/3886"><em>Patterns of dynamical behavior in single species populations</em></a>. Journal of Animal Ecology 45:471-486</li>
+</ul>
+<p>The paper analyzing the dynamics of the spruce budworm:</p>
+<ul>
+<li>Donald Ludwig, D. D. Jones, Crawford S. Holling, 1978. <a href="https://www.jstor.org/stable/3939?seq=1">Qualitative Analysis of Insect Outbreak Systems: The Spruce Budworm and Forest</a>. Journal of Animal Ecology, 47:315-332</li>
 </ul>
 
 

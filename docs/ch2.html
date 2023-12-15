@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -172,6 +206,12 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#constant-of-motion-for-lv-predator-prey" id="toc-constant-of-motion-for-lv-predator-prey" class="nav-link" data-scroll-target="#constant-of-motion-for-lv-predator-prey">Constant of motion for LV predator-prey</a></li>
   <li><a href="#self-regulating-prey" id="toc-self-regulating-prey" class="nav-link" data-scroll-target="#self-regulating-prey">Self-regulating prey</a></li>
   <li><a href="#global-stability-in-lv" id="toc-global-stability-in-lv" class="nav-link" data-scroll-target="#global-stability-in-lv">Global stability in LV</a></li>
+  </ul></li>
+  <li><a href="#functional-responses-and-the-paradox-of-enrichment" id="toc-functional-responses-and-the-paradox-of-enrichment" class="nav-link" data-scroll-target="#functional-responses-and-the-paradox-of-enrichment">Functional responses and the paradox of enrichment</a></li>
+  <li><a href="#discrete-time-nicholson-bailey-model" id="toc-discrete-time-nicholson-bailey-model" class="nav-link" data-scroll-target="#discrete-time-nicholson-bailey-model">Discrete-time: Nicholson-Bailey model</a>
+  <ul class="collapse">
+  <li><a href="#fixed-points" id="toc-fixed-points" class="nav-link" data-scroll-target="#fixed-points">Fixed points</a></li>
+  <li><a href="#stability-analysis" id="toc-stability-analysis" class="nav-link" data-scroll-target="#stability-analysis">Stability analysis</a></li>
   </ul></li>
   <li><a href="#classic-papers" id="toc-classic-papers" class="nav-link" data-scroll-target="#classic-papers">Classic papers</a></li>
   </ul></li>
@@ -500,7 +540,7 @@ A Q &amp;= Q \Lambda\\
 A &amp;= Q \Lambda Q^{-1}
 \end{aligned}
 \]</span></p>
-<p>The <em>trace</em> of a matrix is the sum of the diagonal entries, it is also the sum of the eigenvalues:</p>
+<p>The <em>trace</em> of a matrix is the sum of the diagonal entries; it is also the sum of the eigenvalues:</p>
 <p><span class="math display">\[
 \text{Tr}\, A = \sum_i A_{ii} = \sum_i \lambda_i
 \]</span></p>
@@ -513,7 +553,7 @@ A &amp;= Q \Lambda Q^{-1}
 <p><span class="math display">\[
 \det (A - \lambda I) = p(\lambda)
 \]</span></p>
-<p>A matrix with real entries has eigenvalues that are either real, <span class="math inline">\(\lambda_i = \alpha\)</span>, or complex <span class="math inline">\(\lambda = \alpha + i \beta\)</span>; the complex root are paired: <span class="math inline">\(\lambda_{i,j} = \alpha \pm i \beta\)</span> (conjugate complex eigenvalues). A symmetric matrix <span class="math inline">\(A = A^T\)</span> has only real roots; a skew-symmetric matrix <span class="math inline">\(A = -A^T\)</span> has roots with real part zero.</p>
+<p>A matrix with real entries has eigenvalues that are either real, <span class="math inline">\(\lambda_i = \alpha\)</span>, or complex, <span class="math inline">\(\lambda = \alpha + i \beta\)</span>; the complex root are paired: <span class="math inline">\(\lambda_{i,j} = \alpha \pm i \beta\)</span> (complex conjugate eigenvalues). A symmetric matrix <span class="math inline">\(A = A^T\)</span> has only real eigenvalues; a skew-symmetric matrix <span class="math inline">\(A = -A^T\)</span> has only eigenvalues with real part zero.</p>
 <p>The diagonal matrix <span class="math inline">\(D(\alpha)\)</span> has eigenvalues <span class="math inline">\(\alpha\)</span>.</p>
 <p>The eigenvalues of the inverse <span class="math inline">\(A^{-1}\)</span> are the reciprocals of the eigenvalues of <span class="math inline">\(A\)</span>: if <span class="math inline">\(A\)</span> has eigenvalue <span class="math inline">\(\lambda\)</span>, then <span class="math inline">\(A^{-1}\)</span> has eigenvalue <span class="math inline">\(1/\lambda\)</span>. The eigenvectors of <span class="math inline">\(A\)</span> and <span class="math inline">\(A^{-1}\)</span> are the same. The transpose <span class="math inline">\(A^T\)</span> has the same eigenvalues of <span class="math inline">\(A\)</span>; its eigenvectors are <span class="math inline">\(A^T = (Q \Lambda Q^{-1})^T = {Q^{-1}}^T \Lambda Q^T\)</span></p>
 <p>If a matrix has only positive, real eigenvalues it is <em>positive definite</em>, if it has only nonnegative eigenvalues it is <em>positive semi-definite</em>; if it has only negative eigenvalues it is negative definite.</p>
@@ -543,7 +583,7 @@ c &amp; d
 \]</span></p>
 <p>and thus</p>
 <p><span class="math display">\[
-\lambda = \dfrac{a + d \pm \sqrt{4bc + (a-d)^2}}{2}
+\lambda = \dfrac{a + d \pm \sqrt{4bc + (a-d)^2}}{2} =\dfrac{1}{2}\left(\text{Tr}{A} \pm \sqrt{(\text{Tr}{A})^2 - 4 \det A} \right)
 \]</span></p>
 <p>The eigenvectors can be found by setting one of the entries to an arbitrary value (e.g., <span class="math inline">\(v_1 = 1\)</span>), and solving the equations:</p>
 <p><span class="math display">\[
@@ -702,7 +742,7 @@ M = \begin{pmatrix}
 -A_{21} \rho &amp; -\rho
 \end{pmatrix}
 \]</span> with eigenvalues <span class="math inline">\(-\rho\)</span> and <span class="math inline">\(1 - A_{12} \rho\)</span>. Thus, the equilibrium is stable whenever <span class="math inline">\(\rho &gt; 1/A_{12}\)</span> and unstable when <span class="math inline">\(\rho &lt; 1/A_{12}\)</span>.</p>
-<p>Finally, whenever a feasible equilibrium <span class="math inline">\((x^\star, y^\star) &gt; (0,0)\)</span> we have that the terms in parenthesis are zero. Thus <span class="math inline">\((1 - x^\star - A_{12} y^\star) = 0\)</span> and <span class="math inline">\((\rho - y^\star - A_{21} x^\star)\)</span>, yielding:</p>
+<p>Finally, whenever a feasible equilibrium <span class="math inline">\((x^\star, y^\star) &gt; (0,0)\)</span> we have that the terms in parenthesis are zero. Thus <span class="math inline">\((1 - x^\star - A_{12} y^\star) = 0\)</span> and <span class="math inline">\((\rho - y^\star - A_{21} x^\star) =0\)</span>, yielding:</p>
 <p><span class="math display">\[
 M = \begin{pmatrix}
 - x^\star &amp; -A_{12} x^\star\\
@@ -736,8 +776,8 @@ Exercise: LV with mutualistic interactions
 <ul>
 <li>find all equilibria</li>
 <li>for which combination of parameters will the system have a coexistence equilibrium?</li>
-<li>compute the Jacobian matrix for the system and the community matrices associated with each equilibrium</li>
-<li>classify the equilibria according to their local stability</li>
+<li>compute the Jacobian matrix for the system, and the community matrices associated with each equilibrium</li>
+<li>classify the equilibria according to their local asymptotic stability</li>
 </ul>
 </div>
 </div>
@@ -780,7 +820,7 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 \end{cases}
 \]</span></p>
 <p>We can therefore analyze the case in which we have only a single free parameter, <span class="math inline">\(\alpha = \rho / \delta &gt; 0\)</span>. The equilibria are <span class="math inline">\((x^\star,y^\star) = (0,0)\)</span> and <span class="math inline">\((x^\star, y^\star) = (\alpha, 1)\)</span>.</p>
-<p><strong>Isoclines of net zero growth</strong>. Clearly, the first equation is zero when either the prey is absent, or the predator is at <span class="math inline">\(y = 1\)</span>; the second equation is zero when either the predator is absent or the prey is at <span class="math inline">\(x = \alpha\)</span>; we can draw the two lines in a plane where we have <span class="math inline">\(x\)</span> on the x-axis and <span class="math inline">\(y\)</span> on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:</p>
+<p><strong>Isoclines of net zero growth</strong>. Clearly, the first equation is zero when either the prey is absent, or the predator is at <span class="math inline">\(y^\star = 1\)</span>; the second equation is zero when either the predator is absent or the prey is at <span class="math inline">\(x^\star = \alpha\)</span>; we can draw the two lines in a plane where we have <span class="math inline">\(x\)</span> on the x-axis and <span class="math inline">\(y\)</span> on the y-axis. The feasible (positive) equilibrium will be at the intersection of the two lines:</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ch2_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
@@ -789,7 +829,7 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 <p><strong>Direction of trajectories</strong></p>
 <p>We have four quadrants surrounding the positive equilibrium:</p>
 <ul>
-<li><p><span class="math inline">\(x &lt; \alpha, y &lt; 1\)</span>: in the bottom-left corner, we have <span class="math inline">\(dx/dt &gt; 0\)</span> and <span class="math inline">\(dy/dt &lt; 0\)</span>; accordingly, the prey will grow and the predator decline.</p></li>
+<li><p><span class="math inline">\(x &lt; \alpha, y &lt; 1\)</span>: in the bottom-left corner, we have <span class="math inline">\(dx/dt &gt; 0\)</span> and <span class="math inline">\(dy/dt &lt; 0\)</span>; accordingly, the prey will grow and the predator decline</p></li>
 <li><p><span class="math inline">\(x &gt; \alpha, y &lt; 1\)</span>: in the bottom-right corner, we have <span class="math inline">\(dx/dt &gt; 0\)</span> and <span class="math inline">\(dy/dt &gt; 0\)</span>; accordingly, both populations will grow</p></li>
 <li><p><span class="math inline">\(x &gt; \alpha, y &gt; 1\)</span>: in the top-right corner, we have <span class="math inline">\(dx/dt &lt; 0\)</span> and <span class="math inline">\(dy/dt &gt; 0\)</span>; the prey will decline, the predator grow</p></li>
 <li><p><span class="math inline">\(x &lt; \alpha, y &gt; 1\)</span>: in the top-left corner, we have <span class="math inline">\(dx/dt &lt; 0\)</span> and <span class="math inline">\(dy/dt &lt; 0\)</span>; both populations will decline</p></li>
@@ -800,7 +840,7 @@ x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
 <p><img src="ch2_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>We would like to characterize the stability of the equilibria. The trivial equilibrium <span class="math inline">\((0,0)\)</span> is clearly unstable, because the arrows move away from it. The flow for the system cycles counterclockwise around the coexistence equilibrium; stability cannot be determined because trajectories could spiral away from the equilibrium, spiral toward the equilibrium, or form closed orbits.</p>
+<p>We would like to characterize the stability of the equilibria. The trivial equilibrium <span class="math inline">\((0,0)\)</span> is clearly unstable, because the arrows move away from it. The flow for the system cycles counter-clockwise around the coexistence equilibrium; stability cannot be determined because trajectories could spiral away from the equilibrium, spiral toward the equilibrium, or form closed orbits.</p>
 <p>We therefore compute the Jacobian:</p>
 <p><span class="math display">\[
 J = \begin{pmatrix}
@@ -896,15 +936,16 @@ y^\star &amp; 0
 </section>
 <section id="global-stability-in-lv" class="level3">
 <h3 class="anchored" data-anchor-id="global-stability-in-lv">Global stability in LV</h3>
-<p>In 1977, BS Goh proposed a variation on the function found by Lotka and Volterra, that can be used as a Lyapunov function for the system to prove global stability. The function provides <em>sufficient</em> conditions, but not <em>necessary</em> conditions; i.e., if the function can be used to prove the stability of an equilibrium, the equilibrium is globally stable; however, there are cases in which the system is globally stable, and yet the function cannot be used to prove stability.</p>
+<p>In 1977, BS Goh proposed a variation on the contant of motion found by Lotka and Volterra, that can be used as a Lyapunov function for the system to prove global stability. The function provides <em>sufficient</em> conditions, but not <em>necessary</em> conditions; i.e., if the function can be used to prove the stability of an equilibrium, the equilibrium is globally stable; however, there are cases in which the system is globally stable, and yet the function cannot be used to prove stability.</p>
 <p>For two species, the function can be written as:</p>
 <p><span class="math display">\[
-V(x, y) = (x - x^\star - x^\star \log \dfrac{x}{x^\star}) + w (y - y^\star - y^\star \log \dfrac{y}{y^\star})
+V(x, y) = \left(x - x^\star - x^\star \log \dfrac{x}{x^\star}\right) + w \left(y - y^\star - y^\star \log \dfrac{y}{y^\star} \right)
 \]</span></p>
 <p>where <span class="math inline">\(w&gt;0\)</span> can be chosen in the most convenient way. The function is always nonnegative and is zero only at equilibrium. Taking the derivative w.r.t time, we have:</p>
 <p><span class="math display">\[
 \dfrac{dV}{dt} = (x - x^\star) \dfrac{1}{x} \dfrac{dx}{dt} + w (y - y^\star)\dfrac{1}{y} \dfrac{dy}{dt}
 \]</span></p>
+<p>If we can prove that <span class="math inline">\(dV/dt\)</span> is always negative unless the system is at equilibrium, we have proven the global asymptotic stability of the equilibrium.</p>
 <p><strong>Example</strong></p>
 <p>For the predator-prey system with the prey growing logistically, with equilibrium <span class="math inline">\((x^\star, y^\star) = \left(\alpha, 1 - \epsilon \alpha\right)\)</span> (and thus <span class="math inline">\(y^\star = 1 - \epsilon x^\star\)</span>), we have:</p>
 <p><span class="math display">\[
@@ -938,6 +979,383 @@ Exercise: Global stability for LV competition
 </div>
 </section>
 </section>
+<section id="functional-responses-and-the-paradox-of-enrichment" class="level2">
+<h2 class="anchored" data-anchor-id="functional-responses-and-the-paradox-of-enrichment">Functional responses and the paradox of enrichment</h2>
+<p>We previously considered predator-prey interactions in which predation is proportional to the prey density, i.e.,</p>
+<p><span class="math display">\[
+\dfrac{dx}{dt} = x(r -a x) -\alpha xy \quad \dfrac{dy}{dt} = -m y + \beta \alpha \, xy
+\]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> the probability of “effective encounters” (from the predator’s perspective) per unit time, and <span class="math inline">\(\beta\)</span> is the efficiency of converting prey to predators. The <em>functional response</em> is the rate at which predators capture prey. The model above shows a linear functional response, which is also known as a <em>Holling type I</em> functional response: there is a linear relationship between the number of prey eaten per unit time and the density of the prey.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Ecologists have traditionally focused on three different functional responses, which were originally described by Crawford S. Holling (b. 1930). The <em>Holling type II</em> assumes predation saturates with higher prey density. This model is justified if we assume predation is limited by prey handling time. Let <span class="math inline">\(T\)</span> be total time, <span class="math inline">\(T_{\text{h}}\)</span> the handling time per prey item, and <span class="math inline">\(X\)</span> the number of potential prey. We can model the number of prey caught, <span class="math inline">\(V\)</span>, as</p>
+<p><span class="math display">\[
+V= \alpha (T-VT_{\text{h}})X
+\]</span></p>
+<p>where <span class="math inline">\(\alpha\)</span> is a proportionality constant. The basic idea is that the number of prey caught is a function both of handling and searching time. Solving for <span class="math inline">\(V\)</span>, we obtain</p>
+<p><span class="math display">\[
+V=\frac{\alpha TX}{1+\alpha T_{\text{h}}X}
+\]</span></p>
+<p>which can be rewritten more generally as</p>
+<p><span class="math display">\[
+f(X)= \frac{cX}{a+X}
+\]</span></p>
+<p>where <span class="math inline">\(a\)</span> is the half-saturation constant.</p>
+<p>The <em>Holling type III</em> functional response is a sigmoidal curve. It has the form</p>
+<p><span class="math display">\[
+f(X)= \frac{cX^2}{a^2+X^2}
+\]</span></p>
+<p>It assumes that predators are less efficient when prey density is low. At high prey density, their rate saturates.</p>
+<p>Are the differences between these forms dynamically important? They can be. Assume we have two species, a predator (consumer) <span class="math inline">\(Y\)</span> and resource (prey) <span class="math inline">\(X\)</span> that are stably coexisting. Assume that predation follows the type II functional response, i.e., that it saturates at high prey densities. The equations can be written as:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dX}{d\tau} = rX\left(1-\dfrac{X}{K}\right)-\dfrac{cXY}{b+X}\\
+\dfrac{dY}{d\tau} = -m Y + \dfrac{aXY}{b+X}
+\end{cases}
+\]</span></p>
+<p>where <span class="math inline">\(r\)</span> is the prey’s growth rate, <span class="math inline">\(K\)</span> is the prey’s carrying capacity, <span class="math inline">\(m\)</span> is the per capita mortality rate of the predator, and <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(c\)</span> control the rate of predation and the conversion of prey into predators (efficiency).</p>
+<p>We change variables to have fewer parameters:</p>
+<p><span class="math display">\[
+x = c_1 X \quad y = c_2 Y \quad t = c_3 \tau
+\]</span> For example, choosing <span class="math inline">\(c_3 = 1/r\)</span>, <span class="math inline">\(c_1 = b\)</span>, <span class="math inline">\(c_2 = b r /c\)</span>, and defining: <span class="math inline">\(\alpha = a / r\)</span>, <span class="math inline">\(\beta = b / K\)</span> and <span class="math inline">\(\delta = m/r\)</span> we reduce the system to:</p>
+<p><span class="math display">\[
+\begin{cases}
+\dfrac{dx}{dt} = x \left(1 - \beta x - \dfrac{y}{1+x} \right)\\
+\dfrac{dy}{dt} = y \left(- \delta + \dfrac{\alpha x}{1+x} \right)\\
+\end{cases}
+\]</span></p>
+<p>where all parameters are considered positive.</p>
+<p><strong>Equilibria</strong></p>
+<p>The system has up to three equilibria: <span class="math inline">\((x^\star, y^\star) = (0,0)\)</span> (trivial equilibrium); <span class="math inline">\((x^\star, y^\star) = (1/\beta,0)\)</span> (absence of the predator); <span class="math inline">\((x^\star, y^\star) = (\delta/(\alpha - \delta), \alpha(\alpha - (1 + \beta) \delta)/(\alpha - \delta)^2)\)</span> (coexistence equilibrium). With some calculations, one can show that the coexistence equilibrium is in the positive orthant whenever:</p>
+<p><span class="math display">\[
+\alpha &gt; \delta (1 + \beta)
+\]</span></p>
+<p><strong>Nullclines</strong></p>
+<p>As before, we can draw the nullclines. The equation for the prey is zero whenever either the prey is absent, or:</p>
+<p><span class="math display">\[
+y = - \beta x^2 + (1-\beta) x+1
+\]</span></p>
+<p>a downward facing parabola, intercepting the y-axis at <span class="math inline">\(1\)</span>, and the x-axis at <span class="math inline">\(1/\beta\)</span>. The prey grows at points below the curve, and declines at points above it.</p>
+<p>The equation for the predator is zero when the predator is absent or whenever:</p>
+<p><span class="math display">\[
+x = \dfrac{\delta}{\alpha - \delta}
+\]</span></p>
+<p>a vertical line, which is in the positive orthant when <span class="math inline">\(\alpha &gt; \delta\)</span>.</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Jacobian matrix</strong></p>
+<p>We compute the Jacobian, obtaining:</p>
+<p><span class="math display">\[
+J = \begin{pmatrix}
+1 - 2 \beta x - \dfrac{y}{(1+x)^2} &amp; - 1 + \dfrac{1}{1+x}\\
+\dfrac{\alpha y}{(1+x)^2} &amp; -\delta + \dfrac{\alpha x}{1+x}
+\end{pmatrix}
+\]</span> We first derive conditions for the stability of the coexistence equilibrium (when present):</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+2 \beta +\dfrac{(\beta +1) \delta }{\alpha } - \dfrac{2 \alpha  \beta }{\alpha -\delta}&amp; -\dfrac{\delta }{\alpha } \\
+\alpha -(\beta +1) \delta  &amp; 0 \\
+\end{pmatrix}
+\]</span></p>
+<p>The determinant of <span class="math inline">\(M\)</span> is always positive when the coexistence equilibrium exists:</p>
+<p><span class="math display">\[
+\det M = \dfrac{\delta  (\alpha -(\beta +1) \delta )}{\alpha } &gt; 0 \quad \text{if}\, \alpha &gt; \delta (1 + \beta)
+\]</span></p>
+<p>The trace of the matrix, however, can be positive or negative depending on the parameter values:</p>
+<p><span class="math display">\[
+\text{Tr}M = 2 \beta +\dfrac{(\beta +1) \delta }{\alpha } - \dfrac{2 \alpha  \beta }{\alpha -\delta} &lt; 0\quad \text{if}\, \alpha&gt; \delta (1 + \beta)\, \text{and}\, \alpha -\delta &lt; \beta (\alpha + \delta)
+\]</span></p>
+<p>Thus, the stability depends on the carrying capacity, <span class="math inline">\(1/\beta\)</span>. Specifically, increasing the carrying capacity (“enrichment”–subsidizing the prey) causes the equilibrium to move from stable to unstable.</p>
+<p>Similarly, changes in the mortality <span class="math inline">\(\delta\)</span> or the efficiency of transformation <span class="math inline">\(\alpha\)</span>,can also push the equilibrium from stable to unstable—specifically, to a limit cycle.</p>
+<p>For example, let’s look at a case in which the equilibrium is stable:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Trajectories converge to the equilibrium with dampened oscillations.</p>
+<p>Now a case in which the interior equilibrium is unstable:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>i.e., dynamics converge to a stable <em>limit cycle</em>. This is easier to see in the phase plane:</p>
+<div class="cell">
+<div class="cell-output-display">
+<p><img src="ch2_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>With oscillations, both the predator and prey can approach zero. If the prey goes extinct first, both will die out. Alternatively, the predator may go extinct first, and the prey will settle at its carrying capacity. The “paradox of enrichment” was first described by Michael Rosenzweig (b. 1941) in 1971. It demonstrates that the functional form of predation can have important dynamical consequences.</p>
+</section>
+<section id="discrete-time-nicholson-bailey-model" class="level2">
+<h2 class="anchored" data-anchor-id="discrete-time-nicholson-bailey-model">Discrete-time: Nicholson-Bailey model</h2>
+<p>This is a model for host-parasitoid dynamics. Parasitoids are typically insects whose larvae develop inside an host, usually killing the host when they emerge. The model assumes that hosts are randomly distributed with density <span class="math inline">\(H_t\)</span>, parasitoids search for hosts with efficiency <span class="math inline">\(a\)</span>. Each parasitized host at time <span class="math inline">\(t\)</span> will produce one parasitoid at time <span class="math inline">\(t+1\)</span>. Each non-parasitized host gives rise to <span class="math inline">\(R&gt;1\)</span> new hosts at time <span class="math inline">\(t+1\)</span>. The probability of a host escaping an encounter with a parasitoid is <span class="math inline">\(e^{-aP_t}\)</span>. This gives us a simple model:</p>
+<p><span class="math display">\[
+\begin{cases}
+  H_{t+1}=RH_t e^{-aP_t}\\
+  P_{t+1}=H_t \left(1- e^{-aP_t} \right)
+\end{cases}
+\]</span></p>
+<p>We could assume that parasitoids lay <span class="math inline">\(c\)</span> eggs in hosts that survive to become parasitoids, which would yield <span class="math inline">\(P_{t+1}=cH_t(1- e^{-aP_t})\)</span>, but we’ll let <span class="math inline">\(c=1\)</span>. All the parameters are positive.</p>
+<section id="fixed-points" class="level3">
+<h3 class="anchored" data-anchor-id="fixed-points">Fixed points</h3>
+<p>We want to find points for which:</p>
+<p><span class="math display">\[
+\begin{cases}
+      H_{t+1}=H_t=H^\star\\
+      P_{t+1}=P_t =P^\star
+    \end{cases}
+\]</span></p>
+<p>First, we can see that <span class="math inline">\((H^\star, P^\star) = (0, 0)\)</span> is a trivial equilibrium. Then, if the predator is absent we have <span class="math inline">\(H^\star = R H^\star\)</span>, which happens only if <span class="math inline">\(R = 1\)</span>. If the predator is present, we have that at equilibrium <span class="math inline">\(H^\star = R H^\star e^{-aP^\star}\)</span> and thus</p>
+<p><span class="math display">\[
+\begin{aligned}
+1 &amp;= R e^{-a P^\star}\\
+0 &amp;= \log R - a P^\star\\
+P^\star &amp;= \dfrac{\log R}{ a}
+\end{aligned}
+\]</span> meaning that the parasitoid can reach a positive equilibrium only when <span class="math inline">\(R &gt; 1\)</span>. If this is the case, the equilibrium for the host is:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{\log R}{a} &amp;= H^\star \left(1 -  \dfrac{1}{R}\right)\\
+H^\star &amp;= \dfrac{R\log R}{a(R-1)}
+\end{aligned}
+\]</span></p>
+</section>
+<section id="stability-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="stability-analysis">Stability analysis</h3>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-8-contents" aria-controls="callout-8" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Stability of discrete-time systems
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-8" class="callout-8-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We consider <span class="math inline">\(x_t\)</span>, a vector containing the population densities, and we have <span class="math inline">\(x_{t+1} = f(x_t)\)</span>, where each entry of <span class="math inline">\(f(x_t)\)</span>, <span class="math inline">\(f_i(x_t)\)</span> is a function describing the dynamics of population <span class="math inline">\(i\)</span>. As done before, we want to evaluate the asymptotic stability of equilibria, i.e., vectors at which <span class="math inline">\(f({x}^\star) = x^\star\)</span>.</p>
+<p>We take a perturbation of the equilibrium <span class="math inline">\(x_t = {x}^\star + p_t\)</span>, and we Taylor-expand each <span class="math inline">\(f_i(x_t)\)</span> around this point. Taking only the first two terms we find:</p>
+<p><span class="math display">\[
+\begin{aligned}
+f_i(x^\star + p_t) &amp;\approx f_i(x^\star) + \sum_j \left.\dfrac{\partial f_i}{\partial x_j}\right|_{x^\star}(x_j^\star + {p_j}_t - x_j^\star)\\
+&amp;\approx x_j^\star + \sum_j \left. J_{ij} \right|_{x^\star}{p_j}_t
+\end{aligned}
+\]</span></p>
+<p>Which we can write in matrix form:</p>
+<p><span class="math display">\[
+\begin{aligned}
+x_{t + 1} &amp;= f(x_t)\\
+x^\star + p_{t+1} &amp;= f(x^\star + p_t)\\
+x^\star + p_{t+1} &amp;\approx x^\star + \left. J\right|_{x^\star} p_t\\
+p_{t+1} &amp;\approx Mp_t
+\end{aligned}
+\]</span></p>
+<p>Where <span class="math inline">\(M\)</span> again is the community matrix, and we have obtained a linear system in discrete time. Naturally, we can iterate:</p>
+<p><span class="math display">\[
+p_{t+2} = Mp_{t+1} = MMp_t= M^2p_t
+\]</span></p>
+<p>and in general</p>
+<p><span class="math display">\[
+p_{t+n} = M^{n} p_t
+\]</span></p>
+<p>If the equilibrium is stable, eventually <span class="math inline">\(p_{t+n} = 0_n\)</span>, i.e., the perturbation will die out.</p>
+<p>Consider the real number <span class="math inline">\(a\)</span>. We have that:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\lim_{n \to \infty} |a|^n &amp;= 0 &amp; \text{iff} \quad |a| &lt; 1\\
+\lim_{n \to \infty} |a|^n &amp;= \infty &amp; \text{iff} \quad |a| &gt; 1
+\end{aligned}
+\]</span></p>
+<p>A similar result is found for matrices, but instead of taking the absolute value of the real number, we need to consider the <em>spectral radius</em> of the matrix, i.e., the largest <em>modulus</em> (absolute value) of its eigenvalues. An eigenvalue is in general a complex number <span class="math inline">\(\lambda = \alpha + i \beta\)</span>. Its modulus is <span class="math inline">\(|\lambda|= \sqrt{\alpha^2 + \beta^2}\)</span>. We then have that the spectral radius <span class="math inline">\(\rho(A) = \max |\lambda_i|\)</span>, where <span class="math inline">\(\lambda_i\)</span> are the eigenvalues of <span class="math inline">\(A\)</span>.</p>
+<p>Then</p>
+<p><span class="math display">\[
+\lim_{n \to \infty}A^n = 0_{n \times n} \quad \text{iff } \, \rho(A) &lt; 1
+\]</span> As such, an equilibrium <span class="math inline">\(x^\star\)</span> is asymptotically stable if the associated community matrix <span class="math inline">\(M\)</span> has spectral radius <span class="math inline">\(\rho(M) &lt; 1\)</span>.</p>
+<p>For a <span class="math inline">\(2 \times 2\)</span> matrix, we have that <span class="math inline">\(\text{Tr} A = t\)</span> and <span class="math inline">\(\det A = d\)</span>; then</p>
+<p><span class="math display">\[
+\lambda = \dfrac{1}{2} \left(t \pm \sqrt{t^2 - 4d} \right)
+\]</span></p>
+<p>There are two cases:</p>
+<ul>
+<li>when <span class="math inline">\(t^2 &lt; 4d\)</span>, both eigenvalues are complex: <span class="math inline">\(\lambda_1 = \frac{1}{2} (t + i \sqrt{4d -t^2})\)</span> and <span class="math inline">\(\lambda_2 = \frac{1}{2} (t - i \sqrt{4d -t^2})\)</span>; but then <span class="math inline">\(\rho(A)^2 = \Re(\lambda_i)^2 + \Im(\lambda_i)^2 = \lambda_i \lambda_2 = \det A\)</span>, meaning that the condition for stability is simply <span class="math inline">\(0&lt;\det A &lt; 1\)</span>. Combined with <span class="math inline">\(t^2 &lt; 4d\)</span>, yielding <span class="math inline">\(|t| &lt; 2 \sqrt{d} &lt; 2\)</span>, we obtain:</li>
+</ul>
+<p><span class="math display">\[
+|\text{Tr}A| - 1&lt; \det A &lt; 1
+\]</span></p>
+<ul>
+<li>when <span class="math inline">\(t^2 &gt; 4d\)</span> both eigenvalues are real, and thus the spectral radius is <span class="math inline">\((|t|+\sqrt{t^2 -4d})/2\)</span>, which is less than one if <span class="math inline">\(|t|-1 &lt; d\)</span> (from <span class="math inline">\(|t| - 2 &gt; \sqrt{t^2 - 4d}\)</span>, <span class="math inline">\(t^2 - 4 |t| + 4 &gt; t^2 - 4d\)</span>). Combining this condition with <span class="math inline">\(|t| &lt;2\)</span>, we have <span class="math inline">\(t^2 &lt; 4\)</span> and thus <span class="math inline">\(d &lt; 1\)</span>, obtaining the same formula as above.</li>
+</ul>
+<p>As done before, we can characterize the dynamics around the equilibrium point for a 2-dimensional system:</p>
+<ul>
+<li><span class="math inline">\(0&lt;\lambda_1&lt;1&lt;\lambda_2\; \implies\)</span> Saddle (unstable)</li>
+<li><span class="math inline">\(0&lt;\lambda_1&lt;\lambda_2&lt;1\; \implies\)</span> Stable node</li>
+<li><span class="math inline">\(\lambda_2&gt;\lambda_1&gt;1\; \implies\)</span> Unstable node</li>
+<li><span class="math inline">\(\lambda=a \pm ib, \; |\lambda|&lt;1, \; b \neq 0\; \implies\)</span> Stable spiral</li>
+<li><span class="math inline">\(\lambda=a \pm ib, \; |\lambda|&gt;1, \; b \neq 0\; \implies\)</span> Unstable spiral</li>
+<li><span class="math inline">\(\lambda=a \pm ib, \; |\lambda|=1, \; b \neq 0\; \implies\)</span> Center</li>
+<li><span class="math inline">\(-1&lt; \lambda_1&lt;0, \; \lambda_2&lt;-1\; \implies\)</span> Oscillatory saddle (unstable)</li>
+<li><span class="math inline">\(\lambda_1&gt;1, \; \lambda_2&gt;-1\; \implies\)</span> Oscillatory source (unstable)</li>
+</ul>
+</div>
+</div>
+</div>
+<p>For the Nicholson-Baley model, the Jacobian is:</p>
+<p><span class="math display">\[
+J = \begin{pmatrix}
+R e^{-a P} &amp; -a R H e^{-a P}\\
+1 - e^{-a P} &amp; H a e^{-aP}
+\end{pmatrix}
+\]</span></p>
+<p>The community matrix is therefore:</p>
+<p><span class="math display">\[
+M = \begin{pmatrix}
+1 &amp; -\dfrac{R \log R}{R-1} \\
+\dfrac{R-1}{R} &amp; \dfrac{\log (R)}{R-1} \\
+\end{pmatrix}
+\]</span> the determinant of <span class="math inline">\(M\)</span> is</p>
+<p><span class="math display">\[
+\det M = \dfrac{R \log R}{R -1}
+\]</span></p>
+<p>Remember that to have a coexistence equilibrium we need <span class="math inline">\(R&gt;1\)</span>. The determinant of <span class="math inline">\(M\)</span> is greater than 1 if</p>
+<p><span class="math display">\[
+\begin{aligned}
+R \log R &amp;&gt; R-1\\
+-\log \dfrac{1}{R} &amp;&gt; 1 - \dfrac{1}{R}\\
+\log r &amp;&lt; r - 1
+\end{aligned}
+\]</span> where <span class="math inline">\(r = 1/R\)</span>. The inequality is met for any <span class="math inline">\(r &gt; 0\)</span> besides <span class="math inline">\(r = 1\)</span>. Hence, the equilibrium is always unstable.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Exercise: Spatial Nicholson-Bailey model (Long!)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We have studied the “mean field” Nicholson-Bailey model:</p>
+<p><span class="math display">\[
+\begin{aligned}
+H_{t+1}&amp;=R\,e^{-aP_t}H_t\\
+P_{t+1}&amp;=c\left(1-e^{-aP_t}\right)H_t
+\end{aligned}
+\]</span></p>
+<p>We now want to extend it to a <span class="math inline">\(N \times N\)</span> lattice, i.e., a grid in which in each cell we have local dynamics, and we allow neighboring cells to exchange individuals. The lattice is periodic, i.e., the top and the bottom boundaries of the grid are coincident, the right and the left boundaries are coincident, so that the system runs on a torus – a donut-shaped surface.</p>
+<p>We write the dynamics for the density of the host and the parasitoid in each cell (<span class="math inline">\(H_{ij}\)</span> and <span class="math inline">\(P_{ij}\)</span>):</p>
+<p><span class="math display">\[
+\begin{aligned}
+{H_{ij}}_{t+1}&amp;=R\,e^{-a{\tilde{P}_{ij}}_t}{\tilde{H}_{ij}}_t\\
+{P_{ij}}_{t+1}&amp;=c(1-e^{-a{\tilde{P}_{ij}}_t}){\tilde{H}_{ij}}_t
+\end{aligned}
+\]</span></p>
+<p>where</p>
+<p><span class="math display">\[
+  {\tilde{H}_{ij}}_t=(1-d_h){H_{ij}}_t +\frac{d_h}{8} \sum_{\text{neighbors}\, k,l}{H_{kl}}_t
+\]</span></p>
+<p>the sum is taken across the 8 nearest neighbors of the cell <span class="math inline">\({i,j}\)</span>. The parameter <span class="math inline">\(d_h\)</span> is the dispersal rate of the host. Similarly,</p>
+<p><span class="math display">\[
+  {\tilde{P}_{ij}}_t =(1-d_p){P_{ij}}_t+\frac{d_p}{8}
+  \sum_{\text{neighbors}\, k,l} {P_{kl}}_t
+\]</span></p>
+<p>Start with a <span class="math inline">\(51 \times 51\)</span> lattice, and set the density of host and parasites to zero everywhere but in cell <span class="math inline">\(26,26\)</span>, where <span class="math inline">\(H_{26,26}(0)=4\)</span> and <span class="math inline">\(P_{26,26}(0)=1\)</span>. Set <span class="math inline">\(d_h=p_h=0.1\)</span>, <span class="math inline">\(R=2.0\)</span>, <span class="math inline">\(a=c=1.0\)</span>. Evolve the system for 1000 time steps and plot the density of host using image every 5 time steps (Note: <code>R</code> is really poor for doing animations. If you plot every time step and have a fast enough computer, you will get a nice “photosensitive epilectic seizure effect”).</p>
+<section id="implementation" class="level3">
+<h3 class="anchored" data-anchor-id="implementation">Implementation</h3>
+<p>There are at least three strategies to code the model. At each time step, we have to have the matrices for <span class="math inline">\(H\)</span> and <span class="math inline">\(P\)</span> at time <span class="math inline">\(t\)</span> and use these to build the matrices at time <span class="math inline">\(t+1\)</span>. Then we can overwrite the matrices and repeat. The main problem is how to deal with the neighbors. We can:</p>
+<ul>
+<li><p>Compute the neighbors on the fly. This is very easy to implement (just remember that when a cell is at the border it disperses on the other side of the lattice). However, in <code>R</code> it is likely to be extremely slow.</p></li>
+<li><p>Store all the neighbors. Basically, you can have a matrix of <span class="math inline">\((N^2)\times 8\)</span> in which for every cell you store the neighbors. This is going to require some memory, but it should pay off in terms of speed.</p></li>
+<li><p>Build a large matrix <span class="math inline">\((N^2)\times (N^2)\)</span> in which for each cell we have the dispersal rate to any other cell. The good point is that then the whole model becomes simple matrix multiplication, but it requires a lot of memory to store an enormous matrix whose elements are going to be 0 most of the times.</p></li>
+<li><p>Other solutions…</p></li>
+</ul>
+</section>
+<section id="r-tips-for-spatial-nicholson-bailey" class="level3">
+<h3 class="anchored" data-anchor-id="r-tips-for-spatial-nicholson-bailey"><code>R</code> Tips for Spatial Nicholson-Bailey</h3>
+<p>Here’s the code that you could write using implementation 1. Choose any of the other method to implement your own code.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># list the coordinates of the eight neighboring cells to a</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># particular cell of interest</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>neighboring_cells <span class="ot">&lt;-</span> <span class="cf">function</span>(ii, jj, N){</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># This is tedious to write, but fast to run</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    my_neighbors <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">8</span>, <span class="dv">2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    my_neighbors[<span class="dv">1</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(ii<span class="sc">+</span><span class="dv">1</span>, jj<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    my_neighbors[<span class="dv">2</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(ii<span class="sc">+</span><span class="dv">1</span>, jj)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    my_neighbors[<span class="dv">3</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(ii<span class="sc">+</span><span class="dv">1</span>, jj<span class="dv">-1</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    my_neighbors[<span class="dv">4</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(ii, jj<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    my_neighbors[<span class="dv">5</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(ii, jj<span class="dv">-1</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    my_neighbors[<span class="dv">6</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(ii<span class="dv">-1</span>, jj<span class="dv">-1</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    my_neighbors[<span class="dv">7</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(ii<span class="dv">-1</span>, jj)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    my_neighbors[<span class="dv">8</span>,] <span class="ot">&lt;-</span> <span class="fu">c</span>(ii<span class="dv">-1</span>, jj<span class="sc">+</span><span class="dv">1</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Wrap the lattice by replacing off-grid elements with</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># the first index on the opposite side of the grid</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    my_neighbors[my_neighbors <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> N</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    my_neighbors[my_neighbors <span class="sc">==</span> N<span class="sc">+</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(my_neighbors)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the spatial Nicholson-Bailey model, staring with initial</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co"># matrices of host and parasitoid counts/locations H0 and P0,</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># dispersal rates dh and dp, host growth rate R, parasitoid</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># reproductive rate c, and parasitoid search efficiency a. The</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># remaining parameters set the number of time steps to take and</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># a logical flag for whether to plot the results or not.</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>spatial_nicholson_bailey <span class="ot">&lt;-</span> <span class="cf">function</span>(H, P, dh, dp, R, c, a,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                                     n_time_steps, plot_graph){</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract size of (square) grid from matrix of populations</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(H)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="co"># For each time step</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (zz <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n_time_steps){</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Plot every 5 time steps (we use base plotting here</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># because it is faster)</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (plot_graph <span class="sc">==</span> <span class="cn">TRUE</span>) <span class="cf">if</span> (zz <span class="sc">%%</span> <span class="dv">5</span> <span class="sc">==</span> <span class="dv">0</span>) <span class="fu">image</span>(H)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="co"># For each cell</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> (jj <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>N) {</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Find the neighbors</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                my_neighbors <span class="ot">&lt;-</span> <span class="fu">neighboring_cells</span>(ii, jj, N)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Calculate the equilibrium values for each</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                <span class="co"># cell based on its neighbors</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>                HStar <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> dh) <span class="sc">*</span> H[ii,jj] <span class="sc">+</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>                    dh <span class="sc">*</span> <span class="fu">sum</span>(H[my_neighbors])<span class="sc">/</span><span class="dv">8</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>                PStar <span class="ot">&lt;-</span> (<span class="dv">1</span> <span class="sc">-</span> dp) <span class="sc">*</span> P[ii,jj] <span class="sc">+</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                    dp <span class="sc">*</span> <span class="fu">sum</span>(P[my_neighbors])<span class="sc">/</span><span class="dv">8</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Update the matrices</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>                H[ii,jj] <span class="ot">&lt;-</span> R <span class="sc">*</span> HStar <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>a <span class="sc">*</span> PStar)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>                P[ii,jj] <span class="ot">&lt;-</span> c <span class="sc">*</span> HStar <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">exp</span>(<span class="sc">-</span>a <span class="sc">*</span> PStar))</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="dv">0</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the system</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="dv">51</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>H <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, N, N)</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>P <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, N, N)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co"># put some hosts, parasitoids in the middle</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>H[<span class="fu">round</span>(N<span class="sc">/</span><span class="dv">2</span>), <span class="fu">round</span>(N<span class="sc">/</span><span class="dv">2</span>)] <span class="ot">&lt;-</span> <span class="dv">4</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>P[<span class="fu">round</span>(N<span class="sc">/</span><span class="dv">2</span>), <span class="fu">round</span>(N<span class="sc">/</span><span class="dv">2</span>)] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Run the system</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">spatial_nicholson_bailey</span>(H, P, <span class="at">dh=</span><span class="fl">0.2</span>, <span class="at">dp=</span><span class="fl">0.2</span>, <span class="at">R=</span><span class="dv">2</span>, <span class="at">c=</span><span class="dv">1</span>, <span class="at">a=</span><span class="dv">1</span>,</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                         <span class="at">n_time_steps=</span><span class="dv">100</span>, <span class="at">plot_graph=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</section>
+</section>
 <section id="classic-papers" class="level2">
 <h2 class="anchored" data-anchor-id="classic-papers">Classic papers</h2>
 <p>The Lotka-Volterra predator-prey model was discovered independently by Alfred J. Lotka and Vito Volterra:</p>
@@ -957,6 +1375,27 @@ Exercise: Global stability for LV competition
 <p>The analysis of two-species competitive Lotka-Volterra inspired the so-called Modern Coexistence Theory:</p>
 <ul>
 <li>Chesson, P. 2000. <a href="https://www.annualreviews.org/doi/abs/10.1146/annurev.ecolsys.31.1.343">Mechanisms of Maintenance of Species Diversity</a>. Annual Review of Ecology and Systematics 31:343-366</li>
+</ul>
+<p>On functional responses:</p>
+<ul>
+<li>Crawford S. Holling, 1959. <a href="https://www.cambridge.org/core/journals/canadian-entomologist/article/abs/some-characteristics-of-simple-types-of-predation-and-parasitism1/9E1E7D2CCC314766A424680444F4EA9F">Some Characteristics of Simple Types of Predation and Parasitism</a>. The Canadian Entomologist 91:385-398</li>
+</ul>
+<p>The paper proposing the paradox of enrichment:</p>
+<ul>
+<li>Rosenzweig, Michael, 1971. <a href="https://www.jstor.org/stable/1731139?origin=ads&amp;seq=3">The Paradox of Enrichment</a>. Science 171: 385–387</li>
+</ul>
+<p>More on limit cycles in predator-prey systems:</p>
+<ul>
+<li><p>Robert M. May, 1972. <a href="https://www.jstor.org/stable/1734806?seq=3">Limit Cycles in Predator-Prey Communities</a> Science 177:900-902</p></li>
+<li><p>Michael E. Gilpin, 1972. <a href="https://www.science.org/doi/10.1126/science.177.4052.902">Enriched Predator-Prey Systems: Theoretical Stability</a> Science 177:902-904</p></li>
+</ul>
+<p>The Nicholson-Bailey model:</p>
+<ul>
+<li>A.J. Nicholson, V.A. Bailey, 1935. <a href="https://zslpublications.onlinelibrary.wiley.com/doi/10.1111/j.1096-3642.1935.tb01680.x">The Balance of Animal Populations. Part I</a>. Proceedings of the Zoological Society of London. 105: 551–598</li>
+</ul>
+<p>and its spatial version:</p>
+<ul>
+<li>H.N. Comins, M.P. Hassell, R.M. May, 1992. <a href="https://www.jstor.org/stable/5627?seq=4">The Spatial Dynamics of Host–Parasitoid Systems</a>. Journal of Animal Ecology 61:735-748</li>
 </ul>
 
 
