@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -59,6 +93,8 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -159,7 +195,36 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#models-for-disease-dynamics" id="toc-models-for-disease-dynamics" class="nav-link active" data-scroll-target="#models-for-disease-dynamics">Models for disease dynamics</a></li>
+  <li><a href="#models-for-disease-dynamics" id="toc-models-for-disease-dynamics" class="nav-link active" data-scroll-target="#models-for-disease-dynamics">Models for disease dynamics</a>
+  <ul class="collapse">
+  <li><a href="#susceptibleinfectious" id="toc-susceptibleinfectious" class="nav-link" data-scroll-target="#susceptibleinfectious">Susceptible–Infectious</a>
+  <ul class="collapse">
+  <li><a href="#transmission" id="toc-transmission" class="nav-link" data-scroll-target="#transmission">Transmission</a></li>
+  <li><a href="#back-to-the-si-model" id="toc-back-to-the-si-model" class="nav-link" data-scroll-target="#back-to-the-si-model">Back to the SI model</a></li>
+  </ul></li>
+  <li><a href="#susceptibleinfectioussusceptible-sis" id="toc-susceptibleinfectioussusceptible-sis" class="nav-link" data-scroll-target="#susceptibleinfectioussusceptible-sis">Susceptible–Infectious–Susceptible (SIS)</a>
+  <ul class="collapse">
+  <li><a href="#derivation-of-mathcal-r_0" id="toc-derivation-of-mathcal-r_0" class="nav-link" data-scroll-target="#derivation-of-mathcal-r_0">Derivation of <span class="math inline">\({\mathcal R}_0\)</span></a></li>
+  </ul></li>
+  <li><a href="#susceptibleinfectiousrecovered-sir" id="toc-susceptibleinfectiousrecovered-sir" class="nav-link" data-scroll-target="#susceptibleinfectiousrecovered-sir">Susceptible–Infectious–Recovered (SIR)</a>
+  <ul class="collapse">
+  <li><a href="#fraction-of-the-population-recovered" id="toc-fraction-of-the-population-recovered" class="nav-link" data-scroll-target="#fraction-of-the-population-recovered">Fraction of the population recovered</a></li>
+  <li><a href="#newtons-method" id="toc-newtons-method" class="nav-link" data-scroll-target="#newtons-method">Newton’s method</a></li>
+  <li><a href="#exercise-approximating-epidemic-sizes-using-newtons-method." id="toc-exercise-approximating-epidemic-sizes-using-newtons-method." class="nav-link" data-scroll-target="#exercise-approximating-epidemic-sizes-using-newtons-method.">Exercise: Approximating epidemic sizes using Newton’s method.</a></li>
+  <li><a href="#epidemic-curves" id="toc-epidemic-curves" class="nav-link" data-scroll-target="#epidemic-curves">Epidemic curves</a></li>
+  <li><a href="#exercies-visualizing-epidemic-dynamics." id="toc-exercies-visualizing-epidemic-dynamics." class="nav-link" data-scroll-target="#exercies-visualizing-epidemic-dynamics.">Exercies: Visualizing epidemic dynamics.</a></li>
+  <li><a href="#number-of-infectious-individuals-numerical-methods" id="toc-number-of-infectious-individuals-numerical-methods" class="nav-link" data-scroll-target="#number-of-infectious-individuals-numerical-methods">Number of infectious individuals: numerical methods</a></li>
+  <li><a href="#exercise-visualizing-epidemic-dynamics-after-log-transforming-to-minimize-error." id="toc-exercise-visualizing-epidemic-dynamics-after-log-transforming-to-minimize-error." class="nav-link" data-scroll-target="#exercise-visualizing-epidemic-dynamics-after-log-transforming-to-minimize-error.">Exercise: Visualizing epidemic dynamics after log-transforming to minimize error.</a></li>
+  </ul></li>
+  <li><a href="#sir-with-demography" id="toc-sir-with-demography" class="nav-link" data-scroll-target="#sir-with-demography">SIR with demography</a>
+  <ul class="collapse">
+  <li><a href="#equilibria" id="toc-equilibria" class="nav-link" data-scroll-target="#equilibria">Equilibria</a></li>
+  <li><a href="#stability-analysis" id="toc-stability-analysis" class="nav-link" data-scroll-target="#stability-analysis">Stability Analysis</a></li>
+  <li><a href="#age-at-first-infection" id="toc-age-at-first-infection" class="nav-link" data-scroll-target="#age-at-first-infection">Age at first infection</a></li>
+  <li><a href="#vaccination" id="toc-vaccination" class="nav-link" data-scroll-target="#vaccination">Vaccination</a></li>
+  <li><a href="#evolution-of-virulence" id="toc-evolution-of-virulence" class="nav-link" data-scroll-target="#evolution-of-virulence">Evolution of virulence</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -188,12 +253,693 @@ ul.task-list li input[type="checkbox"] {
 1     1     2</code></pre>
 </div>
 </div>
+<section id="susceptibleinfectious" class="level2">
+<h2 class="anchored" data-anchor-id="susceptibleinfectious">Susceptible–Infectious</h2>
+<p>Disease dynamics are typically represented using compartmental models. In these models, the population is divided into classes (the boxes) and moves between classes at given rates (the arrows connecting the boxes).</p>
+<p>The simplest model categorizes individuals as either susceptible (<span class="math inline">\(X\)</span>) or infectious (<span class="math inline">\(Y\)</span>). Susceptible people are healthy and infective people are sick. A susceptible individual can become infectious by contact with an infectious one. We assume that the population is well mixed so that every individual has equal probability of coming into contact with every other individual. Note that infectious individuals cannot recover (e.g., herpes, HIV). For simplicity, we study the model in the absence of demography (births, deaths, immigration, emigration) and assume no disease-induced mortality.</p>
+<p>We derive the differential equation for the susceptible-infectious (SI) model by considering the number of individuals that become infectious during time <span class="math inline">\(\Delta t\)</span>.</p>
+<p>We have <span class="math inline">\(N\)</span> individuals in the population, and <span class="math inline">\(N=X+Y\)</span> is fixed. We define <span class="math inline">\(S=X/N\)</span> as the fraction of the population susceptible and <span class="math inline">\(I=Y/N\)</span> as the fraction infectious. Let <span class="math inline">\(\beta \Delta t\)</span> be the probability that an infectious person infects a susceptible during <span class="math inline">\(\Delta t\)</span>. The expected fraction of new infectious individuals over this interval is therefore <span class="math inline">\(\beta \Delta t S I\)</span>:</p>
+<p><span class="math display">\[
+    I(t+\Delta t)= I(t) + \beta \Delta t S(t) I(t)
+\]</span></p>
+<p>Let’s analyze the system in continuous time. To convert to differential equations, we do the usual,</p>
+<p><span class="math display">\[
+  I(t+\Delta t)- I(t) = \beta \Delta t S(t) I(t)
+\]</span></p>
+<p>and take the limit for <span class="math inline">\(\Delta t \rightarrow 0\)</span>,</p>
+<p><span class="math display">\[
+\lim_{\Delta t \rightarrow 0}  \frac{I(t+\Delta t)- I(t)}{\Delta t} = \beta S(t) I(t)
+\]</span></p>
+<p><span class="math display">\[
+    \frac{d I(t)}{d t} = \beta S(t) I(t)
+\]</span></p>
+<p>Therefore,</p>
+<p><span class="math display">\[
+\frac{d S(t)}{d t} = -\beta S(t) I(t)
+\]</span></p>
+<p>We can sketch the model</p>
+<p>FIGURE SI HERE</p>
+<section id="transmission" class="level3">
+<h3 class="anchored" data-anchor-id="transmission">Transmission</h3>
+<p>If in a population each individual interacts with equal probability with everyone else, we have homogeneous mixing. Assume a susceptible individual has <span class="math inline">\(k\)</span> contacts/unit time. Of these contacts, <span class="math inline">\(I = X/N\)</span> are with infectious individuals. During <span class="math inline">\(\Delta t\)</span>, the number of contacts with infectious individuals is <span class="math inline">\(k I \Delta t\)</span>. If the disease is transmitted with probability <span class="math inline">\(c\)</span>, the probability that a susceptible individual is not infected in the time interval is</p>
+<p><span class="math display">\[
+(1-c)^{k I \Delta t}=1-\Delta q
+\]</span></p>
+<p>Now define <span class="math inline">\(\beta = -k \log(1-c)\)</span> and substitute:</p>
+<p><span class="math display">\[
+\begin{aligned}
+{kI \Delta t}\log(1-c) &amp;=\log(1-\Delta q)\\
+      -\beta I \Delta t&amp;=\log(1-\Delta q)\\
+      e^{-\beta I \Delta t}&amp;=1-\Delta q\\
+      \Delta q&amp;=1-e^{-\beta I \Delta t}\\
+\end{aligned}
+\]</span></p>
+<p>Remember that</p>
+<p><span class="math display">\[
+e^x=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\frac{x^4}{4!}+\ldots
+\]</span></p>
+<p>which means <span class="math inline">\(\Delta q\)</span> can be approximated as</p>
+<p><span class="math display">\[
+    \Delta q \approx 1-(1+({-\beta I \Delta t}))
+\]</span></p>
+<p><span class="math display">\[
+    \frac{\Delta q}{\Delta t} = {\beta I}
+\]</span></p>
+<p>As we take <span class="math inline">\(\Delta t \rightarrow 0\)</span>, we have</p>
+<p><span class="math display">\[
+    \frac{d q}{d t} = {\beta I}
+\]</span></p>
+<p>which is the transmission (infection) rate per susceptible individual. Often this is called the <em>force of infection</em> and represented by <span class="math inline">\(\lambda\)</span>. Rescaling,</p>
+<p><span class="math display">\[
+    \frac{d X}{d t}=-\lambda X  =-\beta XI
+\]</span></p>
+<p>Dividing both sides by <span class="math inline">\(N\)</span>, we obtain the change in the fraction susceptible:</p>
+<p><span class="math display">\[
+    \frac{d S}{d t}=-\beta I S
+\]</span></p>
+</section>
+<section id="back-to-the-si-model" class="level3">
+<h3 class="anchored" data-anchor-id="back-to-the-si-model">Back to the SI model</h3>
+<p>If we assume a fixed population, <span class="math inline">\(1=S+I\)</span> (i.e.&nbsp;no births or deaths), we can eliminate <span class="math inline">\(S\)</span> from the equations above and write</p>
+<p><span class="math display">\[
+    \frac{d I(t)}{d t} = \beta I(t) (1-I(t))
+\]</span></p>
+<p>The equation above should remind you of something: it is logistic growth with <span class="math inline">\(r=\beta\)</span> and <span class="math inline">\(K=1\)</span>. We already know that for every initial condition for which <span class="math inline">\(I(0)=I_0&gt;0\)</span>, and for <span class="math inline">\(\beta &gt;0\)</span>, eventually the whole population becomes infected. There is only one stable equilibrium (all individuals infected) and one unstable equilibrium (disease-free).</p>
+</section>
+</section>
+<section id="susceptibleinfectioussusceptible-sis" class="level2">
+<h2 class="anchored" data-anchor-id="susceptibleinfectioussusceptible-sis">Susceptible–Infectious–Susceptible (SIS)</h2>
+<p>The SI model can be extended to the SIS model, where an infected can recover and become susceptible again (a good approximation for some bacterial infections). We assume that the probability that an infectious individual recovers during time <span class="math inline">\(\Delta t\)</span> is given by <span class="math inline">\(\gamma \Delta t\)</span>. Then the fraction of infective individuals that recover during time <span class="math inline">\(\Delta t\)</span> is given by <span class="math inline">\(I \gamma \Delta t\)</span>:</p>
+<p><span class="math display">\[
+    I(t + \Delta t)=I(t)+ \beta \Delta t S(t) I(t) - \gamma I(t)\Delta t
+\]</span></p>
+<p><span class="math display">\[    
+I(t + \Delta t)-I(t)= \beta \Delta t S(t) I(t) - \gamma I(t)\Delta t
+\]</span></p>
+<p><span class="math display">\[
+\lim_{\Delta t \rightarrow 0}\frac{I(t + \Delta t)-I(t)}{\Delta t}= \beta S(t) I(t) - \gamma I(t)
+\]</span></p>
+<p><span class="math display">\[
+\frac{dI(t)}{d t}= \beta S(t) I(t) - \gamma I(t) = I(t) (\beta S(t) - \gamma)
+\]</span></p>
+<p>The parameter <span class="math inline">\(\gamma\)</span> is the recovery rate, and <span class="math inline">\(1/\gamma\)</span> is the expected duration of infection. Draw the flow diagram in Figure~<span class="math inline">\(\ref{fig:SIS_diagram}\)</span>.</p>
+<p>SIS FIGURE</p>
+<p>Setting <span class="math inline">\(S=1-I\)</span>, we obtain</p>
+<p><span class="math display">\[
+\frac{dI(t)}{d t}= I(t) (\beta (1-I(t)) - \gamma)
+\]</span></p>
+<p>The <em>basic reproductive ratio</em> or <em>intrinsic reproductive number</em>, <span class="math inline">\({\mathcal R}_0\)</span>, for this model is defined as</p>
+<p><span class="math display">\[
+{\mathcal R}_0=\frac{\beta}{\gamma}
+\]</span></p>
+<p>Note that <span class="math inline">\({\mathcal R}_0\)</span> determines whether a disease will spread in a susceptible population. Looking at the ratio above, you can probably intuit the criteria for growth in terms of <span class="math inline">\({\mathcal R}_0\)</span> (we’ll see this in more detail later).</p>
+<p><span class="math display">\[
+\frac{dI(t)}{d t}=I(t) (\beta (1-I(t)) - \gamma)=\beta I(t)(1-I(t)-1/{\mathcal R}_0)
+\]</span></p>
+<p>The equilibria are (<span class="math inline">\(I^*=0\)</span>, <span class="math inline">\(S^*=1\)</span>) and (<span class="math inline">\(I^*=1-1/{\mathcal R}_0\)</span>, <span class="math inline">\(S^* =1/{\mathcal R}_0\)</span>). The latter equilibrium is feasible whenever <span class="math inline">\({\mathcal R}_0&gt;1\)</span>. Let’s reformulate the model:</p>
+<p><span class="math display">\[
+\frac{dI(t)}{d t}=\beta I(t)\left(\frac{{\mathcal R}_0-1}{{\mathcal R}_0}-I(t)\right)
+\]</span></p>
+<p><span class="math display">\[
+\frac{dI(t)}{d t}=\frac{{\mathcal R}_0-1}{{\mathcal R}_0}\beta I(t)\left(1-\frac{I(t)}{\frac{{\mathcal R}_0-1}{{\mathcal R}_0}}\right)
+\]</span></p>
+<p>We again have a logistic model with <span class="math inline">\(r=\frac{{\mathcal R}_0-1}{{\mathcal R}_0}\beta\)</span> and <span class="math inline">\(K= \frac{{\mathcal R}_0-1}{{\mathcal R}_0}\)</span>.</p>
+<ul>
+<li>If <span class="math inline">\({\mathcal R}_0&lt;1\)</span>, the disease will die out.</li>
+<li>If <span class="math inline">\({\mathcal R}_0&gt;1\)</span>, the system will eventually arrive to the second equilibrium point. Depending on the value of <span class="math inline">\({\mathcal R}_0\)</span>, in the SIS model, a certain fraction of the population will constantly be infected (i.e., the disease will be endemic).</li>
+</ul>
+<section id="derivation-of-mathcal-r_0" class="level3">
+<h3 class="anchored" data-anchor-id="derivation-of-mathcal-r_0">Derivation of <span class="math inline">\({\mathcal R}_0\)</span></h3>
+<p>Let <span class="math inline">\(l(t)\)</span> be the probability that an individual who is infected at time <span class="math inline">\(t_0=0\)</span> is still infectious at time <span class="math inline">\(t\)</span>. This probability is simply the probability of not being recovered at time <span class="math inline">\(t\)</span>:</p>
+<p><span class="math display">\[
+l(t + \Delta t)=l(t)(1- \gamma \Delta t)
+\]</span></p>
+<p><span class="math display">\[
+l(t + \Delta t)-l(t) = -l(t) \gamma \Delta t
+\]</span></p>
+<p><span class="math display">\[
+\frac{l(t + \Delta t)-l(t)}{\Delta t} =  - l(t) \gamma
+\]</span></p>
+<p><span class="math display">\[
+\lim_{\Delta t \rightarrow 0}  \frac{l(t + \Delta t)-l(t)}{\Delta t} =  - l(t) \gamma
+\]</span></p>
+<p><span class="math display">\[
+\frac{dl(t)}{d t} =  - l(t) \gamma
+\]</span></p>
+<p>Assuming that the individual is infected at time <span class="math inline">\(t(0)=t_0\)</span>, <span class="math inline">\(l(t_0)=1\)</span>, we can solve by integration:</p>
+<p><span class="math display">\[
+l(t)=e^{-\gamma t}
+\]</span></p>
+<p>How many individuals will an infectious individual infect? We want to estimate the number of “secondary infections” caused by each infectious individual. The expected number of secondary infections is obtained by multiplying the probability that the individual is still infected during time <span class="math inline">\(dt\)</span> by the contact rate times the number of susceptibles, <span class="math inline">\(X(t)\beta dt\)</span>. Assuming that the number of infections caused by a single individual is negligible compared to the whole population <span class="math inline">\(N\)</span> (i.e., <span class="math inline">\(X \approx N\)</span>), the expected total number of secondary infections caused by a single infected is</p>
+<p><span class="math display">\[
+\int_0^{\infty}\beta X(t)l(t) dt \approx \beta N \int_0^{\infty} l(t) dt
+\]</span></p>
+<p>Substituting <span class="math inline">\(l(t)\)</span> with its solution, we get</p>
+<p><span class="math display">\[
+\int_0^{\infty}\beta X(t)l(t) dt \approx \beta N \int_0^{\infty}
+    e^{-\gamma t} dt
+\]</span></p>
+<p><span class="math display">\[
+    \int_0^{\infty}\beta X(t)l(t) dt \approx \beta N \frac{1}{\gamma}
+\]</span></p>
+<p>Dividing both sides by <span class="math inline">\(N\)</span>, we arrive at</p>
+<p><span class="math display">\[
+\int_0^{\infty}\beta S(t)l(t) dt \approx {\mathcal R}_0
+\]</span></p>
+<p>How do we justify the approximation <span class="math inline">\(X(t)=N\)</span>? Suppose we have a completely susceptible population. We then introduce a single infectious individual, and we assume that before the person recovers, the number of susceptibles remains <span class="math inline">\(\approx N\)</span>. Therefore, if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>, the individual produces more than one other infection. (In theory, this might be just one additional infection, or an expectation of <span class="math inline">\(&gt;1\)</span> infection. As long as the reproductive number <span class="math inline">\(R_t&gt;1\)</span>, we effectively have a “chain reaction” and a growing epidemic.) On the other hand, if <span class="math inline">\({\mathcal R}_0&lt;1\)</span>, the initial infectious individual cannot pass on the infection, and the disease dies out.</p>
+</section>
+</section>
+<section id="susceptibleinfectiousrecovered-sir" class="level2">
+<h2 class="anchored" data-anchor-id="susceptibleinfectiousrecovered-sir">Susceptible–Infectious–Recovered (SIR)</h2>
+<p>In this model, once an individual has recovered from the disease, she becomes immune to it. We call such individuals recovered (<span class="math inline">\(R\)</span>, sometimes “removed”). This model is indicated for non-life-threatening pathogens that induce sterilizing immunity (however, one could assimilate deaths to recovery). The model consists of three ODEs: <span class="math display">\[
+    \begin{cases}
+      \frac{dS}{dt}=-\beta SI\\
+      \frac{dI}{dt}=\beta SI -\gamma I \\
+      \frac{dR}{dt}=\gamma I
+    \end{cases}
+\]</span></p>
+<p>Again, we assume that <span class="math inline">\(1=S+I+R\)</span>. Draw the flow diagram for this model</p>
+<p>FIGURE SIR</p>
+<p>When will an epidemic occur? Consider the equation for the infectious class:</p>
+<p><span class="math display">\[
+\frac{dI}{dt}=\beta SI -\gamma I = I(\beta S -\gamma)
+\]</span></p>
+<p>It is clear that for any <span class="math inline">\(S(0)&lt;\gamma/\beta\)</span>, the growth rate of the infectious class is negative, and the disease dies out. The minimum susceptible fraction for <span class="math inline">\(\frac{dI}{dt}&lt;0\)</span> is the <em>susceptible threshold</em>, and it determines the level of <em>herd immunity</em> needed to prevent an outbreak. Recall the basic reproductive ratio for this model is <span class="math inline">\({\mathcal R}_0=\beta/\gamma\)</span>. As shown before, if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>, the disease will spread, and it fail to spread if <span class="math inline">\({\mathcal R}_0&lt;1\)</span>. More fundamentally, we know that <span class="math inline">\(R_t&lt;1\)</span> whenever <span class="math inline">\(S(t)&lt;\gamma/\beta\)</span>. Thus, an epidemic’s inflection point occurs at the susceptible threshold (<span class="math inline">\(S(t)=\gamma/\beta=1/{\mathcal R}_0\)</span>).</p>
+<section id="fraction-of-the-population-recovered" class="level3">
+<h3 class="anchored" data-anchor-id="fraction-of-the-population-recovered">Fraction of the population recovered</h3>
+<p>We want to know how many individuals will be infected by the disease. We assume that at the beginning, <span class="math inline">\(R(0)=0\)</span>. (Note <span class="math inline">\(R(t)\)</span> for this section refers to recovereds and <span class="math inline">\({\mathcal R}_0\)</span> to the intrinsic reproductive number; the notation is treacherous.) We want to write the fraction recovered at <span class="math inline">\(R(t)\)</span>. Let’s start by analyzing how the growth rate of <span class="math inline">\(S(t)\)</span> changes in response to <span class="math inline">\(R(t)\)</span>:</p>
+<p><span class="math display">\[
+    \begin{array}{rl}
+    \frac{dS}{dR} &amp; =\frac{dS}{dt}\frac{dt}{dR}\\ &amp;=-\frac{\beta S}{\gamma}\\ &amp;=-{\mathcal R}_0 S
+    \end{array}
+\]</span></p>
+<p>We can separate the equation:</p>
+<p><span class="math display">\[
+\frac{dS}{S}=-{\mathcal R}_0 dR
+\]</span></p>
+<p>Integrating,</p>
+<p><span class="math display">\[
+\begin{array}{rl}
+    \int_{0}^t \frac{dS}{S} &amp; =-{\mathcal R}_0 \int_0^t dR \\
+    \left. \log{S} \right|_{0}^t &amp; =-{\mathcal R}_0 \left. \left[ R \right] \right|_{0}^t\\
+    \log{S(t)}-\log{S(0)} &amp; =-{\mathcal R}_0 \left[ R(t)-R(0) \right] \\
+    \log{S(t)/S(0)} &amp; =-{\mathcal R}_0 R(t)  \\
+    S(t) &amp; =S(0)e^{-{\mathcal R}_0 R(t)}
+    \end{array}
+\]</span></p>
+<p>Note that <span class="math inline">\(e^{-{\mathcal R}_0 R_t}\)</span> is always positive. Therefore the fraction susceptible is always <span class="math inline">\(S&gt;0\)</span>. This means that regardless the value of <span class="math inline">\({\mathcal R}_0\)</span>, some of the population escapes the disease. Another key point is that the end of the epidemic is not caused by the absence of susceptibles, but rather their decline below the susceptible threshold. What happens for <span class="math inline">\(t \rightarrow \infty\)</span>? We expect that all the infectious individuals will have recovered, so <span class="math inline">\(I=0\)</span>. Therefore, <span class="math inline">\(S(\infty)=1-R(\infty)\)</span>.</p>
+<p>We take the equation</p>
+<p><span class="math display">\[
+    S(t)=S(0)e^{-{\mathcal R}_0 R(t)}
+\]</span></p>
+<p>for <span class="math inline">\(t \rightarrow \infty\)</span>,</p>
+<p><span class="math display">\[
+    S(\infty)=1-R(\infty)=S(0)e^{-{\mathcal R}_0 R(\infty)}
+\]</span></p>
+<p>and assuming that at the beginning, <span class="math inline">\(S(0) \approx 1\)</span>, we obtain</p>
+<p><span class="math display">\[
+    R(\infty)=1-e^{-{\mathcal R}_0 R(\infty)}
+\]</span></p>
+<p>which is a transcendental equation, i.e., an equation we cannot solve analytically, but only numerically. This is because it contains the transcendental function <span class="math inline">\(e^x\)</span> that cannot be expressed as a finite sequence of algebraic operations (other transcendental functions are, for example, <span class="math inline">\(\log(x)\)</span>, <span class="math inline">\(\sin(x)\)</span>, and <span class="math inline">\(\tan(x)\)</span>). Only some special transcendental equations can be solved analytically.</p>
+</section>
+<section id="newtons-method" class="level3">
+<h3 class="anchored" data-anchor-id="newtons-method">Newton’s method</h3>
+<p>This is a simple and powerful method to find numerically the roots (zeros) of a function. There is no guarantee it will work, given that there are some “degenerate” cases for which the method does not converge. Given a function <span class="math inline">\(f(x)\)</span>, choose some arbitrary value <span class="math inline">\(x_0\)</span> that we believe to be somewhere close to a root of the function. Compute <span class="math inline">\(f(x_0)\)</span> and <span class="math inline">\(f'(x_0)\)</span>. Now, we know that the derivative <span class="math inline">\(f'(x_0)\)</span> is the slope of the tangent line at <span class="math inline">\(x_0\)</span>. Define <span class="math inline">\(x_1\)</span> to be the point at which the tangent crosses the x-axis, so that we have <span class="math inline">\(f'(x_1) = 0\)</span>. This gives us two points on the tangent line, <span class="math inline">\((x_0, f(x_0))\)</span> and <span class="math inline">\((x_1, f'(x_1))\)</span>, so we have the slope of the tangent:</p>
+<p><span class="math display">\[
+    f'(x_0) = \frac{f(x_0) - f'(x_1)} {x_0 - x_1} = \frac{f(x_0) - 0}{x_0 -
+      x_1}
+\]</span></p>
+<p>We want to know the value of <span class="math inline">\(x_1\)</span>:</p>
+<p><span class="math display">\[
+    x_1=x_0-\frac{f(x_0)}{f'(x_0)}
+\]</span></p>
+<p>If the function is “well behaved”, the derivative is a good approximation of the function, i.e., the value at which the derivative becomes zero (<span class="math inline">\(x_1\)</span>) should not be very far from the point at which the function becomes 0 (the root we want to find). Newton’s method to find root is simply reiterate what we did above many times:</p>
+<p><span class="math display">\[
+    x_{n+1}=x_{n}-\frac{f(x_n)}{f'(x_n)}
+\]</span></p>
+<p>If the function behaves well, we should get increasingly better approximations of the solution. The <code>R</code> code for the Newton’s method looks something like</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>xn <span class="ot">&lt;-</span> <span class="dv">1000000</span>  <span class="co"># a very large number</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>xnp1 <span class="ot">&lt;-</span> <span class="dv">1</span>      <span class="co"># a guesstimate of the root</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>Eps <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>) <span class="co"># tolerance</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (<span class="fu">abs</span>(xn <span class="sc">-</span> xnp1) <span class="sc">&gt;</span> Eps) {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  xn <span class="ot">&lt;-</span> xnp1</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  xnp1 <span class="ot">&lt;-</span> xn <span class="sc">-</span> <span class="fu">Funct</span>(xn, par1, par2) <span class="sc">/</span> <span class="fu">DeriFunct</span>(xn, par1, par2)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>where <code>Funct</code> and <code>DeriFunct</code> are two <code>R</code> functions returning the value of <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(f'(x)\)</span> respectively using the parameters <code>par1,par2</code>.</p>
+</section>
+<section id="exercise-approximating-epidemic-sizes-using-newtons-method." class="level3">
+<h3 class="anchored" data-anchor-id="exercise-approximating-epidemic-sizes-using-newtons-method.">Exercise: Approximating epidemic sizes using Newton’s method.</h3>
+<p>Examine the following templates:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Funct <span class="ot">&lt;-</span> <span class="cf">function</span>(x, R0) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="st">"???????"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>DeriFunct <span class="ot">&lt;-</span> <span class="cf">function</span>(x, R0) {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(<span class="st">"???????"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>RInf <span class="ot">&lt;-</span> <span class="cf">function</span>(R0, Funct, DeriFunct) {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>   xn <span class="ot">&lt;-</span> <span class="dv">1000000</span>  <span class="co"># a very large number</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>   xnp1 <span class="ot">&lt;-</span> <span class="fl">0.5</span>    <span class="co"># a guesstimate of the root</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>   Eps <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span><span class="dv">3</span>) <span class="co"># tolerance</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>   <span class="cf">while</span> (<span class="fu">abs</span>(xn <span class="sc">-</span> xnp1) <span class="sc">&gt;</span> Eps) {</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      xn <span class="ot">&lt;-</span> xnp1</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      xnp1 <span class="ot">&lt;-</span> xn <span class="sc">-</span> <span class="fu">Funct</span>(xn, R0) <span class="sc">/</span> <span class="fu">DeriFunct</span>(xn, R0)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>   }</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(xnp1)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># get the R0 values to look at</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>R0s <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">5</span>, <span class="at">length.out=</span><span class="dv">500</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co"># initialize and then fill out the fraction recovered after</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co"># the dynamics have completed at each R0 value</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>RecFracs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">500</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (ii <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>){</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    RecFracs[ii] <span class="ot">&lt;-</span> <span class="fu">RInf</span>(R0s[ii], Funct, DeriFunct)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the results</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">data_frame</span>(RecFracs, R0s)) <span class="sc">+</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">x=</span>R0s, <span class="at">y=</span>RecFracs)) <span class="sc">+</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add in the threshold R0 value</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_hline</span>(<span class="fu">aes</span>(<span class="at">yintercept=</span><span class="dv">1</span>), <span class="at">colour=</span><span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make the labels nicer and more informative</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="fu">expression</span>(<span class="fu">paste</span>(R[<span class="dv">0</span>]))) <span class="sc">+</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">"Fraction Recovered"</span>) <span class="sc">+</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Use the templates to plot the fraction of recovered population <span class="math inline">\(R({\infty})\)</span> as a function of <span class="math inline">\({\mathcal R}_0\)</span>. Values for <span class="math inline">\({\mathcal R}_0\)</span> change from disease to disease and from host population to host population. For example, estimates for influenza are <span class="math inline">\({\mathcal R}_0 \in [1.2,3]\)</span>; for rubella, we have <span class="math inline">\({\mathcal R}_0 \in [6,7]\)</span>; and for measles, <span class="math inline">\({\mathcal R}_0 \in [16,18]\)</span>. What fraction of a completely susceptible population will be infected by measles? rubella? influenza? Change the code above to compute the values.</p>
+</section>
+<section id="epidemic-curves" class="level3">
+<h3 class="anchored" data-anchor-id="epidemic-curves">Epidemic curves</h3>
+<p>We can approximate the development of the disease through time. Let’s start from</p>
+<p><span class="math display">\[
+\frac{d R}{dt}= \gamma I
+\]</span></p>
+<p>We know that <span class="math inline">\(R+I+S=1\)</span>, therefore,</p>
+<p><span class="math display">\[
+\frac{d R}{dt}= \gamma(1-S-R)
+\]</span></p>
+<p>Plugging in the equation we found above,</p>
+<p><span class="math display">\[
+S(t)=S(0)e^{-{\mathcal R}_0 R(t)}
+\]</span></p>
+<p>we obtain</p>
+<p><span class="math display">\[
+\frac{d R}{dt}= \gamma (1-S(0)e^{-{\mathcal R}_0 R(t)}-R(t))
+\]</span></p>
+</section>
+<section id="exercies-visualizing-epidemic-dynamics." class="level3">
+<h3 class="anchored" data-anchor-id="exercies-visualizing-epidemic-dynamics.">Exercies: Visualizing epidemic dynamics.</h3>
+<p>For measles, it has been estimated that <span class="math inline">\(\gamma \approx 0.2\)</span>/day and that <span class="math inline">\({\mathcal R}_0 \approx 18\)</span>. Use the Runge-Kutta 4th-order ODE solver from the R package <code>deSolve</code> to integrate the equation above for the disease in a population for which <span class="math inline">\(S(0)=0.9999\)</span>, <span class="math inline">\(R(0)=0\)</span>, <span class="math inline">\(I(0)=0.0001\)</span>. Run the model for 30 days with <span class="math inline">\(N=100,000\)</span>. How many people have recovered after 5 days? How many after 10? Plot the curves of <span class="math inline">\(S\)</span>, <span class="math inline">\(I\)</span>, and <span class="math inline">\(R\)</span>. Gain experience points by experimenting with different solvers to see if they have an effect.</p>
+</section>
+<section id="number-of-infectious-individuals-numerical-methods" class="level3">
+<h3 class="anchored" data-anchor-id="number-of-infectious-individuals-numerical-methods">Number of infectious individuals: numerical methods</h3>
+<p>Numerical approximations can go wrong. We can reformulate the models so that the numerical noise introduced by rounding is minimized. Let’s start by log-transforming:</p>
+<p><span class="math display">\[
+    \begin{cases}
+      s=\log(S)\\
+      i=\log(I)\\
+      r=\log(R)
+    \end{cases}
+\]</span></p>
+<p>we don’t actually need the equation for <span class="math inline">\(r\)</span>, as we know that <span class="math inline">\(S+I+R=1\)</span>. The system becomes:</p>
+<p><span class="math display">\[
+    \begin{cases}
+      e^s \frac{ds}{dt}=-\beta e^{s+i}\\
+      e^i \frac{di}{dt}=\beta e^{s+i}-\gamma e^i
+    \end{cases}
+\]</span></p>
+<p>which, after simplification, becomes:</p>
+<p><span class="math display">\[
+\begin{cases}
+      \frac{ds}{dt}=-\beta e^{i}\\
+      \frac{di}{dt}=\beta e^{s}-\gamma
+    \end{cases}
+\]</span></p>
+<p>Note that there are no multiplications and that each term is a function of just one variable. Thus, the rounding errors are dramatically reduced.</p>
+</section>
+<section id="exercise-visualizing-epidemic-dynamics-after-log-transforming-to-minimize-error." class="level3">
+<h3 class="anchored" data-anchor-id="exercise-visualizing-epidemic-dynamics-after-log-transforming-to-minimize-error.">Exercise: Visualizing epidemic dynamics after log-transforming to minimize error.</h3>
+<p>Use the equations above to model an outbreak of influenza, assuming that <span class="math inline">\(\beta \approx 1.66\)</span>/day and <span class="math inline">\(1/\gamma \approx 2.2\)</span> days. Run the model for 15 days using <code>deSolve</code>. Let the initial states be <span class="math inline">\(I(0)N=2\)</span>, <span class="math inline">\(R(0)N=0\)</span> and <span class="math inline">\(N=750\)</span>. Plot the fraction of infecteds and susceptibles through time. Compare the predicted trajectories to those from the original (non-log-transformed) equations using the same ODE solver.</p>
+<p>If you want more practice with numerical integration, contrast the solutions obtained with Euler’s method for the original and log-transformed equations. As a template for developing the code, you may use the following, which integrates using <code>Euler2</code> a Lotka-Volterra predator-prey system.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lotka Volterra Model</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># dX/dt=rX-aXY</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># dY/dt=aXY-Y</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>PredatorPrey <span class="ot">&lt;-</span> <span class="cf">function</span>(MySpp, MyParams) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    x1 <span class="ot">&lt;-</span> MyParams[<span class="dv">1</span>] <span class="sc">*</span> MySpp[<span class="dv">1</span>] <span class="sc">-</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        MyParams[<span class="dv">2</span>] <span class="sc">*</span> MySpp[<span class="dv">1</span>] <span class="sc">*</span> MySpp[<span class="dv">2</span>]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    y1 <span class="ot">&lt;-</span> MyParams[<span class="dv">2</span>] <span class="sc">*</span> MySpp[<span class="dv">1</span>] <span class="sc">*</span> MySpp[<span class="dv">2</span>] <span class="sc">-</span> MySpp[<span class="dv">2</span>]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">c</span>(x1, y1))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>Euler2 <span class="ot">&lt;-</span> <span class="cf">function</span>(MySpp, D, FUN, MyParams) {</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    m1 <span class="ot">&lt;-</span> MySpp <span class="sc">+</span> <span class="fu">FUN</span>(MySpp, MyParams) <span class="sc">*</span> D</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(MySpp <span class="sc">+</span> <span class="fl">0.5</span> <span class="sc">*</span> (<span class="fu">FUN</span>(MySpp, MyParams) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">FUN</span>(m1, MyParams)) <span class="sc">*</span> D)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Initial conditions</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>MySpp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">5</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Parameters</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>MyParams <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">0.1</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>Deltat <span class="ot">&lt;-</span> <span class="fl">0.005</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Integration</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>PointsToEstimate <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">50</span>, <span class="at">by=</span>Deltat)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the data structure</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>approximation <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="fu">length</span>(PointsToEstimate), <span class="dv">2</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>approximation[<span class="dv">1</span>,] <span class="ot">&lt;-</span> MySpp</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(PointsToEstimate) <span class="sc">-</span> <span class="dv">1</span>)) {</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    approximation[i<span class="sc">+</span><span class="dv">1</span>,] <span class="ot">&lt;-</span> <span class="fu">Euler2</span>(approximation[i,], Deltat,</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                                  PredatorPrey, MyParams)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a><span class="co"># transform the data for plotting</span></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>trajectories <span class="ot">&lt;-</span> approximation <span class="sc">%&gt;%</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># convert to data frame (tibble)</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tbl_df</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="co"># make names nicer</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rename</span>(<span class="at">Predator=</span>V1, <span class="at">Prey=</span>V2) <span class="sc">%&gt;%</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># add time steps</span></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">Time=</span><span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># convert from wide to long format</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gather</span>(<span class="st">"Species"</span>, <span class="st">"Density"</span>, <span class="sc">-</span>Time)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the population trajectory approximations</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(trajectories) <span class="sc">+</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>Time, <span class="at">y=</span>Density, <span class="at">colour=</span>Species) <span class="sc">+</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    <span class="co"># custom color scale</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"Prey"</span><span class="ot">=</span><span class="st">"#66a1e5"</span>,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                                 <span class="st">"Predator"</span><span class="ot">=</span><span class="st">"#b94c75"</span>)) <span class="sc">+</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>which results in the graph GRAPH SOMEWHERE</p>
+</section>
+</section>
+<section id="sir-with-demography" class="level2">
+<h2 class="anchored" data-anchor-id="sir-with-demography">SIR with demography</h2>
+<p>We introduce the “natural” mortality rate <span class="math inline">\(\mu\)</span>, i.e., the per capita rate at which individuals die independently of the disease. Assuming a constant mortality rate <span class="math inline">\(\mu\)</span> is equivalent to assuming that individuals live on average <span class="math inline">\(1/\mu\)</span> years (or days, depending on the unit of measure of <span class="math inline">\(\mu\)</span>). We can also assume a birth rate <span class="math inline">\(b\)</span>. To simplify the analysis, we assume that the population is at steady state, <span class="math inline">\(b=\mu\)</span>, so that <span class="math inline">\(N(S+I+R)=N\)</span>. With these modifications, the model becomes</p>
+<p><span class="math display">\[
+    \begin{cases}
+      \frac{dS}{dt}=\mu-\beta SI-\mu S\\
+      \frac{dI}{dt}=\beta SI -(\mu+\gamma) I\\
+      \frac{dR}{dt}=\gamma I -\mu R
+    \end{cases}
+\]</span></p>
+<p>We assume that newborns are susceptible to the disease. By setting <span class="math inline">\(S=1\)</span>, we can compute <span class="math inline">\({\mathcal R}_0\)</span>. The equation for the infectious class becomes</p>
+<p><span class="math display">\[
+\frac{dI}{dt}=\beta SI -(\mu+\gamma) I \approx (\beta -\mu-\gamma) I
+\]</span></p>
+<p>which tells us that the infectious class will grow if:</p>
+<p><span class="math display">\[
+\begin{array}{rl}
+      (\beta -\mu-\gamma)&amp;&gt;0\\
+      \beta &amp;&gt;\mu+\gamma\\
+      \frac{\beta}{\mu+\gamma}&amp;={\mathcal R}_0&gt;1
+    \end{array}
+\]</span></p>
+<section id="equilibria" class="level3">
+<h3 class="anchored" data-anchor-id="equilibria">Equilibria</h3>
+<p>We have an equilibrium point whenever</p>
+<p><span class="math display">\[
+\frac{dS}{dt}=\frac{dI}{dt}=\frac{dR}{dt}=0
+\]</span></p>
+<p>An obvious solution is a disease-free state for which <span class="math inline">\((S^*,I^*,R^*)=(1,0,0)\)</span>. A disease is endemic if it is constantly present in the population. To find the endemic equilibrium, we solve</p>
+<p><span class="math display">\[
+    \beta SI -(\mu+\gamma) I=0
+\]</span></p>
+<p>and factor <span class="math inline">\(I^* \neq 0\)</span>:</p>
+<p><span class="math display">\[
+    \begin{array}{rl}
+    \beta S^* -(\mu+\gamma) &amp; =0\\
+    S^* &amp;=\frac{\mu+\gamma}{\beta}\\
+    S^* &amp; =\frac{1}{{\mathcal R}_0}
+    \end{array}
+\]</span></p>
+<p>To solve for <span class="math inline">\(I^*\)</span> and <span class="math inline">\(R^*\)</span>, we can substitute in the equation for the susceptibles:</p>
+<p><span class="math display">\[
+    \begin{array}{rl}
+      \mu-\beta SI-\mu S &amp;=0\\
+      \mu-\beta \frac{I^*}{{\mathcal R}_0}-\frac{\mu}{{\mathcal R}_0}&amp;=0\\
+      I^*=\frac{{\mathcal R}_0}{\beta}\left(\mu \frac{\mu}{{\mathcal R}_0} \right) &amp;=\frac{\mu}{\beta}({\mathcal R}_0-1)
+    \end{array}
+\]</span></p>
+<p>We can already see that the state is feasible only if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>. Otherwise, the number of infected individuals is negative. Finally, we can get <span class="math inline">\(R^*\)</span> by subtraction:</p>
+<p><span class="math display">\[
+R^*=1-S^*-I^*=1-\frac{1}{{\mathcal R}_0}-\frac{\mu}{\beta}({\mathcal R}_0-1)
+\]</span></p>
+</section>
+<section id="stability-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="stability-analysis">Stability Analysis</h3>
+<p>To analyze the equilibria, we first build the Jacobian:</p>
+<p><span class="math display">\[
+    \begin{array}{rl}
+      J_{SS} &amp; =\frac{\partial}{\partial S} (\mu-\beta SI-\mu S) = -\beta I -\mu \\
+      J_{SI} &amp; =\frac{\partial}{\partial I} (\mu-\beta SI-\mu S) = -\beta S \\
+      J_{SR} &amp; =\frac{\partial}{\partial R} (\mu-\beta SI-\mu S) = 0 \\
+      J_{IS} &amp; =\frac{\partial}{\partial S} (\beta SI -(\mu+\gamma) I)  = \beta I \\
+      J_{II} &amp; =\frac{\partial}{\partial I} (\beta SI -(\mu+\gamma) I) = \beta S-(\mu+\gamma) \\
+      J_{IR} &amp; =\frac{\partial}{\partial R} (\beta SI -(\mu+\gamma) I) = 0 \\
+      J_{RS} &amp; =\frac{\partial}{\partial S} ( \gamma I -\mu R )  = 0 \\
+      J_{RI} &amp; =\frac{\partial}{\partial I} ( \gamma I -\mu R ) = \gamma \\
+      J_{RR} &amp; =\frac{\partial}{\partial R} ( \gamma I -\mu R ) = -\mu
+    \end{array}
+\]</span></p>
+<p>The matrix becomes</p>
+<p><span class="math display">\[
+{\mathbf J}=\left[ \begin{array}{ccc}
+        -\beta I -\mu &amp;  -\beta S &amp; 0\\
+        \beta I &amp;  \beta S-(\mu+\gamma) &amp; 0 \\
+        0 &amp; \gamma &amp; -\mu
+      \end{array} \right]
+\]</span></p>
+<p>Let’s substitute the first equilibrium <span class="math inline">\((S^*,I^*,R^*)=(1,0,0)\)</span>. The community matrix is</p>
+<p><span class="math display">\[
+    {\mathbf M}=\left[ \begin{array}{ccc}
+        -\mu &amp;  -\beta &amp; 0\\
+        0 &amp;  \beta -(\mu+\gamma) &amp; 0 \\
+        0 &amp; \gamma &amp; -\mu
+      \end{array} \right]
+\]</span></p>
+<p>The characteristic polynomial for the matrix is simple:</p>
+<p><span class="math display">\[
+P({\mathbf M})=(-\mu -\lambda)(\beta -\mu -\gamma -\lambda)(-\mu -\lambda)
+\]</span></p>
+<p>The roots are <span class="math inline">\(-\mu\)</span>, <span class="math inline">\(-\mu\)</span>, and <span class="math inline">\(\beta -\mu -\gamma\)</span>. The last root is the only one that could be positive (making the system unstable). The system is stable whenever</p>
+<p><span class="math display">\[
+    \begin{array}{rl}
+      \lambda_2  =\beta -\mu -\gamma &amp; &lt;0 \\
+      \beta &amp; &lt;\mu +\gamma\\
+      1 &amp; &lt; 1/{\mathcal R}_0\\
+      {\mathcal R}_0 &amp; &lt;1
+    \end{array}
+\]</span></p>
+<p>Thus, the disease-free state is stable when <span class="math inline">\({\mathcal R}_0&lt;1\)</span>. For the endemic case, let’s start from the determinant of the matrix. The determinant must be negative for stability (as <span class="math inline">\(\det(M)=\lambda_1 \lambda_2 \lambda_3 &lt;0\)</span> if all eigenvalues have negative real part). Also note that only two eigenvalues can be complex, which gives us hope of solving the equation analytically.</p>
+<p><span class="math display">\[
+\det(J)=(-\beta I -\mu)(\beta S - (\mu + \gamma))(-\mu)+\beta S \beta I (-\mu)&lt;0
+\]</span></p>
+<p>divide by <span class="math inline">\(-\mu\)</span>:</p>
+<p><span class="math display">\[
+\begin{array}{rl}
+    (-\beta I -\mu)(\beta S - (\mu + \gamma))+\beta S \beta I &amp; &gt;0\\
+      -\beta I \beta S -\mu \beta S + \beta I (\mu + \gamma) + \mu (\mu + \gamma) +\beta S \beta I &amp; &gt;0\\
+      -\mu \beta S + \beta I (\mu + \gamma) + \mu (\mu + \gamma)  &amp; &gt;0
+    \end{array}
+\]</span></p>
+<p>substituting the equilibrium <span class="math inline">\(S^*=1/{\mathcal R}_0\)</span>, <span class="math inline">\(I^*=(\mu/\beta)({\mathcal R}_0-1)\)</span>:</p>
+<p><span class="math display">\[
+  \begin{equation}
+    \begin{array}{rl}
+      -\mu \beta/{\mathcal R}_0 + \mu ({\mathcal R}_0-1) (\mu + \gamma) + \mu (\mu + \gamma) &amp; &gt;0\\
+      - \beta/{\mathcal R}_0 +  ({\mathcal R}_0-1) (\mu + \gamma) +  (\mu + \gamma)  &amp; &gt;0\\
+      - \beta/{\mathcal R}_0 +  ({\mathcal R}_0-1 + 1) (\mu + \gamma)  &amp; &gt;0\\
+      - \beta/{\mathcal R}_0 +  {\mathcal R}_0 (\mu + \gamma)  &amp; &gt;0\\
+      {\mathcal R}_0 (\mu + \gamma)  &amp; &gt; \beta/{\mathcal R}_0 \\
+      {\mathcal R}_0  &amp; &gt; \frac{\beta}{{\mathcal R}_0 (\mu + \gamma)}\\
+      {\mathcal R}_0  &amp; &gt; 1
+    \end{array}
+\]</span></p>
+<p>Therefore, the determinant is negative whenever <span class="math inline">\({\mathcal R}_0&gt;1\)</span>. Note that the trace is negative:</p>
+<p><span class="math display">\[
+    Tr({\mathbf J})=-\mu{\mathcal
+      R}_0+\left(\frac{\beta}{{\mathcal R}_0}-\mu -\gamma
+    \right)+(-\mu)
+\]</span></p>
+<p>This is obvious as the second term can be rewritten as</p>
+<p><span class="math display">\[
+    \left(\frac{\beta}{{\mathcal R}_0}-\mu -\gamma \right)=\left(\frac{\beta (\mu + \gamma)}{\beta}-\mu -\gamma \right)=0
+\]</span></p>
+<p>and the other two terms are negative. For stability, we also need to prove that the determinants of three submatrices containing two classes at a time are all positive. These are called principal minors. The first matrix is</p>
+<p><span class="math display">\[
+  \begin{equation}
+    {\mathbf J}_{1,2}={\mathbf J}_{S,I}=\left[ \begin{array}{cc}
+        -\beta I -\mu &amp;  -\beta S \\
+        \beta I &amp;  \beta S-(\mu+\gamma)  \\
+      \end{array} \right]
+\]</span></p>
+<p>which with substitution becomes</p>
+<p><span class="math display">\[
+{\mathbf M}_{1,2}=\left[ \begin{array}{cc}
+        -\mu{\mathcal R}_0 &amp;  -\frac{\beta}{{\mathcal R}_0}\\
+        \mu({\mathcal R}_0-1) &amp;  0  \\
+      \end{array} \right]
+\]</span></p>
+<p>which is stable (and thus has a positive determinant) whenever <span class="math inline">\(\mu({\mathcal R}_0-1)&gt;0\)</span>, and thus <span class="math inline">\({\mathcal R}_0&gt;1\)</span>.</p>
+<p><span class="math display">\[
+    {\mathbf J}_{1,3}={\mathbf J}_{S,R}=\left[ \begin{array}{cc}
+        -\beta I -\mu &amp;  0 \\
+        0 &amp;  -\mu  \\
+      \end{array} \right]
+\]</span></p>
+<p>is clearly stable. Finally,</p>
+<p><span class="math display">\[
+{\mathbf J}_{2,3}=\left[ \begin{array}{cc}
+        \beta S - (\mu + \gamma)  &amp;  0 \\
+        \gamma &amp;  -\mu  \\
+      \end{array} \right]
+\]</span></p>
+<p>leads to</p>
+<p><span class="math display">\[
+{\mathbf M}_{2,3}=\left[ \begin{array}{cc}
+        0 &amp; 0 \\
+        \gamma &amp; -\mu  \\
+      \end{array} \right]
+\]</span></p>
+<p>which has no positive root. The equilibrium is therefore stable. Another way would be to compute the stability would be to write down the characteristic polynomial of <span class="math inline">\(M\)</span>:</p>
+<p><span class="math display">\[
+\begin{equation}
+    {\mathbf M}=\left[ \begin{array}{ccc}
+        -\mu{\mathcal R}_0 &amp;  -\frac{\beta}{{\mathcal R}_0} &amp; 0\\
+        \mu ({\mathcal R}_0 -1)  &amp;  0 &amp; 0 \\
+        0 &amp; \gamma &amp; -\mu
+      \end{array} \right]
+\]</span></p>
+<p><span class="math display">\[
+\begin{array}{l}
+    (-\mu{\mathcal R}_0 -\lambda)(-\lambda)(-\mu -\lambda) - (-\mu -\lambda)(-\beta/{\mathcal R}_0)(\mu({\mathcal R}_0-1))=0\\
+    -\lambda^3 - -\lambda^2(\mu + \mu {\mathcal R}_0) -\lambda \mu {\mathcal R}_0 - \lambda \beta \mu ({\mathcal R}_0 -1)/{\mathcal R}_0 - \beta \mu^2 ({\mathcal R}_0 -1)/{\mathcal R}_0
+  \end{array}
+\]</span></p>
+<p>and note that all the coefficients have the same sign if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>.</p>
+</section>
+<section id="age-at-first-infection" class="level3">
+<h3 class="anchored" data-anchor-id="age-at-first-infection">Age at first infection</h3>
+<p>We want to know the mean age at which individuals become infected with the disease. The time it takes for a newborn to become infected is approximately the inverse of the force of infection.</p>
+<p><span class="math display">\[
+    A \approx \frac{1}{\beta I^*}
+\]</span></p>
+<p>which at equilibrium becomes</p>
+<p><span class="math display">\[
+A \approx \frac{1}{\mu ({\mathcal R}_0-1)}
+\]</span></p>
+<p>Noting that <span class="math inline">\(L=1/\mu\)</span> is the expected life expectancy, we get</p>
+<p><span class="math display">\[
+{\mathcal R}_0-1 \approx \frac{L}{A}
+\]</span></p>
+<p>This equation is very useful. Knowing the age at which individuals become infected and the life expectancy, we can derive the value for <span class="math inline">\({\mathcal R}_0\)</span> for even historical diseases</p>
+<!-- \begin{figure} -->
+<!--   \includegraphics[width=0.8\textwidth]{./Graphs/Measles.pdf} -->
+<!--   \caption{The age at first infection can be used to estimate ${\mathcal R}_0$.} -->
+<!--   \label{fig:measels_age_frequency} -->
+<!-- \end{figure} -->
+</section>
+<section id="vaccination" class="level3">
+<h3 class="anchored" data-anchor-id="vaccination">Vaccination</h3>
+<p>Let <span class="math inline">\(p\)</span> denote the fraction of infants vaccinated (coverage) times the probability that the vaccine actually works (efficacy). We can incorporate this modification into our SIR model:</p>
+<p><span class="math display">\[
+    \begin{cases}
+      \frac{dS}{dt}=\mu(1-p)-\beta SI-\mu S\\
+      \frac{dI}{dt}=\beta SI -(\mu+\gamma) I\\
+      \frac{dR}{dt}=\gamma I -\mu R + \mu p
+    \end{cases}
+\]</span></p>
+<p>where we just modified the equation for susceptibles (newborns are vaccinated) and recovereds (vaccinated infants go directly to <span class="math inline">\(R\)</span>). A change of variables gives us a better idea of the dynamics of the system. Set <span class="math inline">\(S'=(1-p)S\)</span>, <span class="math inline">\(I'=(1-p)I\)</span> and <span class="math inline">\(R'=(1-p)R + p\)</span>. By the chain rule,</p>
+<p><span class="math display">\[
+\begin{cases}
+      \frac{(1-p)dS'}{dt}=\mu(1-p)-\beta S'I'(1-p)^2-\mu S'(1-p)\\
+      \frac{(1-p)dI'}{dt}=\beta S'I'(1-p)^2 -(\mu+\gamma) I'(1-p)\\
+      \frac{(1-p)dR'}{dt}=\gamma I'(1-p) -\mu R'(1-p) + \mu p -\mu p
+    \end{cases}
+\]</span></p>
+<p>which becomes</p>
+<p><span class="math display">\[
+\begin{cases}
+      \frac{dS'}{dt}=\mu-\beta S'I'(1-p)-\mu S'\\
+      \frac{dI'}{dt}=\beta S'I'(1-p) -(\mu+\gamma) I'\\
+      \frac{dR'}{dt}=\gamma I' -\mu R'
+    \end{cases}
+\]</span></p>
+<p>Finally, set <span class="math inline">\(\beta'=\beta(1-p)\)</span>:</p>
+<p><span class="math display">\[
+\begin{cases}
+      \frac{dS'}{dt}=\mu-\beta' S'I'-\mu S'\\
+      \frac{dI'}{dt}=\beta' S'I' -(\mu+\gamma) I'\\
+      \frac{dR'}{dt}=\gamma I' -\mu R'
+    \end{cases}
+\]</span></p>
+<p>Observe that this is simply a new SIR model in which <span class="math inline">\(\beta'=\beta(1-p)\)</span>. Thus, <span class="math inline">\({\mathcal R}_0\)</span> becomes:</p>
+<p><span class="math display">\[
+    {\mathcal R}_0'=\frac{\beta'}{\gamma + \mu}=(1-p){\mathcal R}_0
+\]</span></p>
+<p>What fraction of the population should we vaccinate to eradicate the disease? Let’s say that <span class="math inline">\(p_c\)</span> is the critical threshold for <span class="math inline">\(p\)</span>.</p>
+<p><span class="math display">\[
+  \begin{array}{l}
+      (1-p_c){\mathcal R}_0&lt;1\\
+      (1-p_c)&lt;\frac{1}{{\mathcal R}_0}\\
+      p_c&gt;1-\frac{1}{{\mathcal R}_0}
+    \end{array}
+\]</span></p>
+<p>Therefore, to eradicate a disease like smallpox (<span class="math inline">\({\mathcal R}_0 \approx 5\)</span>), we can simply vaccinate</p>
+<p><span class="math display">\[
+p_c=1-\frac{1}{5}=0.8
+\]</span></p>
+<p>of the newborns. Note that to eradicate measles (<span class="math inline">\({\mathcal R}_0 \approx 18\)</span>) we would have to vaccinate <span class="math inline">\(\approx 0.95\)</span> of the population. The efficacy of the vaccine for measles is around 97%. These differences explain why some diseases can be dramatically more difficult to eradicate than others.</p>
+</section>
+<section id="evolution-of-virulence" class="level3">
+<h3 class="anchored" data-anchor-id="evolution-of-virulence">Evolution of virulence</h3>
+<p>We want to study whether a mutant pathogen can invade a population in which a wildtype is in endemic equilibrium. We rewrite our SIR model,</p>
+<p><span class="math display">\[
+    \begin{cases}
+      \frac{dS}{dt}=\mu-(\beta I +\beta' I')S-\mu S\\
+      \frac{dI}{dt}=\beta I  S -(\mu+\gamma) I\\
+      \frac{dI'}{dt}=\beta' I'S -(\mu+\gamma') I'\\
+      \frac{dR}{dt}=\gamma I + \gamma' I' -\mu R
+    \end{cases}
+\]</span></p>
+<p>where <span class="math inline">\(I\)</span> is the fraction infected by the wildtype and <span class="math inline">\(I'\)</span> by the mutant. At the endemic equilibrium for which <span class="math inline">\(I'=0\)</span>, we have that <span class="math inline">\(S^*=\frac{\mu+\gamma}{\beta}\)</span>. To see whether the mutant invades, we can compute its growth rate when it is very rare:</p>
+<p><span class="math display">\[
+\frac{dI'}{dt}=\beta' I'S -(\mu+\gamma') I' \approx \beta'
+    \frac{\mu+\gamma}{\beta} I' -(\mu+\gamma') I'
+\]</span></p>
+<p>We can rewrite the equation as</p>
+<p><span class="math display">\[
+\frac{dI'}{dt}=I' \left(\beta' \frac{\mu+\gamma}{\beta}  -(\mu+\gamma') \right)
+\]</span></p>
+<p>The growth rate is positive if</p>
+<p><span class="math display">\[
+\begin{array}{l}
+\left(\beta' \frac{\mu+\gamma}{\beta}  -(\mu+\gamma') \right)&gt;0  \\
+\beta' \frac{\mu+\gamma}{\beta}  &gt;(\mu+\gamma') \\
+\frac{\mu+\gamma}{\beta}  &gt; \frac{\mu+\gamma'}{\beta'} \\
+{\mathcal R}'_0 &gt; {\mathcal R}_0
+\end{array}
+\]</span></p>
+<p>The mutant will invade whenever, all other things being equal, it is either easier to transmit (<span class="math inline">\(\beta' &gt; \beta\)</span>) or it makes people sick for a longer time (<span class="math inline">\(\gamma'&lt;\gamma\)</span>). Embedding the mortality induced by the disease yields the same result. Therefore, less deadly diseases should be favored. But note that this expectation changes dramatically if we assume that transmission increases (at least over some range) with virulence. This is certainly the case for many pathogens, such as cholera. If this is the case, there we might expect more virulent pathogens to invade, or for some “intermediate” level of virulence to be selected.</p>
 <p>May R.M. 1972. Will a large complex system be stable? Nature 238:413-414</p>
 <p>Anderson, R.M; May, R.M. 1978. Regulation and Stability of Host-Parasite Population Interactions. Journal of Animal Ecology 47:219-247</p>
 <p>May R.M. &amp; Anderson, R.M. 1979. Population biology of infectious diseases: Part II. Nature 280:455-461</p>
 <p>McCann, K.S. 2000. The diversity - stability debate. Nature 405:228-233</p>
 
 
+</section>
+</section>
 </section>
 
 </main> <!-- /main -->

@@ -21,6 +21,871 @@ gr_SI
 ```
 
 
+## Susceptible--Infectious
+Disease dynamics are typically represented using compartmental models. In these models, the population is divided into classes (the boxes) and moves between classes at given rates (the arrows connecting the boxes).
+
+The simplest model categorizes individuals as either susceptible ($X$) or infectious ($Y$). Susceptible people are healthy and infective people are sick. A susceptible individual can become infectious by contact with an infectious one. We assume that the population is well mixed so that every individual has equal probability of coming into contact with every other individual. Note that infectious individuals cannot recover (e.g., herpes, HIV). For simplicity, we study the model in the absence of demography (births, deaths, immigration, emigration) and assume no disease-induced mortality.
+
+We derive the differential equation for the susceptible-infectious (SI) model by considering the number of individuals that become infectious during time $\Delta t$.
+
+We have $N$ individuals in the population, and $N=X+Y$ is fixed. We define $S=X/N$ as the fraction of the population susceptible and $I=Y/N$ as the fraction infectious. Let $\beta \Delta t$ be the probability that an infectious person infects a susceptible during $\Delta t$. The expected fraction of new infectious individuals over this interval is therefore $\beta \Delta t S I$:
+
+$$
+    I(t+\Delta t)= I(t) + \beta \Delta t S(t) I(t)
+$$
+
+Let's analyze the system in continuous time. To convert to differential equations, we do the usual,
+
+$$
+  I(t+\Delta t)- I(t) = \beta \Delta t S(t) I(t)
+$$
+
+and take the limit for $\Delta t \rightarrow 0$, 
+
+$$
+\lim_{\Delta t \rightarrow 0}  \frac{I(t+\Delta t)- I(t)}{\Delta t} = \beta S(t) I(t)
+$$
+
+$$
+    \frac{d I(t)}{d t} = \beta S(t) I(t)
+$$
+
+Therefore,
+
+$$
+\frac{d S(t)}{d t} = -\beta S(t) I(t)
+$$
+
+We can sketch the model 
+
+FIGURE SI HERE
+
+
+### Transmission
+If in a population each individual interacts with equal probability with everyone else, we have homogeneous mixing. Assume a susceptible individual has $k$ contacts/unit time. Of these contacts, $I = X/N$ are with infectious individuals. During $\Delta t$, the number of contacts with infectious individuals is $k I \Delta t$. If the disease is transmitted with probability $c$, the probability that a susceptible individual is not infected in the time interval is
+
+$$
+(1-c)^{k I \Delta t}=1-\Delta q
+$$
+
+Now define $\beta = -k \log(1-c)$ and substitute:
+
+$$
+\begin{aligned}
+{kI \Delta t}\log(1-c) &=\log(1-\Delta q)\\
+      -\beta I \Delta t&=\log(1-\Delta q)\\
+      e^{-\beta I \Delta t}&=1-\Delta q\\
+      \Delta q&=1-e^{-\beta I \Delta t}\\
+\end{aligned}
+$$
+
+Remember that
+
+$$
+e^x=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\frac{x^4}{4!}+\ldots
+$$
+
+which means $\Delta q$ can be approximated as
+
+$$
+    \Delta q \approx 1-(1+({-\beta I \Delta t}))
+$$
+
+$$
+    \frac{\Delta q}{\Delta t} = {\beta I}
+$$
+
+As we take $\Delta t \rightarrow 0$, we have
+
+$$
+    \frac{d q}{d t} = {\beta I}
+$$
+
+which is the transmission (infection) rate per susceptible individual. Often this is called the *force of infection* and represented by $\lambda$. Rescaling,
+
+$$
+    \frac{d X}{d t}=-\lambda X  =-\beta XI
+$$
+
+Dividing both sides by $N$, we obtain the change in the fraction susceptible:
+
+$$
+    \frac{d S}{d t}=-\beta I S
+$$
+
+### Back to the SI model
+
+If we assume a fixed population, $1=S+I$ (i.e. no births or deaths), we can eliminate $S$ from the equations above and write
+
+$$
+    \frac{d I(t)}{d t} = \beta I(t) (1-I(t))
+$$
+
+The equation above should remind you of something: it is logistic growth with $r=\beta$ and $K=1$. We already know that for every initial condition for which $I(0)=I_0>0$, and for $\beta >0$, eventually the whole population becomes infected. There is only one stable equilibrium (all individuals infected) and one unstable equilibrium (disease-free).
+
+## Susceptible--Infectious--Susceptible (SIS)
+
+The SI model can be extended to the SIS model, where an infected can recover and become susceptible again (a good approximation for some bacterial infections). We assume that the probability that an infectious individual recovers during time $\Delta t$ is given by $\gamma \Delta t$. Then the fraction of infective individuals that recover during time $\Delta t$ is given by $I \gamma \Delta t$:
+
+$$
+    I(t + \Delta t)=I(t)+ \beta \Delta t S(t) I(t) - \gamma I(t)\Delta t
+$$
+
+$$    
+I(t + \Delta t)-I(t)= \beta \Delta t S(t) I(t) - \gamma I(t)\Delta t
+$$
+
+$$
+\lim_{\Delta t \rightarrow 0}\frac{I(t + \Delta t)-I(t)}{\Delta t}= \beta S(t) I(t) - \gamma I(t)
+$$
+
+$$
+\frac{dI(t)}{d t}= \beta S(t) I(t) - \gamma I(t) = I(t) (\beta S(t) - \gamma)
+$$
+
+The parameter $\gamma$ is the recovery rate, and $1/\gamma$ is the expected duration of infection. Draw the flow diagram in Figure~\ref{fig:SIS_diagram}.
+
+SIS FIGURE 
+
+Setting $S=1-I$, we obtain
+
+$$
+\frac{dI(t)}{d t}= I(t) (\beta (1-I(t)) - \gamma)
+$$
+
+The *basic reproductive ratio* or *intrinsic reproductive number*, ${\mathcal R}_0$, for this model is defined as
+
+$$
+{\mathcal R}_0=\frac{\beta}{\gamma}
+$$
+
+Note that ${\mathcal R}_0$ determines whether a disease will spread in a susceptible population. Looking at the ratio above, you can probably intuit the criteria for growth in terms of ${\mathcal R}_0$ (we'll see this in more detail later).
+
+$$
+\frac{dI(t)}{d t}=I(t) (\beta (1-I(t)) - \gamma)=\beta I(t)(1-I(t)-1/{\mathcal R}_0)
+$$
+
+The equilibria are ($I^*=0$, $S^*=1$) and ($I^*=1-1/{\mathcal R}_0$, $S^* =1/{\mathcal R}_0$). The latter equilibrium is feasible whenever ${\mathcal R}_0>1$. Let's reformulate the model:
+
+$$
+\frac{dI(t)}{d t}=\beta I(t)\left(\frac{{\mathcal R}_0-1}{{\mathcal R}_0}-I(t)\right)
+$$
+
+$$
+\frac{dI(t)}{d t}=\frac{{\mathcal R}_0-1}{{\mathcal R}_0}\beta I(t)\left(1-\frac{I(t)}{\frac{{\mathcal R}_0-1}{{\mathcal R}_0}}\right)
+$$
+
+We again have a logistic model with $r=\frac{{\mathcal R}_0-1}{{\mathcal R}_0}\beta$ and $K= \frac{{\mathcal R}_0-1}{{\mathcal R}_0}$. 
+
+- If ${\mathcal R}_0<1$, the disease will die out.
+- If ${\mathcal R}_0>1$, the system will eventually arrive to the second equilibrium point. Depending on the value of ${\mathcal R}_0$, in the SIS model, a certain fraction of the population will constantly be infected (i.e., the disease will be endemic).
+
+### Derivation of ${\mathcal R}_0$
+
+Let $l(t)$ be the probability that an individual who is infected at time $t_0=0$ is still infectious at time $t$. This probability is simply the probability of not being recovered at time $t$:
+
+$$
+l(t + \Delta t)=l(t)(1- \gamma \Delta t)
+$$
+
+$$
+l(t + \Delta t)-l(t) = -l(t) \gamma \Delta t
+$$
+
+$$
+\frac{l(t + \Delta t)-l(t)}{\Delta t} =  - l(t) \gamma
+$$
+
+$$
+\lim_{\Delta t \rightarrow 0}  \frac{l(t + \Delta t)-l(t)}{\Delta t} =  - l(t) \gamma
+$$
+
+$$
+\frac{dl(t)}{d t} =  - l(t) \gamma
+$$
+
+Assuming that the individual is infected at time $t(0)=t_0$, $l(t_0)=1$, we can solve by integration:
+
+$$
+l(t)=e^{-\gamma t}
+$$
+
+How many individuals will an infectious individual infect? We want to estimate the number of "secondary infections" caused by each infectious individual. The expected number of secondary infections is obtained by multiplying the probability that the individual is still infected during time $dt$ by the contact rate times the number of susceptibles, $X(t)\beta dt$. Assuming that the number of infections caused by a single individual is negligible compared to the whole population $N$ (i.e., $X \approx N$), the expected total number of secondary infections caused by a single infected is 
+
+$$
+\int_0^{\infty}\beta X(t)l(t) dt \approx \beta N \int_0^{\infty} l(t) dt
+$$
+
+Substituting $l(t)$ with its solution, we get
+
+$$
+\int_0^{\infty}\beta X(t)l(t) dt \approx \beta N \int_0^{\infty}
+    e^{-\gamma t} dt
+$$
+
+$$
+    \int_0^{\infty}\beta X(t)l(t) dt \approx \beta N \frac{1}{\gamma}
+$$
+
+Dividing both sides by $N$, we arrive at
+
+$$
+\int_0^{\infty}\beta S(t)l(t) dt \approx {\mathcal R}_0
+$$
+
+How do we justify the approximation $X(t)=N$? Suppose we have a completely susceptible population. We then introduce a single infectious individual, and we assume that before the person recovers, the number of susceptibles remains $\approx N$. Therefore, if ${\mathcal R}_0>1$, the individual produces more than one other infection. (In theory, this might be just one additional infection, or an expectation of $>1$ infection. As long as the reproductive number $R_t>1$, we effectively have a "chain reaction" and a growing epidemic.) On the other hand, if ${\mathcal R}_0<1$, the initial infectious individual cannot pass on the infection, and the disease dies out. 
+
+
+## Susceptible--Infectious--Recovered (SIR)
+
+In this model, once an individual has recovered from the disease, she becomes immune to it. We call such individuals recovered ($R$, sometimes "removed"). This model is indicated for non-life-threatening pathogens that induce sterilizing immunity (however, one could assimilate deaths to recovery). The model consists of three ODEs:
+$$
+    \begin{cases}
+      \frac{dS}{dt}=-\beta SI\\
+      \frac{dI}{dt}=\beta SI -\gamma I \\
+      \frac{dR}{dt}=\gamma I
+    \end{cases}
+$$
+
+Again, we assume that $1=S+I+R$. Draw the flow diagram for this model 
+
+FIGURE SIR
+
+When will an epidemic occur? Consider the equation for the infectious class:
+
+$$
+\frac{dI}{dt}=\beta SI -\gamma I = I(\beta S -\gamma)
+$$
+
+It is clear that for any $S(0)<\gamma/\beta$, the growth rate of the infectious class is negative, and the disease dies out. The minimum susceptible fraction for $\frac{dI}{dt}<0$ is the *susceptible threshold*, and it determines the level of *herd immunity* needed to prevent an outbreak. Recall the basic reproductive ratio for this model is ${\mathcal R}_0=\beta/\gamma$. As shown before, if ${\mathcal R}_0>1$, the disease will spread, and it fail to spread if ${\mathcal R}_0<1$. More fundamentally, we know that $R_t<1$ whenever $S(t)<\gamma/\beta$. Thus, an epidemic's inflection point occurs at the susceptible threshold ($S(t)=\gamma/\beta=1/{\mathcal R}_0$).
+
+### Fraction of the population recovered
+
+We want to know how many individuals will be infected by the disease. We assume that at the beginning, $R(0)=0$. (Note $R(t)$ for this section refers to recovereds and ${\mathcal R}_0$ to the intrinsic reproductive number; the notation is treacherous.) We want to write the fraction recovered at $R(t)$.
+Let's start by analyzing how the growth rate of $S(t)$ changes in response to $R(t)$:
+
+$$
+    \begin{array}{rl}
+    \frac{dS}{dR} & =\frac{dS}{dt}\frac{dt}{dR}\\ &=-\frac{\beta S}{\gamma}\\ &=-{\mathcal R}_0 S
+    \end{array}
+$$
+
+We can separate the equation:
+
+$$
+\frac{dS}{S}=-{\mathcal R}_0 dR
+$$
+
+Integrating,
+
+$$
+\begin{array}{rl}
+    \int_{0}^t \frac{dS}{S} & =-{\mathcal R}_0 \int_0^t dR \\
+    \left. \log{S} \right|_{0}^t & =-{\mathcal R}_0 \left. \left[ R \right] \right|_{0}^t\\
+    \log{S(t)}-\log{S(0)} & =-{\mathcal R}_0 \left[ R(t)-R(0) \right] \\
+    \log{S(t)/S(0)} & =-{\mathcal R}_0 R(t)  \\
+    S(t) & =S(0)e^{-{\mathcal R}_0 R(t)}
+    \end{array}
+$$
+
+Note that $e^{-{\mathcal R}_0 R_t}$ is always positive. Therefore the fraction susceptible is always $S>0$. This means that regardless the value of ${\mathcal R}_0$, some of the population escapes the disease. Another key point is that the end of the epidemic is not caused by the absence of susceptibles, but rather their decline below the susceptible threshold. What happens for $t \rightarrow \infty$? We expect that all the infectious individuals will have recovered, so $I=0$. Therefore, $S(\infty)=1-R(\infty)$.
+
+We take the equation
+
+$$
+    S(t)=S(0)e^{-{\mathcal R}_0 R(t)}
+$$
+
+for $t \rightarrow \infty$,
+
+$$
+    S(\infty)=1-R(\infty)=S(0)e^{-{\mathcal R}_0 R(\infty)}
+$$
+
+and assuming that at the beginning, $S(0) \approx 1$, we obtain
+
+$$
+    R(\infty)=1-e^{-{\mathcal R}_0 R(\infty)}
+$$
+
+which is a transcendental equation, i.e., an equation we cannot solve analytically, but only numerically. This is because it contains the transcendental function $e^x$ that cannot be expressed as a finite sequence of algebraic operations (other transcendental functions are, for example, $\log(x)$, $\sin(x)$, and $\tan(x)$). Only some special transcendental equations can be solved analytically.
+
+### Newton's method
+
+This is a simple and powerful method to find numerically the roots (zeros) of a function. There is no guarantee it will work, given that there are some "degenerate" cases for which the method does not converge. Given a function $f(x)$, choose some arbitrary value $x_0$ that we believe to be somewhere close to a root of the function. Compute $f(x_0)$ and $f'(x_0)$. Now, we know that the derivative $f'(x_0)$ is the slope of the tangent line at $x_0$. Define $x_1$ to be the point at which the tangent crosses the x-axis, so that we have $f'(x_1) = 0$.  This gives us two points on the tangent line, $(x_0, f(x_0))$ and $(x_1, f'(x_1))$, so we  have the slope of the tangent:
+
+$$
+    f'(x_0) = \frac{f(x_0) - f'(x_1)} {x_0 - x_1} = \frac{f(x_0) - 0}{x_0 -
+      x_1}
+$$
+
+We want to know the value of $x_1$:
+
+$$
+    x_1=x_0-\frac{f(x_0)}{f'(x_0)}
+$$
+
+If the function is "well behaved", the derivative is a good approximation of the function, i.e., the value at which the derivative becomes zero ($x_1$) should not be very far from the point at which the function becomes 0 (the root we want to find). Newton's method to find root is simply reiterate what we did above many times:
+
+$$
+    x_{n+1}=x_{n}-\frac{f(x_n)}{f'(x_n)}
+$$
+
+If the function behaves well, we should get increasingly better approximations of the solution. The `R` code for the Newton's method looks something like
+
+```{r}
+#| eval: false
+xn <- 1000000  # a very large number
+xnp1 <- 1      # a guesstimate of the root
+Eps <- 10^(-3) # tolerance
+while (abs(xn - xnp1) > Eps) {
+  xn <- xnp1
+  xnp1 <- xn - Funct(xn, par1, par2) / DeriFunct(xn, par1, par2)
+}
+```
+
+where `Funct` and `DeriFunct` are two `R` functions returning the value of $f(x)$ and $f'(x)$ respectively using the parameters `par1,par2`.
+
+
+### Exercise: Approximating epidemic sizes using Newton's method.
+
+Examine the following templates:
+```{r}
+#| eval: false
+library(ggplot2)
+
+Funct <- function(x, R0) {
+   return("???????")
+}
+DeriFunct <- function(x, R0) {
+   return("???????")
+}
+
+RInf <- function(R0, Funct, DeriFunct) {
+   xn <- 1000000  # a very large number
+   xnp1 <- 0.5    # a guesstimate of the root
+   Eps <- 10^(-3) # tolerance
+   while (abs(xn - xnp1) > Eps) {
+      xn <- xnp1
+      xnp1 <- xn - Funct(xn, R0) / DeriFunct(xn, R0)
+   }
+   return(xnp1)
+}
+
+# get the R0 values to look at
+R0s <- seq(0, 5, length.out=500)
+# initialize and then fill out the fraction recovered after
+# the dynamics have completed at each R0 value
+RecFracs <- rep(0, 500)
+for (ii in 1:500){
+    RecFracs[ii] <- RInf(R0s[ii], Funct, DeriFunct)
+}
+# plot the results
+ggplot(data_frame(RecFracs, R0s)) +
+    geom_line(aes(x=R0s, y=RecFracs)) +
+    # add in the threshold R0 value
+    geom_hline(aes(yintercept=1), colour="red") +
+    # make the labels nicer and more informative
+    xlab(expression(paste(R[0]))) +
+    ylab("Fraction Recovered") +
+    theme_bw()
+```
+
+Use the templates to plot the fraction of recovered population $R({\infty})$ as a function of ${\mathcal R}_0$. Values for ${\mathcal R}_0$ change from disease to disease and from host population to host population. For example, estimates for influenza are ${\mathcal R}_0 \in [1.2,3]$; for rubella, we have ${\mathcal R}_0 \in [6,7]$; and for measles, ${\mathcal R}_0 \in [16,18]$. What fraction of a completely susceptible population will be infected by measles? rubella? influenza? Change the code above to compute the values.
+
+
+### Epidemic curves
+We can approximate the development of the disease through time. Let's start from
+
+$$
+\frac{d R}{dt}= \gamma I
+$$
+
+We know that $R+I+S=1$, therefore, 
+
+$$
+\frac{d R}{dt}= \gamma(1-S-R)
+$$
+
+Plugging in the equation we found above,
+
+$$
+S(t)=S(0)e^{-{\mathcal R}_0 R(t)}
+$$
+
+we obtain
+
+$$
+\frac{d R}{dt}= \gamma (1-S(0)e^{-{\mathcal R}_0 R(t)}-R(t))
+$$
+
+
+### Exercies: Visualizing epidemic dynamics.
+For measles, it has been estimated that $\gamma \approx 0.2$/day and that ${\mathcal R}_0 \approx 18$. Use the Runge-Kutta 4th-order ODE solver from the R package `deSolve` to integrate the equation above for the disease in a population for which $S(0)=0.9999$, $R(0)=0$, $I(0)=0.0001$. Run the model for 30 days with $N=100,000$. How many people have recovered after 5 days? How many after 10? Plot the curves of $S$, $I$, and $R$. Gain experience points by experimenting with different solvers to see if they have an effect.
+
+
+### Number of infectious individuals: numerical methods
+
+Numerical approximations can go wrong. We can reformulate the models so that the numerical noise introduced by rounding is minimized. Let's start by log-transforming:
+
+$$
+    \begin{cases}
+      s=\log(S)\\
+      i=\log(I)\\
+      r=\log(R)
+    \end{cases}
+$$
+
+we don't actually need the equation for $r$, as we know that $S+I+R=1$. The system becomes:
+
+$$
+    \begin{cases}
+      e^s \frac{ds}{dt}=-\beta e^{s+i}\\
+      e^i \frac{di}{dt}=\beta e^{s+i}-\gamma e^i
+    \end{cases}
+$$
+
+which, after simplification, becomes:
+
+$$
+\begin{cases}
+      \frac{ds}{dt}=-\beta e^{i}\\
+      \frac{di}{dt}=\beta e^{s}-\gamma
+    \end{cases}
+$$
+
+Note that there are no multiplications and that each term is a function of just one variable. Thus, the rounding errors are dramatically reduced.
+
+### Exercise: Visualizing epidemic dynamics after log-transforming to minimize error.
+
+Use the equations above to model an outbreak of influenza, assuming that $\beta \approx 1.66$/day and $1/\gamma \approx 2.2$ days. Run the model for 15 days using `deSolve`. Let the initial states be $I(0)N=2$, $R(0)N=0$ and $N=750$. Plot the fraction of infecteds and susceptibles through time. Compare the predicted trajectories to those from the original (non-log-transformed) equations using the same ODE solver.
+
+If you want more practice with numerical integration, contrast the solutions obtained with Euler's method for the original and log-transformed equations. As a template for developing the code, you may use the following, which  integrates using `Euler2` a Lotka-Volterra predator-prey system.
+
+```{r}
+#| eval: false
+# Lotka Volterra Model
+# dX/dt=rX-aXY
+# dY/dt=aXY-Y
+
+library(ggplot2)
+
+PredatorPrey <- function(MySpp, MyParams) {
+    x1 <- MyParams[1] * MySpp[1] -
+        MyParams[2] * MySpp[1] * MySpp[2]
+    y1 <- MyParams[2] * MySpp[1] * MySpp[2] - MySpp[2]
+    return(c(x1, y1))
+}
+
+Euler2 <- function(MySpp, D, FUN, MyParams) {
+    m1 <- MySpp + FUN(MySpp, MyParams) * D
+    return(MySpp + 0.5 * (FUN(MySpp, MyParams) +
+                              FUN(m1, MyParams)) * D)
+}
+
+# Initial conditions
+MySpp <- c(8, 5)
+# Parameters
+MyParams <- c(0.7, 0.1)
+Deltat <- 0.005
+# Integration
+PointsToEstimate <- seq(0, 50, by=Deltat)
+# Initialize the data structure
+approximation <- matrix(0, length(PointsToEstimate), 2)
+approximation[1,] <- MySpp
+for (i in 1:(length(PointsToEstimate) - 1)) {
+    approximation[i+1,] <- Euler2(approximation[i,], Deltat,
+                                  PredatorPrey, MyParams)
+}
+
+# transform the data for plotting
+trajectories <- approximation %>%
+    # convert to data frame (tibble)
+    tbl_df() %>%
+    # make names nicer
+    rename(Predator=V1, Prey=V2) %>%
+    # add time steps
+    mutate(Time=1:n()) %>%
+    # convert from wide to long format
+    gather("Species", "Density", -Time)
+# plot the population trajectory approximations
+ggplot(trajectories) +
+    aes(x=Time, y=Density, colour=Species) +
+    geom_line(size=1) +
+    # custom color scale
+    scale_colour_manual(values=c("Prey"="#66a1e5",
+                                 "Predator"="#b94c75")) +
+    theme_bw()
+```
+
+which results in the graph GRAPH SOMEWHERE
+
+## SIR with demography
+We introduce the "natural" mortality rate $\mu$, i.e., the per capita rate at which individuals die independently of the disease. Assuming a constant mortality rate $\mu$ is equivalent to assuming that individuals live on average $1/\mu$ years (or days, depending on the unit of measure of $\mu$). We can also assume a birth rate $b$. To simplify the analysis, we assume that the population is at steady state, $b=\mu$, so that $N(S+I+R)=N$. With these modifications, the model becomes
+
+$$
+    \begin{cases}
+      \frac{dS}{dt}=\mu-\beta SI-\mu S\\
+      \frac{dI}{dt}=\beta SI -(\mu+\gamma) I\\
+      \frac{dR}{dt}=\gamma I -\mu R
+    \end{cases}
+$$
+
+We assume that newborns are susceptible to the disease. By setting $S=1$, we can compute ${\mathcal R}_0$.
+The equation for the infectious class becomes 
+
+$$
+\frac{dI}{dt}=\beta SI -(\mu+\gamma) I \approx (\beta -\mu-\gamma) I
+$$
+
+which tells us that the infectious class will grow if:
+
+$$
+\begin{array}{rl}
+      (\beta -\mu-\gamma)&>0\\
+      \beta &>\mu+\gamma\\
+      \frac{\beta}{\mu+\gamma}&={\mathcal R}_0>1
+    \end{array}
+$$
+
+### Equilibria
+
+We have an equilibrium point whenever
+
+$$
+\frac{dS}{dt}=\frac{dI}{dt}=\frac{dR}{dt}=0
+$$
+
+An obvious solution is a disease-free state for which $(S^*,I^*,R^*)=(1,0,0)$. A disease is endemic if it is constantly present in the population. To find the endemic equilibrium, we solve
+
+$$
+    \beta SI -(\mu+\gamma) I=0
+$$
+
+and factor $I^* \neq 0$:
+
+$$
+    \begin{array}{rl}
+    \beta S^* -(\mu+\gamma) & =0\\
+    S^* &=\frac{\mu+\gamma}{\beta}\\
+    S^* & =\frac{1}{{\mathcal R}_0}
+    \end{array}
+$$
+
+To solve for $I^*$ and $R^*$, we can substitute in the equation for the susceptibles:
+
+$$
+    \begin{array}{rl}
+      \mu-\beta SI-\mu S &=0\\
+      \mu-\beta \frac{I^*}{{\mathcal R}_0}-\frac{\mu}{{\mathcal R}_0}&=0\\
+      I^*=\frac{{\mathcal R}_0}{\beta}\left(\mu \frac{\mu}{{\mathcal R}_0} \right) &=\frac{\mu}{\beta}({\mathcal R}_0-1)
+    \end{array}
+$$
+
+We can already see that the state is feasible only if ${\mathcal R}_0>1$. Otherwise, the number of infected individuals is negative. Finally, we can get $R^*$ by subtraction: 
+
+$$
+R^*=1-S^*-I^*=1-\frac{1}{{\mathcal R}_0}-\frac{\mu}{\beta}({\mathcal R}_0-1)
+$$
+
+### Stability Analysis
+To analyze the equilibria, we first build the Jacobian:
+
+$$
+    \begin{array}{rl}
+      J_{SS} & =\frac{\partial}{\partial S} (\mu-\beta SI-\mu S) = -\beta I -\mu \\
+      J_{SI} & =\frac{\partial}{\partial I} (\mu-\beta SI-\mu S) = -\beta S \\
+      J_{SR} & =\frac{\partial}{\partial R} (\mu-\beta SI-\mu S) = 0 \\
+      J_{IS} & =\frac{\partial}{\partial S} (\beta SI -(\mu+\gamma) I)  = \beta I \\
+      J_{II} & =\frac{\partial}{\partial I} (\beta SI -(\mu+\gamma) I) = \beta S-(\mu+\gamma) \\
+      J_{IR} & =\frac{\partial}{\partial R} (\beta SI -(\mu+\gamma) I) = 0 \\
+      J_{RS} & =\frac{\partial}{\partial S} ( \gamma I -\mu R )  = 0 \\
+      J_{RI} & =\frac{\partial}{\partial I} ( \gamma I -\mu R ) = \gamma \\
+      J_{RR} & =\frac{\partial}{\partial R} ( \gamma I -\mu R ) = -\mu
+    \end{array}
+$$
+
+The matrix becomes
+
+$$
+{\mathbf J}=\left[ \begin{array}{ccc}
+        -\beta I -\mu &  -\beta S & 0\\
+        \beta I &  \beta S-(\mu+\gamma) & 0 \\
+        0 & \gamma & -\mu
+      \end{array} \right]
+$$
+
+Let's substitute the first equilibrium $(S^*,I^*,R^*)=(1,0,0)$. The community matrix is
+
+$$
+    {\mathbf M}=\left[ \begin{array}{ccc}
+        -\mu &  -\beta & 0\\
+        0 &  \beta -(\mu+\gamma) & 0 \\
+        0 & \gamma & -\mu
+      \end{array} \right]
+$$
+
+The characteristic polynomial for the matrix is simple:
+
+$$
+P({\mathbf M})=(-\mu -\lambda)(\beta -\mu -\gamma -\lambda)(-\mu -\lambda)
+$$
+
+The roots are $-\mu$, $-\mu$, and $\beta -\mu -\gamma$. The last root is the only one that could be positive (making the system unstable). The system is stable whenever
+
+$$
+    \begin{array}{rl}
+      \lambda_2  =\beta -\mu -\gamma & <0 \\
+      \beta & <\mu +\gamma\\
+      1 & < 1/{\mathcal R}_0\\
+      {\mathcal R}_0 & <1
+    \end{array}
+$$
+
+Thus, the disease-free state is stable when ${\mathcal R}_0<1$. For the endemic case, let's start from the determinant of the matrix.  The determinant must be negative for stability (as $\det(M)=\lambda_1 \lambda_2 \lambda_3 <0$ if all eigenvalues have negative real part). Also note that only two eigenvalues can be complex, which gives us hope of solving the equation analytically.
+
+$$
+\det(J)=(-\beta I -\mu)(\beta S - (\mu + \gamma))(-\mu)+\beta S \beta I (-\mu)<0
+$$
+
+divide by $-\mu$:
+
+$$
+\begin{array}{rl}
+    (-\beta I -\mu)(\beta S - (\mu + \gamma))+\beta S \beta I & >0\\
+      -\beta I \beta S -\mu \beta S + \beta I (\mu + \gamma) + \mu (\mu + \gamma) +\beta S \beta I & >0\\
+      -\mu \beta S + \beta I (\mu + \gamma) + \mu (\mu + \gamma)  & >0
+    \end{array}
+$$
+
+substituting the equilibrium $S^*=1/{\mathcal R}_0$, $I^*=(\mu/\beta)({\mathcal R}_0-1)$:
+
+$$
+  \begin{equation}
+    \begin{array}{rl}
+      -\mu \beta/{\mathcal R}_0 + \mu ({\mathcal R}_0-1) (\mu + \gamma) + \mu (\mu + \gamma) & >0\\
+      - \beta/{\mathcal R}_0 +  ({\mathcal R}_0-1) (\mu + \gamma) +  (\mu + \gamma)  & >0\\
+      - \beta/{\mathcal R}_0 +  ({\mathcal R}_0-1 + 1) (\mu + \gamma)  & >0\\
+      - \beta/{\mathcal R}_0 +  {\mathcal R}_0 (\mu + \gamma)  & >0\\
+      {\mathcal R}_0 (\mu + \gamma)  & > \beta/{\mathcal R}_0 \\
+      {\mathcal R}_0  & > \frac{\beta}{{\mathcal R}_0 (\mu + \gamma)}\\
+      {\mathcal R}_0  & > 1
+    \end{array}
+$$
+
+Therefore, the determinant is negative whenever ${\mathcal R}_0>1$. Note that the trace is negative:
+
+$$
+    Tr({\mathbf J})=-\mu{\mathcal
+      R}_0+\left(\frac{\beta}{{\mathcal R}_0}-\mu -\gamma
+    \right)+(-\mu)
+$$
+
+This is obvious as the second term can be rewritten as
+
+$$
+    \left(\frac{\beta}{{\mathcal R}_0}-\mu -\gamma \right)=\left(\frac{\beta (\mu + \gamma)}{\beta}-\mu -\gamma \right)=0
+$$
+
+and the other two terms are negative. For stability, we also need to prove that the determinants of three submatrices containing two classes at a time are all positive. These are called principal minors. The first matrix is
+
+$$
+  \begin{equation}
+    {\mathbf J}_{1,2}={\mathbf J}_{S,I}=\left[ \begin{array}{cc}
+        -\beta I -\mu &  -\beta S \\
+        \beta I &  \beta S-(\mu+\gamma)  \\
+      \end{array} \right]
+$$
+
+which with substitution becomes
+
+$$
+{\mathbf M}_{1,2}=\left[ \begin{array}{cc}
+        -\mu{\mathcal R}_0 &  -\frac{\beta}{{\mathcal R}_0}\\
+        \mu({\mathcal R}_0-1) &  0  \\
+      \end{array} \right]
+$$
+
+which is stable (and thus has a positive determinant) whenever $\mu({\mathcal R}_0-1)>0$, and thus ${\mathcal R}_0>1$.
+
+$$
+    {\mathbf J}_{1,3}={\mathbf J}_{S,R}=\left[ \begin{array}{cc}
+        -\beta I -\mu &  0 \\
+        0 &  -\mu  \\
+      \end{array} \right]
+$$
+
+is clearly stable. Finally,
+
+$$
+{\mathbf J}_{2,3}=\left[ \begin{array}{cc}
+        \beta S - (\mu + \gamma)  &  0 \\
+        \gamma &  -\mu  \\
+      \end{array} \right]
+$$
+
+leads to
+
+$$
+{\mathbf M}_{2,3}=\left[ \begin{array}{cc}
+        0 & 0 \\
+        \gamma & -\mu  \\
+      \end{array} \right]
+$$
+
+which has no positive root. The equilibrium is therefore stable. Another way would be to compute the stability would be to write down the characteristic polynomial of $M$:
+
+$$
+\begin{equation}
+    {\mathbf M}=\left[ \begin{array}{ccc}
+        -\mu{\mathcal R}_0 &  -\frac{\beta}{{\mathcal R}_0} & 0\\
+        \mu ({\mathcal R}_0 -1)  &  0 & 0 \\
+        0 & \gamma & -\mu
+      \end{array} \right]
+$$
+
+$$
+\begin{array}{l}
+    (-\mu{\mathcal R}_0 -\lambda)(-\lambda)(-\mu -\lambda) - (-\mu -\lambda)(-\beta/{\mathcal R}_0)(\mu({\mathcal R}_0-1))=0\\
+    -\lambda^3 - -\lambda^2(\mu + \mu {\mathcal R}_0) -\lambda \mu {\mathcal R}_0 - \lambda \beta \mu ({\mathcal R}_0 -1)/{\mathcal R}_0 - \beta \mu^2 ({\mathcal R}_0 -1)/{\mathcal R}_0
+  \end{array}
+$$
+
+and note that all the coefficients have the same sign if ${\mathcal R}_0>1$.
+
+### Age at first infection
+
+We want to know the mean age at which individuals become infected with the disease. The time it takes for a newborn to become infected is approximately the inverse of the force of infection.
+
+$$
+    A \approx \frac{1}{\beta I^*}
+$$
+
+which at equilibrium becomes
+
+$$
+A \approx \frac{1}{\mu ({\mathcal R}_0-1)}
+$$
+
+Noting that $L=1/\mu$ is the expected life expectancy, we get
+
+$$
+{\mathcal R}_0-1 \approx \frac{L}{A}
+$$
+
+This equation is very useful. Knowing the age at which individuals become infected and the life expectancy, we can derive the value for ${\mathcal R}_0$ for even historical diseases 
+
+<!-- \begin{figure} -->
+<!--   \includegraphics[width=0.8\textwidth]{./Graphs/Measles.pdf} -->
+<!--   \caption{The age at first infection can be used to estimate ${\mathcal R}_0$.} -->
+<!--   \label{fig:measels_age_frequency} -->
+<!-- \end{figure} -->
+
+### Vaccination
+
+Let $p$ denote the fraction of infants vaccinated (coverage) times the probability that the vaccine actually works (efficacy). We can incorporate this modification into our SIR model:
+
+$$
+    \begin{cases}
+      \frac{dS}{dt}=\mu(1-p)-\beta SI-\mu S\\
+      \frac{dI}{dt}=\beta SI -(\mu+\gamma) I\\
+      \frac{dR}{dt}=\gamma I -\mu R + \mu p
+    \end{cases}
+$$
+
+where we just modified the equation for susceptibles (newborns are vaccinated) and recovereds (vaccinated infants go directly to $R$). A change of variables gives us a better idea of the dynamics of the system. Set $S'=(1-p)S$, $I'=(1-p)I$ and $R'=(1-p)R + p$. By the chain rule,  
+
+$$
+\begin{cases}
+      \frac{(1-p)dS'}{dt}=\mu(1-p)-\beta S'I'(1-p)^2-\mu S'(1-p)\\
+      \frac{(1-p)dI'}{dt}=\beta S'I'(1-p)^2 -(\mu+\gamma) I'(1-p)\\
+      \frac{(1-p)dR'}{dt}=\gamma I'(1-p) -\mu R'(1-p) + \mu p -\mu p
+    \end{cases}
+$$
+
+which becomes
+
+$$
+\begin{cases}
+      \frac{dS'}{dt}=\mu-\beta S'I'(1-p)-\mu S'\\
+      \frac{dI'}{dt}=\beta S'I'(1-p) -(\mu+\gamma) I'\\
+      \frac{dR'}{dt}=\gamma I' -\mu R'
+    \end{cases}
+$$
+
+Finally, set $\beta'=\beta(1-p)$:
+
+$$
+\begin{cases}
+      \frac{dS'}{dt}=\mu-\beta' S'I'-\mu S'\\
+      \frac{dI'}{dt}=\beta' S'I' -(\mu+\gamma) I'\\
+      \frac{dR'}{dt}=\gamma I' -\mu R'
+    \end{cases}
+$$
+
+Observe that this is simply a new SIR model in which $\beta'=\beta(1-p)$. Thus, ${\mathcal R}_0$ becomes:
+
+$$
+    {\mathcal R}_0'=\frac{\beta'}{\gamma + \mu}=(1-p){\mathcal R}_0
+$$
+
+What fraction of the population should we vaccinate to eradicate the disease? Let's say that $p_c$ is the  critical threshold for $p$.
+
+$$
+  \begin{array}{l}
+      (1-p_c){\mathcal R}_0<1\\
+      (1-p_c)<\frac{1}{{\mathcal R}_0}\\
+      p_c>1-\frac{1}{{\mathcal R}_0}
+    \end{array}
+$$
+
+Therefore, to eradicate a disease like smallpox (${\mathcal R}_0 \approx 5$), we can simply vaccinate
+
+$$
+p_c=1-\frac{1}{5}=0.8
+$$
+
+of the newborns. Note that to eradicate measles (${\mathcal R}_0 \approx 18$) we would have to vaccinate $\approx 0.95$ of the population. The efficacy of the vaccine for measles is around 97\%. These differences explain why some diseases can be dramatically more difficult to eradicate than others.
+
+### Evolution of virulence
+
+We want to study whether a mutant pathogen can invade a population in  which a wildtype is in endemic equilibrium. We rewrite our SIR model,
+
+$$
+    \begin{cases}
+      \frac{dS}{dt}=\mu-(\beta I +\beta' I')S-\mu S\\
+      \frac{dI}{dt}=\beta I  S -(\mu+\gamma) I\\
+      \frac{dI'}{dt}=\beta' I'S -(\mu+\gamma') I'\\
+      \frac{dR}{dt}=\gamma I + \gamma' I' -\mu R
+    \end{cases}
+$$
+
+where $I$ is the fraction infected by the wildtype and $I'$ by the mutant. At the endemic equilibrium for which $I'=0$, we have that $S^*=\frac{\mu+\gamma}{\beta}$. To see whether the mutant invades, we can compute its growth rate when it is very rare:
+
+$$
+\frac{dI'}{dt}=\beta' I'S -(\mu+\gamma') I' \approx \beta'
+    \frac{\mu+\gamma}{\beta} I' -(\mu+\gamma') I'
+$$
+
+We can rewrite the equation as
+
+$$
+\frac{dI'}{dt}=I' \left(\beta' \frac{\mu+\gamma}{\beta}  -(\mu+\gamma') \right)
+$$
+
+The growth rate is positive if
+
+$$
+\begin{array}{l}
+\left(\beta' \frac{\mu+\gamma}{\beta}  -(\mu+\gamma') \right)>0  \\
+\beta' \frac{\mu+\gamma}{\beta}  >(\mu+\gamma') \\
+ \frac{\mu+\gamma}{\beta}  > \frac{\mu+\gamma'}{\beta'} \\
+ {\mathcal R}'_0 > {\mathcal R}_0
+\end{array}
+$$
+
+The mutant will invade whenever, all other things being equal, it is either easier to transmit ($\beta' > \beta$) or it makes people sick for a longer time ($\gamma'<\gamma$).  Embedding the mortality induced by the disease yields the same result. Therefore, less deadly diseases should be favored.  But note that this expectation changes dramatically if we assume that transmission increases (at least over some range) with virulence. This is certainly the case for many pathogens, such as cholera. If this is the case, there we might expect more virulent pathogens to invade, or for some "intermediate" level of virulence to be selected.
+
 
 May R.M. 1972. Will a large complex system be stable? Nature 238:413-414
 
