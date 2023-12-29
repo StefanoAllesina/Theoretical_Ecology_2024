@@ -236,7 +236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Disease dynamics are typically represented using compartmental models. In these models, the population is divided into classes (the compartments/boxes) and moves between classes at given rates (the arrows connecting the boxes).</p>
 <p>The simplest model categorizes individuals as either susceptible (<span class="math inline">\(X\)</span>) or infectious (<span class="math inline">\(Y\)</span>). Susceptible individuals are healthy and infective/infectious people are sick. A susceptible individual can become infectious by contact with an infectious one. We assume that the population is well mixed so that every individual has equal probability of coming into contact with every other individual. Note that infectious individuals cannot recover (e.g., herpes, HIV). For simplicity, we study the model in the absence of demography (births, deaths, immigration, emigration) and assume no disease-induced mortality.</p>
 <p>We derive the differential equation for the susceptible-infectious (SI) model by considering the number of individuals that become infectious during time <span class="math inline">\(\Delta t\)</span>.</p>
-<p>We have <span class="math inline">\(N\)</span> individuals in the population, and <span class="math inline">\(N=X+Y\)</span> is fixed. We define <span class="math inline">\(S=X/N\)</span> as the fraction of the population susceptible and <span class="math inline">\(I=Y/N\)</span> as the fraction infectious. Let <span class="math inline">\(\beta \Delta t\)</span> be the probability that an infectious person infects a susceptible during <span class="math inline">\(\Delta t\)</span>. The expected fraction of new infectious individuals over this interval is therefore <span class="math inline">\(\beta \Delta t S I\)</span>:</p>
+<p>We have <span class="math inline">\(N\)</span> individuals in the population, and <span class="math inline">\(N=X+Y\)</span> is fixed. This implies that <span class="math inline">\(dN/dt = 0\)</span>, and therefore <span class="math inline">\(dX / dt + dY/dt = 0\)</span>. We define <span class="math inline">\(S=X/N\)</span> as the fraction of the population susceptible and <span class="math inline">\(I=Y/N\)</span> as the fraction infectious. Let <span class="math inline">\(\beta \Delta t\)</span> be the probability that an infectious person infects a susceptible during <span class="math inline">\(\Delta t\)</span>. The expected fraction of new infectious individuals over this interval is therefore <span class="math inline">\(\beta \Delta t S I\)</span>:</p>
 <p><span class="math display">\[
 I(t+\Delta t)= I(t) + \beta \Delta t S(t) I(t)
 \]</span></p>
@@ -246,10 +246,7 @@ I(t+\Delta t)- I(t) = \beta \Delta t\, S(t) I(t)
 \]</span></p>
 <p>and take the limit for <span class="math inline">\(\Delta t \rightarrow 0\)</span>,</p>
 <p><span class="math display">\[
-\lim_{\Delta t \rightarrow 0}  \dfrac{I(t+\Delta t)- I(t)}{\Delta t} = \beta S(t) I(t)
-\]</span></p>
-<p><span class="math display">\[
-\frac{d I(t)}{d t} = \beta S(t) I(t)
+\lim_{\Delta t \rightarrow 0}  \dfrac{I(t+\Delta t)- I(t)}{\Delta t} = \frac{d I(t)}{d t}  = \beta S(t) I(t)
 \]</span></p>
 <p>Therefore,</p>
 <p><span class="math display">\[
@@ -267,7 +264,7 @@ I(t+\Delta t)- I(t) = \beta \Delta t\, S(t) I(t)
 <p><span class="math display">\[
 (1-c)^{k I \Delta t}=1-\Delta q
 \]</span></p>
-<p>Where <span class="math inline">\(\Delta q\)</span> is the quantity we want to estimate. Taking the logarithm of both sides, and defining <span class="math inline">\(\beta = -k \log(1-c)\)</span> we obtain:</p>
+<p>Where <span class="math inline">\(\Delta q\)</span> is the quantity we want to estimate (the probability/rate of becoming infected/infectious). Taking the logarithm of both sides, and defining <span class="math inline">\(\beta = -k \log(1-c) &gt; 0\)</span> we obtain:</p>
 <p><span class="math display">\[
 \begin{aligned}
 {kI\, \Delta t}\log(1-c) &amp;=\log(1-\Delta q)\\
@@ -282,7 +279,7 @@ e^x=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\frac{x^4}{4!}+\ldots
 \]</span></p>
 <p>which means <span class="math inline">\(\Delta q\)</span> can be approximated as</p>
 <p><span class="math display">\[
-\Delta q \approx 1-(1+({-\beta I \Delta t})) = -\beta I \Delta t
+\Delta q \approx 1-(1+({-\beta I \Delta t})) = \beta I \Delta t
 \]</span></p>
 <p>dividing both sides by <span class="math inline">\(\Delta t\)</span></p>
 <p><span class="math display">\[
@@ -303,7 +300,7 @@ e^x=1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\frac{x^4}{4!}+\ldots
 </section>
 <section id="back-to-the-si-model" class="level3">
 <h3 class="anchored" data-anchor-id="back-to-the-si-model">Back to the SI model</h3>
-<p>If we assume a fixed population, <span class="math inline">\(1=S+I\)</span> (i.e.&nbsp;no births or deaths), we can eliminate <span class="math inline">\(S\)</span> from the equations above and write</p>
+<p>If we assume a fixed population, <span class="math inline">\(1=S+I\)</span> (i.e.&nbsp;no births or deaths, we can take <span class="math inline">\(N = 1\)</span> without loss of generality), we can eliminate <span class="math inline">\(S\)</span> from the equations above and write</p>
 <p><span class="math display">\[
 \frac{d I(t)}{d t} = \beta I(t) (1-I(t))
 \]</span></p>
@@ -366,7 +363,8 @@ l(t + \Delta t)-l(t) &amp;= -l(t) \gamma \Delta t\\
 \dfrac{l(t + \Delta t)-l(t)}{\Delta t} &amp;= - l(t) \gamma\\
 \end{aligned}
 \]</span></p>
-<p>And therefore <span class="math display">\[
+<p>And therefore</p>
+<p><span class="math display">\[
 \lim_{\Delta t \rightarrow 0}  \frac{l(t + \Delta t)-l(t)}{\Delta t} = \dfrac{d l(t)}{ dt}= - l(t) \gamma
 \]</span></p>
 <p>Assuming that the individual is infected at time <span class="math inline">\(t(0)=t_0\)</span>, <span class="math inline">\(l(t_0)=1\)</span>, we can solve by integration:</p>
@@ -394,14 +392,15 @@ l(t)=e^{-\gamma t}
 </section>
 <section id="susceptibleinfectiousrecovered-sir" class="level2">
 <h2 class="anchored" data-anchor-id="susceptibleinfectiousrecovered-sir">Susceptible–Infectious–Recovered (SIR)</h2>
-<p>In this model, once an individual has recovered from the disease, she becomes immune to it. We call such individuals recovered (<span class="math inline">\(R\)</span>, sometimes “removed”). This model is indicated for non-life-threatening pathogens that induce sterilizing immunity (however, one could assimilate deaths to recovery). The model consists of three ODEs: <span class="math display">\[
+<p>In this model, once an individual has recovered from the disease, she becomes immune to it. We call such individuals recovered (<span class="math inline">\(R\)</span>, sometimes “removed”). This model is indicated for non-life-threatening pathogens that induce sterilizing immunity (however, one could assimilate deaths to recovery). The model consists of three ODEs:</p>
+<p><span class="math display">\[
 \begin{cases}
-  \frac{dS}{dt}=-\beta SI\\
-  \frac{dI}{dt}=\beta SI -\gamma I \\
-  \frac{dR}{dt}=\gamma I
+  \dfrac{dS}{dt}=-\beta SI\\
+  \dfrac{dI}{dt}=\beta SI -\gamma I \\
+  \dfrac{dR}{dt}=\gamma I
 \end{cases}
 \]</span></p>
-<p>Again, we assume that <span class="math inline">\(1=S+I+R\)</span>. Draw the flow diagram for this model</p>
+<p>Again, we assume that <span class="math inline">\(1=S+I+R\)</span>, and thus <span class="math inline">\(\dfrac{dS}{dt} + \dfrac{dI}{dt} + \dfrac{dR}{dt} = 0\)</span>. Draw the flow diagram for this model</p>
 <div class="cell">
 <div class="cell-output-display">
 <p><img src="ch3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
@@ -411,17 +410,17 @@ l(t)=e^{-\gamma t}
 <p><span class="math display">\[
 \frac{dI}{dt}=\beta SI -\gamma I = I(\beta S -\gamma)
 \]</span></p>
-<p>It is clear that for any <span class="math inline">\(S(0)&lt;\gamma/\beta\)</span>, the growth rate of the infectious class is negative, and the disease dies out. The minimum susceptible fraction for <span class="math inline">\(\frac{dI}{dt}&lt;0\)</span> is the <em>susceptible threshold</em>, and it determines the level of <em>herd immunity</em> needed to prevent an outbreak. Recall the basic reproductive ratio for this model is <span class="math inline">\({\mathcal R}_0=\beta/\gamma\)</span>. As shown before, if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>, the disease will spread, and it fail to spread if <span class="math inline">\({\mathcal R}_0&lt;1\)</span>. More fundamentally, we know that <span class="math inline">\(R_t&lt;1\)</span> whenever <span class="math inline">\(S(t)&lt;\gamma/\beta\)</span>. Thus, an epidemic’s inflection point occurs at the susceptible threshold (<span class="math inline">\(S(t)=\gamma/\beta=1/{\mathcal R}_0\)</span>).</p>
+<p>It is clear that for any <span class="math inline">\(S(0)&lt;\gamma/\beta\)</span>, the growth rate of the infectious class is negative, and the disease dies out. The minimum susceptible fraction for <span class="math inline">\(\frac{dI}{dt}&lt;0\)</span> is called the <em>susceptible threshold</em>, and it determines the level of <em>herd immunity</em> needed to prevent an outbreak. Recall the basic reproductive ratio for this model is <span class="math inline">\({\mathcal R}_0=\beta/\gamma\)</span>. As shown before, if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>, the disease will spread, and it fail to spread if <span class="math inline">\({\mathcal R}_0&lt;1\)</span>. More fundamentally, we know that <span class="math inline">\(R_t&lt;1\)</span> whenever <span class="math inline">\(S(t)&lt;\gamma/\beta\)</span>. Thus, an epidemic’s inflection point occurs at the susceptible threshold (<span class="math inline">\(S(t)=\gamma/\beta=1/{\mathcal R}_0\)</span>).</p>
 <section id="fraction-of-the-population-recovered" class="level3">
 <h3 class="anchored" data-anchor-id="fraction-of-the-population-recovered">Fraction of the population recovered</h3>
 <p>We want to know how many individuals will be infected by the disease. We assume that at the beginning, <span class="math inline">\(R(0)=0\)</span>. (Note <span class="math inline">\(R(t)\)</span> for this section refers to recovered individuals and <span class="math inline">\({\mathcal R}_0\)</span> to the intrinsic reproductive number; the notation is treacherous.) We want to write the fraction recovered at <span class="math inline">\(R(t)\)</span>. Let’s start by analyzing how the growth rate of <span class="math inline">\(S(t)\)</span> changes in response to <span class="math inline">\(R(t)\)</span>:</p>
 <p><span class="math display">\[
-\begin{array}{rl}
+\begin{aligned}
 \dfrac{dS}{dR} &amp; =\dfrac{dS}{dt}\dfrac{dt}{dR}\\
 &amp;= \dfrac{-\beta S I}{\gamma I}\\
 &amp;=-\dfrac{\beta}{\gamma}S\\
 &amp;=-{\mathcal R}_0 S
-\end{array}
+\end{aligned}
 \]</span></p>
 <p>We can separate the equation:</p>
 <p><span class="math display">\[
@@ -430,7 +429,7 @@ l(t)=e^{-\gamma t}
 <p>Integrating,</p>
 <p><span class="math display">\[
 \begin{aligned}
-\int_{0}^t \dfrac{1}{S} dS &amp; =-{\mathcal R}_0 \int_0^t dR \\
+\int \dfrac{1}{S} dS &amp; =-{\mathcal R}_0 \int dR \\
 \log{S}  &amp; =-{\mathcal R}_0 R + C\\
 S &amp;= e^{-{\mathcal R}_0 R} e^C
 \end{aligned}
@@ -438,7 +437,7 @@ S &amp;= e^{-{\mathcal R}_0 R} e^C
 <p><span class="math display">\[
 S(t) = S(0)e^{-{\mathcal R}_0 R(t)}
 \]</span></p>
-<p>Note that <span class="math inline">\(e^{-{\mathcal R}_0 R_t}\)</span> is always positive. Thus, the fraction susceptible is always <span class="math inline">\(S&gt;0\)</span>. This means that regardless the value of <span class="math inline">\({\mathcal R}_0\)</span>, some of the population escapes the disease. Another key point is that the end of the epidemic is not caused by the absence of susceptibles, but rather their decline below the susceptible threshold. What happens for <span class="math inline">\(t \rightarrow \infty\)</span>? We expect that all the infectious individuals will have recovered, so <span class="math inline">\(I=0\)</span>. Therefore, <span class="math inline">\(S(\infty)=1-R(\infty)\)</span>.</p>
+<p>Note that <span class="math inline">\(e^{-{\mathcal R}_0 R_t}\)</span> is always positive. Thus, the fraction susceptible is always <span class="math inline">\(S(t)&gt;0\)</span>. This means that, regardless the value of <span class="math inline">\({\mathcal R}_0\)</span>, some of the population escapes the disease. Another key point is that the end of the epidemic is not caused by the complete absence of susceptibles, but rather their decline below the susceptible threshold. What happens for <span class="math inline">\(t \rightarrow \infty\)</span>? We expect that all the infectious individuals will have recovered, so <span class="math inline">\(I=0\)</span>. Therefore, <span class="math inline">\(S(\infty)=1-R(\infty)\)</span>.</p>
 <p>We take the equation</p>
 <p><span class="math display">\[
 S(t)=S(0)e^{-{\mathcal R}_0 R(t)}
@@ -464,19 +463,19 @@ Newton’s method
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>This is a simple and powerful method to find numerically the solutions (roots, or zeros) of a function, i.e.&nbsp;the values of <span class="math inline">\(x\)</span> such that <span class="math inline">\(f(x) = 0\)</span>. There is no guarantee it will work, given that there are some “degenerate” cases for which the method does not converge.</p>
+<p>This is a simple and powerful method to find numerically the solutions (roots, or zeros) of an equation, i.e.&nbsp;the values of <span class="math inline">\(x\)</span> such that <span class="math inline">\(f(x) = 0\)</span>. There is no guarantee it will work, given that there are some “degenerate” cases for which the method does not converge.</p>
 <p>The main idea can be seen using Taylor expansion. We want to approximate the value of the function <span class="math inline">\(f(x)\)</span> at its root (<span class="math inline">\(\alpha\)</span>, such that <span class="math inline">\(f(\alpha) = 0\)</span>). We have:</p>
 <p><span class="math display">\[
 \begin{aligned}
-f(\alpha) =  0 &amp;= f(x_0) + \left. \dfrac{d f(x)}{d x} \right|_{x_0} (x_0 - \alpha) + R\\
-&amp;= f(x_0) + f'(x_0) (x_0 - \alpha) + R
+f(\alpha) =  0 &amp;= f(x_0) + \left. \dfrac{d f(x)}{d x} \right|_{x_0} (x_0 - \alpha) + \mathcal E \\
+&amp;= f(x_0) + f'(x_0) (x_0 - \alpha) + \mathcal E
 \end{aligned}
 \]</span></p>
 <p>where <span class="math inline">\(R\)</span> is the sum of all the higher-order terms (interpreted here as an error). Dividing both sides by <span class="math inline">\(f'(x_0)\)</span>, we have:</p>
 <p><span class="math display">\[
-\alpha - \frac{R}{f'(x_0)}= x_0 + \dfrac{f(x_0)}{f'(x_0)}
+\alpha - \frac{\mathcal E }{f'(x_0)}= x_0 + \dfrac{f(x_0)}{f'(x_0)}
 \]</span></p>
-<p>Note that whenever <span class="math inline">\(x_0\)</span> is close to <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(R \approx 0\)</span>. The idea of Newton’s method is to iterate:</p>
+<p>Note that whenever <span class="math inline">\(x_0\)</span> is close to <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\mathcal E \approx 0\)</span>. The idea of Newton’s method is to iterate:</p>
 <p><span class="math display">\[
 x_1 = x_0 + \dfrac{f(x_0)}{f'(x_0)}
 \]</span></p>
@@ -709,7 +708,7 @@ Exercise: Visualizing epidemic dynamics after log-transforming to minimize error
 \]</span></p>
 <p>We assume that newborns are susceptible to the disease. By setting <span class="math inline">\(S=1\)</span>, we can compute <span class="math inline">\({\mathcal R}_0\)</span>. The equation for the infectious class becomes</p>
 <p><span class="math display">\[
-\dfrac{dI}{dt}=\beta SI -(\mu+\gamma) I \approx (\beta -\mu-\gamma) I
+\dfrac{dI}{dt}=\beta SI -(\mu+\gamma) I \approx (\beta -(\mu +\gamma)) I
 \]</span></p>
 <p>which tells us that the infectious class will grow if:</p>
 <p><span class="math display">\[
@@ -725,169 +724,143 @@ Exercise: Visualizing epidemic dynamics after log-transforming to minimize error
 <p><span class="math display">\[
 \frac{dS}{dt}=\frac{dI}{dt}=\frac{dR}{dt}=0
 \]</span></p>
-<p>An obvious solution is a disease-free state for which <span class="math inline">\((S^*,I^*,R^*)=(1,0,0)\)</span>. A disease is endemic if it is constantly present in the population. To find the endemic equilibrium, we solve</p>
+<p>An obvious solution is a disease-free state for which <span class="math inline">\((S^\star,I^\star,R^\star)=(1,0,0)\)</span>. A disease is endemic if it is constantly present in the population. To find the endemic equilibrium, we solve</p>
 <p><span class="math display">\[
-    \beta SI -(\mu+\gamma) I=0
+    \beta S^\star I^\star -(\mu+\gamma) I^\star=0
 \]</span></p>
 <p>and factor <span class="math inline">\(I^* \neq 0\)</span>:</p>
 <p><span class="math display">\[
-    \begin{array}{rl}
-    \beta S^* -(\mu+\gamma) &amp; =0\\
-    S^* &amp;=\frac{\mu+\gamma}{\beta}\\
-    S^* &amp; =\frac{1}{{\mathcal R}_0}
-    \end{array}
+\begin{aligned}
+\beta S^\star -(\mu+\gamma) &amp; =0\\
+S^\star &amp;=\frac{\mu+\gamma}{\beta}\\
+S^\star &amp; =\frac{1}{{\mathcal R}_0}
+\end{aligned}
 \]</span></p>
-<p>To solve for <span class="math inline">\(I^*\)</span> and <span class="math inline">\(R^*\)</span>, we can substitute in the equation for the susceptibles:</p>
+<p>To solve for <span class="math inline">\(I^\star\)</span> and <span class="math inline">\(R^\star\)</span>, we can substitute in the equation for the susceptibles:</p>
 <p><span class="math display">\[
-    \begin{array}{rl}
-      \mu-\beta SI-\mu S &amp;=0\\
-      \mu-\beta \frac{I^*}{{\mathcal R}_0}-\frac{\mu}{{\mathcal R}_0}&amp;=0\\
-      I^*=\frac{{\mathcal R}_0}{\beta}\left(\mu \frac{\mu}{{\mathcal R}_0} \right) &amp;=\frac{\mu}{\beta}({\mathcal R}_0-1)
-    \end{array}
+\begin{aligned}
+\mu-\beta S^\star I^\star -\mu S^\star  &amp;=0\\
+\mu-\beta \dfrac{I^\star}{{\mathcal R}_0}-\frac{\mu}{{\mathcal R}_0}&amp;=0\\
+I^\star&amp;=\frac{{\mathcal R}_0}{\beta}\left(\mu -\frac{\mu}{{\mathcal R}_0} \right)\\
+I^\star&amp;=\frac{\mu}{\beta}({\mathcal R}_0-1)
+\end{aligned}
 \]</span></p>
-<p>We can already see that the state is feasible only if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>. Otherwise, the number of infected individuals is negative. Finally, we can get <span class="math inline">\(R^*\)</span> by subtraction:</p>
+<p>We can already see that the state is feasible only if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>. Otherwise, the number of infected individuals is negative (in which case, the point cannot be reached by the dynamics). Finally, we can get <span class="math inline">\(R^\star\)</span> by subtraction:</p>
 <p><span class="math display">\[
-R^*=1-S^*-I^*=1-\frac{1}{{\mathcal R}_0}-\frac{\mu}{\beta}({\mathcal R}_0-1)
+R^\star=1-S^\star-I^\star=1-\dfrac{1}{{\mathcal R}_0}-\dfrac{\mu}{\beta}({\mathcal R}_0-1)
 \]</span></p>
 </section>
 <section id="stability-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="stability-analysis">Stability Analysis</h3>
-<p>To analyze the equilibria, we first build the Jacobian:</p>
+<p>To analyze the equilibria, we first build the Jacobian matrix; the equations are:</p>
 <p><span class="math display">\[
-    \begin{array}{rl}
-      J_{SS} &amp; =\frac{\partial}{\partial S} (\mu-\beta SI-\mu S) = -\beta I -\mu \\
-      J_{SI} &amp; =\frac{\partial}{\partial I} (\mu-\beta SI-\mu S) = -\beta S \\
-      J_{SR} &amp; =\frac{\partial}{\partial R} (\mu-\beta SI-\mu S) = 0 \\
-      J_{IS} &amp; =\frac{\partial}{\partial S} (\beta SI -(\mu+\gamma) I)  = \beta I \\
-      J_{II} &amp; =\frac{\partial}{\partial I} (\beta SI -(\mu+\gamma) I) = \beta S-(\mu+\gamma) \\
-      J_{IR} &amp; =\frac{\partial}{\partial R} (\beta SI -(\mu+\gamma) I) = 0 \\
-      J_{RS} &amp; =\frac{\partial}{\partial S} ( \gamma I -\mu R )  = 0 \\
-      J_{RI} &amp; =\frac{\partial}{\partial I} ( \gamma I -\mu R ) = \gamma \\
-      J_{RR} &amp; =\frac{\partial}{\partial R} ( \gamma I -\mu R ) = -\mu
-    \end{array}
-\]</span></p>
-<p>The matrix becomes</p>
+\begin{cases}
+  \dfrac{dS}{dt}=\mu-\beta SI-\mu S\\
+  \dfrac{dI}{dt}=\beta SI -(\mu+\gamma) I\\
+  \dfrac{dR}{dt}=\gamma I -\mu R
+\end{cases}
+\]</span> yielding:</p>
 <p><span class="math display">\[
-{\mathbf J}=\left[ \begin{array}{ccc}
-        -\beta I -\mu &amp;  -\beta S &amp; 0\\
-        \beta I &amp;  \beta S-(\mu+\gamma) &amp; 0 \\
-        0 &amp; \gamma &amp; -\mu
-      \end{array} \right]
+J =
+\begin{pmatrix}
+-\beta I-\mu &amp; -\beta S &amp; 0\\
+\beta I &amp; \beta S -(\mu+\gamma)  &amp; 0\\
+0 &amp; \gamma &amp; -\mu
+\end{pmatrix}
 \]</span></p>
-<p>Let’s substitute the first equilibrium <span class="math inline">\((S^*,I^*,R^*)=(1,0,0)\)</span>. The community matrix is</p>
+<p>Let’s substitute the first, disease-free equilibrium <span class="math inline">\((S^\star,I^\star,R^\star)=(1,0,0)\)</span>. The community matrix is</p>
 <p><span class="math display">\[
-    {\mathbf M}=\left[ \begin{array}{ccc}
-        -\mu &amp;  -\beta &amp; 0\\
-        0 &amp;  \beta -(\mu+\gamma) &amp; 0 \\
-        0 &amp; \gamma &amp; -\mu
-      \end{array} \right]
+M =
+\begin{pmatrix}
+-\mu &amp; -\beta &amp; 0\\
+0 &amp; \beta -(\mu+\gamma)  &amp; 0\\
+0 &amp; \gamma &amp; -\mu
+\end{pmatrix}
 \]</span></p>
-<p>The characteristic polynomial for the matrix is simple:</p>
+<p>For the disease-free equilibrium to be stable, we need all eigenvalues to have negative real part, which means that the determinant of the matrix must be negative.</p>
+<p>The determinant is simply:</p>
 <p><span class="math display">\[
-P({\mathbf M})=(-\mu -\lambda)(\beta -\mu -\gamma -\lambda)(-\mu -\lambda)
+\det M = \mu^2 (\beta - (\gamma + \mu)) = \mu^2 (\gamma + \mu) (\mathcal R_0 - 1)
 \]</span></p>
-<p>The roots are <span class="math inline">\(-\mu\)</span>, <span class="math inline">\(-\mu\)</span>, and <span class="math inline">\(\beta -\mu -\gamma\)</span>. The last root is the only one that could be positive (making the system unstable). The system is stable whenever</p>
+<p>Therefore, the equilibrium is unstable (i.e., the number of infections will grow) whenever <span class="math inline">\(\mathcal R_0 &gt; 1\)</span>.</p>
+<p>Let’s consider the community matrix for the endemic equilibrium:</p>
 <p><span class="math display">\[
-    \begin{array}{rl}
-      \lambda_2  =\beta -\mu -\gamma &amp; &lt;0 \\
-      \beta &amp; &lt;\mu +\gamma\\
-      1 &amp; &lt; 1/{\mathcal R}_0\\
-      {\mathcal R}_0 &amp; &lt;1
-    \end{array}
+M = \begin{pmatrix}
+-\mathcal R_0 \mu  &amp; -\gamma -\mu  &amp; 0 \\
+(\mathcal R_0-1) \mu  &amp; 0 &amp; 0 \\
+0 &amp; \gamma  &amp; -\mu  \\
+\end{pmatrix}
 \]</span></p>
-<p>Thus, the disease-free state is stable when <span class="math inline">\({\mathcal R}_0&lt;1\)</span>. For the endemic case, let’s start from the determinant of the matrix. The determinant must be negative for stability (as <span class="math inline">\(\det(M)=\lambda_1 \lambda_2 \lambda_3 &lt;0\)</span> if all eigenvalues have negative real part). Also note that only two eigenvalues can be complex, which gives us hope of solving the equation analytically.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Eigenvalues of block-triangular matrices
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We have seen before that the eigenvalues of a lower- (or upper-) triangular matrix are the eigenvalues of the diagonal matrix with the same diagonal. For example, the eigenvalues of</p>
 <p><span class="math display">\[
-\det(J)=(-\beta I -\mu)(\beta S - (\mu + \gamma))(-\mu)+\beta S \beta I (-\mu)&lt;0
-\]</span></p>
-<p>divide by <span class="math inline">\(-\mu\)</span>:</p>
+A = \begin{pmatrix}
+a &amp; 0 &amp; 0\\
+b &amp; c &amp; 0\\
+d &amp; e &amp; f
+\end{pmatrix}
+\]</span> are <span class="math inline">\(a\)</span>, <span class="math inline">\(c\)</span> and <span class="math inline">\(f\)</span>. The same idea applies to block-strucured matrices. Take a matrix <span class="math inline">\(M\)</span></p>
 <p><span class="math display">\[
-\begin{array}{rl}
-    (-\beta I -\mu)(\beta S - (\mu + \gamma))+\beta S \beta I &amp; &gt;0\\
-      -\beta I \beta S -\mu \beta S + \beta I (\mu + \gamma) + \mu (\mu + \gamma) +\beta S \beta I &amp; &gt;0\\
-      -\mu \beta S + \beta I (\mu + \gamma) + \mu (\mu + \gamma)  &amp; &gt;0
-    \end{array}
+M = \begin{pmatrix}
+A_{n \times n} &amp; 0_{n \times m}\\
+C_{m \times n} &amp;  B_{m \times m}
+\end{pmatrix}
 \]</span></p>
-<p>substituting the equilibrium <span class="math inline">\(S^*=1/{\mathcal R}_0\)</span>, <span class="math inline">\(I^*=(\mu/\beta)({\mathcal R}_0-1)\)</span>:</p>
+<p>where <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are square matrices. Then the eigenvalues of <span class="math inline">\(M\)</span> are given by the union of the eigenvalues of <span class="math inline">\(A\)</span> and those of <span class="math inline">\(B\)</span>. To see why this is the case, write the definition of eigenvalues/eigenvectors for a block matrix of this form:</p>
 <p><span class="math display">\[
-  \begin{equation}
-    \begin{array}{rl}
-      -\mu \beta/{\mathcal R}_0 + \mu ({\mathcal R}_0-1) (\mu + \gamma) + \mu (\mu + \gamma) &amp; &gt;0\\
-      - \beta/{\mathcal R}_0 +  ({\mathcal R}_0-1) (\mu + \gamma) +  (\mu + \gamma)  &amp; &gt;0\\
-      - \beta/{\mathcal R}_0 +  ({\mathcal R}_0-1 + 1) (\mu + \gamma)  &amp; &gt;0\\
-      - \beta/{\mathcal R}_0 +  {\mathcal R}_0 (\mu + \gamma)  &amp; &gt;0\\
-      {\mathcal R}_0 (\mu + \gamma)  &amp; &gt; \beta/{\mathcal R}_0 \\
-      {\mathcal R}_0  &amp; &gt; \frac{\beta}{{\mathcal R}_0 (\mu + \gamma)}\\
-      {\mathcal R}_0  &amp; &gt; 1
-    \end{array}
+\begin{pmatrix}
+A &amp; 0\\
+C &amp;  B
+\end{pmatrix} \begin{pmatrix} v\\w\end{pmatrix} = \lambda \begin{pmatrix} v\\w\end{pmatrix}
 \]</span></p>
-<p>Therefore, the determinant is negative whenever <span class="math inline">\({\mathcal R}_0&gt;1\)</span>. Note that the trace is negative:</p>
+<p>We can rewrite this as a system of equations:</p>
 <p><span class="math display">\[
-    Tr({\mathbf J})=-\mu{\mathcal
-      R}_0+\left(\frac{\beta}{{\mathcal R}_0}-\mu -\gamma
-    \right)+(-\mu)
+\begin{aligned}
+A v &amp;= \lambda v\\
+C v + B w &amp;= \lambda w
+\end{aligned}
 \]</span></p>
-<p>This is obvious as the second term can be rewritten as</p>
+<p>and note that the first set of equations is the definition of an eigenvector <span class="math inline">\(v\)</span> of matrix <span class="math inline">\(A\)</span>, associated with eigenvalue <span class="math inline">\(\lambda\)</span>. Thus, <span class="math inline">\(\lambda\)</span> is an eigenvalue of both <span class="math inline">\(A\)</span> and <span class="math inline">\(M\)</span>. If we choose <span class="math inline">\(v = 0\)</span>, on the other hand, we have <span class="math inline">\(B w = \lambda w\)</span>, meaning that <span class="math inline">\(\lambda\)</span> is an eigenvalue of <span class="math inline">\(B\)</span>, as well as <span class="math inline">\(M\)</span>.</p>
+</div>
+</div>
+</div>
+<p>The community matrix is block lower-triangular:</p>
 <p><span class="math display">\[
-    \left(\frac{\beta}{{\mathcal R}_0}-\mu -\gamma \right)=\left(\frac{\beta (\mu + \gamma)}{\beta}-\mu -\gamma \right)=0
+M = \begin{pmatrix}
+A &amp; 0\\
+C &amp;  B
+\end{pmatrix}
 \]</span></p>
-<p>and the other two terms are negative. For stability, we also need to prove that the determinants of three submatrices containing two classes at a time are all positive. These are called principal minors. The first matrix is</p>
+<p>With:</p>
 <p><span class="math display">\[
-  \begin{equation}
-    {\mathbf J}_{1,2}={\mathbf J}_{S,I}=\left[ \begin{array}{cc}
-        -\beta I -\mu &amp;  -\beta S \\
-        \beta I &amp;  \beta S-(\mu+\gamma)  \\
-      \end{array} \right]
-\]</span></p>
-<p>which with substitution becomes</p>
+A = \begin{pmatrix}
+-\mathcal R_0 \mu  &amp; -\gamma -\mu \\
+(\mathcal R_0-1) \mu  &amp; 0
+\end{pmatrix}, \quad B = \begin{pmatrix} -\mu \end{pmatrix}, \quad C = \begin{pmatrix}
+0 &amp; \gamma
+\end{pmatrix}
+\]</span> The eigenvalues of <span class="math inline">\(M\)</span> are given by the union of those of <span class="math inline">\(B\)</span> (yielding <span class="math inline">\(-\mu &lt; 0\)</span>) and those of <span class="math inline">\(A\)</span>. The eigenvalues of <span class="math inline">\(A\)</span> have negative real-part if the trace is negative (always true), and the determinant is positive. The determinant is:</p>
 <p><span class="math display">\[
-{\mathbf M}_{1,2}=\left[ \begin{array}{cc}
-        -\mu{\mathcal R}_0 &amp;  -\frac{\beta}{{\mathcal R}_0}\\
-        \mu({\mathcal R}_0-1) &amp;  0  \\
-      \end{array} \right]
+\det A =  \mu (\gamma + \mu) (\mathcal R_0-1)
 \]</span></p>
-<p>which is stable (and thus has a positive determinant) whenever <span class="math inline">\(\mu({\mathcal R}_0-1)&gt;0\)</span>, and thus <span class="math inline">\({\mathcal R}_0&gt;1\)</span>.</p>
-<p><span class="math display">\[
-    {\mathbf J}_{1,3}={\mathbf J}_{S,R}=\left[ \begin{array}{cc}
-        -\beta I -\mu &amp;  0 \\
-        0 &amp;  -\mu  \\
-      \end{array} \right]
-\]</span></p>
-<p>is clearly stable. Finally,</p>
-<p><span class="math display">\[
-{\mathbf J}_{2,3}=\left[ \begin{array}{cc}
-        \beta S - (\mu + \gamma)  &amp;  0 \\
-        \gamma &amp;  -\mu  \\
-      \end{array} \right]
-\]</span></p>
-<p>leads to</p>
-<p><span class="math display">\[
-{\mathbf M}_{2,3}=\left[ \begin{array}{cc}
-        0 &amp; 0 \\
-        \gamma &amp; -\mu  \\
-      \end{array} \right]
-\]</span></p>
-<p>which has no positive root. The equilibrium is therefore stable. Another way would be to compute the stability would be to write down the characteristic polynomial of <span class="math inline">\(M\)</span>:</p>
-<p><span class="math display">\[
-\begin{equation}
-    {\mathbf M}=\left[ \begin{array}{ccc}
-        -\mu{\mathcal R}_0 &amp;  -\frac{\beta}{{\mathcal R}_0} &amp; 0\\
-        \mu ({\mathcal R}_0 -1)  &amp;  0 &amp; 0 \\
-        0 &amp; \gamma &amp; -\mu
-      \end{array} \right]
-\]</span></p>
-<p><span class="math display">\[
-\begin{array}{l}
-    (-\mu{\mathcal R}_0 -\lambda)(-\lambda)(-\mu -\lambda) - (-\mu -\lambda)(-\beta/{\mathcal R}_0)(\mu({\mathcal R}_0-1))=0\\
-    -\lambda^3 - -\lambda^2(\mu + \mu {\mathcal R}_0) -\lambda \mu {\mathcal R}_0 - \lambda \beta \mu ({\mathcal R}_0 -1)/{\mathcal R}_0 - \beta \mu^2 ({\mathcal R}_0 -1)/{\mathcal R}_0
-  \end{array}
-\]</span></p>
-<p>and note that all the coefficients have the same sign if <span class="math inline">\({\mathcal R}_0&gt;1\)</span>.</p>
+<p>which is positive only if <span class="math inline">\(\mathcal R_0 &gt;1\)</span>. Thus, the endemic equilibrium is stable if <span class="math inline">\(\mathcal R_0 &gt; 1\)</span>, and unstable otherwise.</p>
 </section>
 <section id="age-at-first-infection" class="level3">
 <h3 class="anchored" data-anchor-id="age-at-first-infection">Age at first infection</h3>
 <p>We want to know the mean age at which individuals become infected with the disease. The time it takes for a newborn to become infected is approximately the inverse of the force of infection.</p>
 <p><span class="math display">\[
-    A \approx \frac{1}{\beta I^*}
+A \approx \frac{1}{\beta I^\star}
 \]</span></p>
 <p>which at equilibrium becomes</p>
 <p><span class="math display">\[
@@ -897,7 +870,7 @@ A \approx \frac{1}{\mu ({\mathcal R}_0-1)}
 <p><span class="math display">\[
 {\mathcal R}_0-1 \approx \frac{L}{A}
 \]</span></p>
-<p>This equation is very useful. Knowing the age at which individuals become infected and the life expectancy, we can derive the value for <span class="math inline">\({\mathcal R}_0\)</span> for even historical diseases</p>
+<p>This equation is very useful. Knowing the age at which individuals become infected and their life expectancy, we can derive the value for <span class="math inline">\({\mathcal R}_0\)</span>, even for historical diseases.</p>
 <!-- \begin{figure} -->
 <!--   \includegraphics[width=0.8\textwidth]{./Graphs/Measles.pdf} -->
 <!--   \caption{The age at first infection can be used to estimate ${\mathcal R}_0$.} -->
@@ -908,49 +881,47 @@ A \approx \frac{1}{\mu ({\mathcal R}_0-1)}
 <h3 class="anchored" data-anchor-id="vaccination">Vaccination</h3>
 <p>Let <span class="math inline">\(p\)</span> denote the fraction of infants vaccinated (coverage) times the probability that the vaccine actually works (efficacy). We can incorporate this modification into our SIR model:</p>
 <p><span class="math display">\[
-    \begin{cases}
-      \frac{dS}{dt}=\mu(1-p)-\beta SI-\mu S\\
-      \frac{dI}{dt}=\beta SI -(\mu+\gamma) I\\
-      \frac{dR}{dt}=\gamma I -\mu R + \mu p
-    \end{cases}
-\]</span></p>
-<p>where we just modified the equation for susceptibles (newborns are vaccinated) and recovereds (vaccinated infants go directly to <span class="math inline">\(R\)</span>). A change of variables gives us a better idea of the dynamics of the system. Set <span class="math inline">\(S'=(1-p)S\)</span>, <span class="math inline">\(I'=(1-p)I\)</span> and <span class="math inline">\(R'=(1-p)R + p\)</span>. By the chain rule,</p>
+\begin{cases}
+  \dfrac{dS}{dt}=\mu(1-p)-\beta SI-\mu S\\
+  \dfrac{dI}{dt}=\beta SI -(\mu+\gamma) I\\
+  \dfrac{dR}{dt}=\gamma I -\mu R + \mu p
+\end{cases}
+\]</span> where we just modified the equation for susceptibles (newborns are vaccinated) and recovered individuals (vaccinated infants go directly to <span class="math inline">\(R\)</span>). A change of variables gives us a better idea of the dynamics of the system. Set <span class="math inline">\(S'=(1-p)S\)</span>, <span class="math inline">\(I'=(1-p)I\)</span> and <span class="math inline">\(R'=(1-p)R + p\)</span>. By the chain rule,</p>
 <p><span class="math display">\[
 \begin{cases}
-      \frac{(1-p)dS'}{dt}=\mu(1-p)-\beta S'I'(1-p)^2-\mu S'(1-p)\\
-      \frac{(1-p)dI'}{dt}=\beta S'I'(1-p)^2 -(\mu+\gamma) I'(1-p)\\
-      \frac{(1-p)dR'}{dt}=\gamma I'(1-p) -\mu R'(1-p) + \mu p -\mu p
-    \end{cases}
+  \dfrac{(1-p)dS'}{dt}=\mu(1-p)-\beta S'I'(1-p)^2-\mu S'(1-p)\\
+  \dfrac{(1-p)dI'}{dt}=\beta S'I'(1-p)^2 -(\mu+\gamma) I'(1-p)\\
+  \dfrac{(1-p)dR'}{dt}=\gamma I'(1-p) -\mu R'(1-p) + \mu p -\mu p
+\end{cases}
 \]</span></p>
 <p>which becomes</p>
 <p><span class="math display">\[
 \begin{cases}
-      \frac{dS'}{dt}=\mu-\beta S'I'(1-p)-\mu S'\\
-      \frac{dI'}{dt}=\beta S'I'(1-p) -(\mu+\gamma) I'\\
-      \frac{dR'}{dt}=\gamma I' -\mu R'
-    \end{cases}
+  \dfrac{dS'}{dt}=\mu-\beta S'I'(1-p)-\mu S'\\
+  \dfrac{dI'}{dt}=\beta S'I'(1-p) -(\mu+\gamma) I'\\
+  \dfrac{dR'}{dt}=\gamma I' -\mu R'
+\end{cases}
 \]</span></p>
 <p>Finally, set <span class="math inline">\(\beta'=\beta(1-p)\)</span>:</p>
 <p><span class="math display">\[
 \begin{cases}
-      \frac{dS'}{dt}=\mu-\beta' S'I'-\mu S'\\
-      \frac{dI'}{dt}=\beta' S'I' -(\mu+\gamma) I'\\
-      \frac{dR'}{dt}=\gamma I' -\mu R'
-    \end{cases}
+  \dfrac{dS'}{dt}=\mu-\beta' S'I'-\mu S'\\
+  \dfrac{dI'}{dt}=\beta' S'I' -(\mu+\gamma) I'\\
+  \dfrac{dR'}{dt}=\gamma I' -\mu R'
+\end{cases}
 \]</span></p>
 <p>Observe that this is simply a new SIR model in which <span class="math inline">\(\beta'=\beta(1-p)\)</span>. Thus, <span class="math inline">\({\mathcal R}_0\)</span> becomes:</p>
 <p><span class="math display">\[
-    {\mathcal R}_0'=\frac{\beta'}{\gamma + \mu}=(1-p){\mathcal R}_0
+{\mathcal R}_0'=\frac{\beta'}{\gamma + \mu}=(1-p){\mathcal R}_0
 \]</span></p>
 <p>What fraction of the population should we vaccinate to eradicate the disease? Let’s say that <span class="math inline">\(p_c\)</span> is the critical threshold for <span class="math inline">\(p\)</span>.</p>
 <p><span class="math display">\[
-  \begin{array}{l}
+\begin{array}{l}
       (1-p_c){\mathcal R}_0&lt;1\\
       (1-p_c)&lt;\frac{1}{{\mathcal R}_0}\\
       p_c&gt;1-\frac{1}{{\mathcal R}_0}
-    \end{array}
-\]</span></p>
-<p>Therefore, to eradicate a disease like smallpox (<span class="math inline">\({\mathcal R}_0 \approx 5\)</span>), we can simply vaccinate</p>
+\end{array}
+\]</span> Therefore, to eradicate a disease like smallpox (<span class="math inline">\({\mathcal R}_0 \approx 5\)</span>), we can simply vaccinate</p>
 <p><span class="math display">\[
 p_c=1-\frac{1}{5}=0.8
 \]</span></p>
@@ -961,13 +932,13 @@ p_c=1-\frac{1}{5}=0.8
 <p>We want to study whether a mutant pathogen can invade a population in which a wildtype is in endemic equilibrium. We rewrite our SIR model,</p>
 <p><span class="math display">\[
     \begin{cases}
-      \frac{dS}{dt}=\mu-(\beta I +\beta' I')S-\mu S\\
-      \frac{dI}{dt}=\beta I  S -(\mu+\gamma) I\\
-      \frac{dI'}{dt}=\beta' I'S -(\mu+\gamma') I'\\
-      \frac{dR}{dt}=\gamma I + \gamma' I' -\mu R
+      \dfrac{dS}{dt}=\mu-(\beta I +\beta' I')S-\mu S\\
+      \dfrac{dI}{dt}=\beta I  S -(\mu+\gamma) I\\
+      \dfrac{dI'}{dt}=\beta' I'S -(\mu+\gamma') I'\\
+      \dfrac{dR}{dt}=\gamma I + \gamma' I' -\mu R
     \end{cases}
 \]</span></p>
-<p>where <span class="math inline">\(I\)</span> is the fraction infected by the wildtype and <span class="math inline">\(I'\)</span> by the mutant. At the endemic equilibrium for which <span class="math inline">\(I'=0\)</span>, we have that <span class="math inline">\(S^*=\frac{\mu+\gamma}{\beta}\)</span>. To see whether the mutant invades, we can compute its growth rate when it is very rare:</p>
+<p>where <span class="math inline">\(I\)</span> is the fraction infected by the wildtype and <span class="math inline">\(I'\)</span> by the mutant. At the endemic equilibrium for which <span class="math inline">\(I'=0\)</span>, we have that <span class="math inline">\(S^\star=\frac{\mu+\gamma}{\beta}\)</span>. To see whether the mutant invades, we can compute its growth rate when it is very rare:</p>
 <p><span class="math display">\[
 \frac{dI'}{dt}=\beta' I'S -(\mu+\gamma') I' \approx \beta'
     \frac{\mu+\gamma}{\beta} I' -(\mu+\gamma') I'
