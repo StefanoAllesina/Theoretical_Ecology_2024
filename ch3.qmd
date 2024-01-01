@@ -925,12 +925,29 @@ $$
 The mutant will invade whenever, all other things being equal, it is either easier to transmit ($\beta' > \beta$) or it makes people sick for a longer time ($\gamma'<\gamma$).  Embedding the mortality induced by the disease yields the same result. Therefore, less deadly diseases should be favored.  But note that this expectation changes dramatically if we assume that transmission increases (at least over some range) with virulence. This is certainly the case for many pathogens, such as cholera. If this is the case, there we might expect more virulent pathogens to invade, or for some "intermediate" level of virulence to be selected.
 
 
-May R.M. 1972. Will a large complex system be stable? Nature 238:413-414
+
+## Classic papers
+
+One of the first disease models, proposed by Ronald Ross, who won the Nobel prize for his discovery of malaria transmission via mosquitoes:
+
+- Ronald Ross, 1915. [*Some a priori pathometric equations*](https://www.bmj.com/content/1/2830/546). British Medical Journal 1:546
+
+The paper introducing compartmental models (SEIR):
+
+- W. O. Kermack, A. G. McKendrick, 1927. [*Contribution to the mathematical theory of epidemics* (https://www.jstor.org/stable/94815). Proceedings of the Royal Society of London A 115.772: 700–721.
+
+The two foundational papers by Anderson and May:
+
+- Roy M. Anderson and Robert M. May, 1979. [*Population biology of infectious diseases: Part I*](https://www.nature.com/articles/280361a0). Nature 280.5721: 361–367.
+
+- Robert M. May and Roy M. Anderson, 1979. [*Population biology of infectious diseases: Part II*](https://www.nature.com/articles/280455a0). Nature 280.5722: 455–461.
+
+A very interesting perspective on influence of infectious diseases on human history:
+
+- Andrew P. Dobson and E. Robin Carper, 1996. [*Infectious diseases and human population history*](https://www.jstor.org/stable/1312814). BioScience 46.2: 115–126.
+
+Reflections on the relationship between ecology and epidemiology:
+
+- Roy M. Anderson, 1991. [*Populations and Infectious Diseases: Ecology or Epidemiology?*](https://www.jstor.org/stable/5443) Journal of Animal Ecology, 60:1-50 
 
 
-Anderson, R.M; May, R.M. 1978. Regulation and Stability of Host-Parasite Population Interactions. Journal of Animal Ecology 47:219-247
-
-May R.M. & Anderson, R.M. 1979. Population biology of infectious diseases: Part II. Nature 280:455-461
-
-
-McCann, K.S. 2000. The diversity - stability debate. Nature 405:228-233

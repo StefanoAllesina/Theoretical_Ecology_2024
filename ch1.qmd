@@ -16,7 +16,7 @@ $$
 x_{k+1} = \rho x_k
 $$
 
-where $x_k$ is the number of individuals/area at generation $k$. Naturally, we can iterate again, and find the population density at time $x_{k+2}$:
+where $x_k$ is the number of individuals/area at generation $k$. Naturally, we can iterate again, and find the population density at generation $k+2$:
 
 $$
 x_{k+2} = \rho x_{k+1} = \rho^2 x_{k}
@@ -28,7 +28,7 @@ $$
 x_{n} = \rho^n x_0
 $$
 
-where $x_0$ is the initial population size, and $n$ is the number of generations since we started tracking the population. We assume $x_0>0$, and thus the population grows whenever $\rho > 1$, declines whenever $\rho < 1$, and is constant whenever $\rho = 1$. Armed with $x_0$ and $\rho$, we can project the population forward in time for an arbitrary number of generations. 
+where $x_0$ is the initial population size, and $n$ is the number of generations since we started tracking the population. We assume $x_0 > 0$, and thus the population grows whenever $\rho > 1$, declines whenever $\rho < 1$, and is constant whenever $\rho = 1$. Armed with $x_0$ and $\rho$, we can project the population forward in time for an arbitrary number of generations. 
 
 ## Overlapping generations: exponential growth
 
@@ -222,7 +222,7 @@ e^{\rho \tau} &= 2\\
 \end{aligned}
 $$
 
-Thus, the doubling time does not depend on the initial condition: the population will keep doubling every $\log 2 / \rho$ units of time. For example, take $\rho = 0.01$, then $\tau \approx 30$: a population growing exponentially with rate of 1% per year will double every 30 years or so. Then, a growth of 3% doubles every 10 years, etc. 
+Thus, the doubling time does not depend on the initial condition: the population will keep doubling every $\log 2 / \rho$ units of time. For example, take $\rho = 0.01$, then $\tau \approx 30$: a population growing exponentially with rate of 1% per year will double every 30 years or so. Then, a growth of 3% yields a doubling time of 10 years, etc. 
 
 ::: {.callout-warning collapse="true"}
 ## Exercise: Radiocarbon dating
@@ -242,7 +242,7 @@ where $\lambda < 0$ is the decay rate of the isotope. The half-life of a radiois
 
 ## Logistic growth
 
-We have a population that grows exponentially when at very low densities, but experiences a slow down in growth when densities are higher. The logistic growth equation is typically written as:
+We have a population that grows exponentially when at very low density, but experiences a slow down in growth when densities are higher. The logistic growth equation is typically written as:
 
 $$
 \frac{d X}{d \tau} = X\left(\rho - \alpha X\right)
@@ -319,7 +319,7 @@ $$
 \frac{dx}{d\tau} = \rho x
 $$
 
-one can define $t = c_1 \tau$, obtaining:
+one can define $\tau = c_1\,t$. But then $\dfrac{d \tau}{d t} = c_1$ and thus $d \tau = c_1\, dt$. We substitute this value, obtaining:
 
 $$
 \begin{aligned}
@@ -332,7 +332,7 @@ $$
 where we have chosen $c_1 = 1/\rho$.
 :::
 
-We rewrite the equation for the logistic growth by choosing $x = c_1 X$ and $t = c_2 \tau$. Our equations become (use the chain rule):
+We rewrite the equation for the logistic growth by choosing $X = c_1\, x$ and $\tau = c_2\, t$. Our equations become (use the chain rule):
 
 $$
 \begin{aligned}
@@ -979,10 +979,10 @@ $$
 Predation in this model arises from birds, causing the mortality term. We can reduce the number of parameters by setting:
 
 $$
-x = c_1 B \quad t = c_2 \tau
+B = c_1 x \quad \tau = c_2 t
 $$
 
-Choosing $c_1 = 1/a$, and $c_2 = 1/b$, we obtain:
+Choosing $c_1 = a$, and $c_2 = a/b$, we obtain:
 
 $$
 \dfrac{dx}{dt} = \dfrac{a r}{b}x\left(1 - \dfrac{a}{K} x \right) - \dfrac{x^2}{1+x^2}
