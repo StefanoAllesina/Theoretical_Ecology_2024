@@ -1563,22 +1563,22 @@ We write the dynamics for the density of the host and the parasitoid in each cel
 
 $$
 \begin{aligned}
-{H_{ij}}_{t+1}&=R\,e^{-a{\tilde{P}_{ij}}_t}{\tilde{H}_{ij}}_t\\
-{P_{ij}}_{t+1}&=c(1-e^{-a{\tilde{P}_{ij}}_t}){\tilde{H}_{ij}}_t
+H_{{ij}_{t+1}} &= R\,e^{-a \tilde{P}_{{ij}_t}} \tilde{H}_{{ij}_t}\\
+P_{{ij}_{t+1}} &= c(1-e^{-a \tilde{P}_{{ij}_t}}) \tilde{H}_{{ij}_t}
 \end{aligned}
 $$
 
 where
 
 $$
-  {\tilde{H}_{ij}}_t=(1-d_h){H_{ij}}_t +\frac{d_h}{8} \sum_{\text{neighbors}\, k,l}{H_{kl}}_t
+  \tilde{H}_{{ij}_t}=(1-d_h)H_{{ij}_t} +\frac{d_h}{8} \sum_{\text{neighbors}\, k,l}H_{{kl}_t}
 $$
 
 the sum is taken across the 8 nearest neighbors of the cell ${i,j}$. The parameter $d_h$ is the dispersal rate of the host. Similarly, 
 
 $$
-  {\tilde{P}_{ij}}_t =(1-d_p){P_{ij}}_t+\frac{d_p}{8}
-  \sum_{\text{neighbors}\, k,l} {P_{kl}}_t
+\tilde{P}_{{ij}_t} =(1-d_p) P_{{ij}_t}+\frac{d_p}{8}
+  \sum_{\text{neighbors}\, k,l} P_{{kl}_t}
 $$
 
 Start with a $51 \times 51$ lattice, and set the density of host and parasites to zero everywhere but in cell $26,26$, where $H_{26,26}(0)=4$ and $P_{26,26}(0)=1$. Set $d_h=p_h=0.1$, $R=2.0$, $a=c=1.0$. Evolve the system for 1000 time steps and plot the density of host using image every 5 time steps (Note: `R` is really poor for doing animations. If you plot every time step and have a fast enough computer, you will get a nice "photosensitive epilectic seizure effect").

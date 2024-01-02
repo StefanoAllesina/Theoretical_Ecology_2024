@@ -137,7 +137,7 @@ $$
 \int \dfrac{1}{x}\,dx &= \int \rho\, dt\\
 \log x &= \rho\, t + \mathcal c\\
 x &= e^{\rho\, t  + \mathcal c}\\
-x &= e^{\rho\, t} e^\mathcal c\\
+x &= e^{\rho\, t} e^{\mathcal c}\\
 \end{aligned}
 $$
 
@@ -146,7 +146,7 @@ where $\mathcal c$ is a constant of integration. Then, we can plug in the initia
 $$
 \begin{aligned}
 x_0 &= e^{\rho\, 0}e^{\mathcal c}\\
-x_0 &= e^\mathcal c
+x_0 &= e^{\mathcal c}
 \end{aligned}
 $$
 

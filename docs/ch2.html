@@ -1256,18 +1256,18 @@ P_{t+1}&amp;=c\left(1-e^{-aP_t}\right)H_t
 <p>We write the dynamics for the density of the host and the parasitoid in each cell (<span class="math inline">\(H_{ij}\)</span> and <span class="math inline">\(P_{ij}\)</span>):</p>
 <p><span class="math display">\[
 \begin{aligned}
-{H_{ij}}_{t+1}&amp;=R\,e^{-a{\tilde{P}_{ij}}_t}{\tilde{H}_{ij}}_t\\
-{P_{ij}}_{t+1}&amp;=c(1-e^{-a{\tilde{P}_{ij}}_t}){\tilde{H}_{ij}}_t
+H_{{ij}_{t+1}} &amp;= R\,e^{-a \tilde{P}_{{ij}_t}} \tilde{H}_{{ij}_t}\\
+P_{{ij}_{t+1}} &amp;= c(1-e^{-a \tilde{P}_{{ij}_t}}) \tilde{H}_{{ij}_t}
 \end{aligned}
 \]</span></p>
 <p>where</p>
 <p><span class="math display">\[
-  {\tilde{H}_{ij}}_t=(1-d_h){H_{ij}}_t +\frac{d_h}{8} \sum_{\text{neighbors}\, k,l}{H_{kl}}_t
+  \tilde{H}_{{ij}_t}=(1-d_h)H_{{ij}_t} +\frac{d_h}{8} \sum_{\text{neighbors}\, k,l}H_{{kl}_t}
 \]</span></p>
 <p>the sum is taken across the 8 nearest neighbors of the cell <span class="math inline">\({i,j}\)</span>. The parameter <span class="math inline">\(d_h\)</span> is the dispersal rate of the host. Similarly,</p>
 <p><span class="math display">\[
-  {\tilde{P}_{ij}}_t =(1-d_p){P_{ij}}_t+\frac{d_p}{8}
-  \sum_{\text{neighbors}\, k,l} {P_{kl}}_t
+\tilde{P}_{{ij}_t} =(1-d_p) P_{{ij}_t}+\frac{d_p}{8}
+  \sum_{\text{neighbors}\, k,l} P_{{kl}_t}
 \]</span></p>
 <p>Start with a <span class="math inline">\(51 \times 51\)</span> lattice, and set the density of host and parasites to zero everywhere but in cell <span class="math inline">\(26,26\)</span>, where <span class="math inline">\(H_{26,26}(0)=4\)</span> and <span class="math inline">\(P_{26,26}(0)=1\)</span>. Set <span class="math inline">\(d_h=p_h=0.1\)</span>, <span class="math inline">\(R=2.0\)</span>, <span class="math inline">\(a=c=1.0\)</span>. Evolve the system for 1000 time steps and plot the density of host using image every 5 time steps (Note: <code>R</code> is really poor for doing animations. If you plot every time step and have a fast enough computer, you will get a nice “photosensitive epilectic seizure effect”).</p>
 <section id="implementation" class="level3">

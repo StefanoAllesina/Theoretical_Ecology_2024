@@ -1,20 +1,26 @@
 {
   "index.qmd": {
-    "index.html": "1ca7b1d9"
+    "index.html": "1ca7b1d9",
+    "index.tex": "527620a5"
   },
   "about.qmd": {
-    "about.html": "041fb8ba"
+    "about.html": "041fb8ba",
+    "about.tex": "f8bb35d7"
   },
   "ch1.qmd": {
-    "ch1.html": "4a77d036"
+    "ch1.html": "4a77d036",
+    "ch1.tex": "340f4bdc"
   },
   "ch2.qmd": {
-    "ch2.html": "b6d7a3ca"
+    "ch2.html": "b6d7a3ca",
+    "ch2.tex": "0c85f2f1"
   },
   "ch3.qmd": {
-    "ch3.html": "ce11235f"
+    "ch3.html": "ce11235f",
+    "ch3.tex": "3489bebb"
   },
   "ch4.qmd": {
-    "ch4.html": "08cc23ae"
+    "ch4.html": "08cc23ae",
+    "ch4.tex": "0662b2f8"
   }
 }
