@@ -9,7 +9,7 @@ The class is divided in two parts. The first part of the class deals with models
 
 ## Computing
 
-The GitHub associated with the lecture notes contains the code to generate the lectures and all the figures and simulations. Crucially, these depend on the following `R` packages:
+The [GitHub repository](https://github.com/StefanoAllesina/Theoretical_Ecology_2024) associated with the lecture notes contains the code used to generate the lecture notes, including all the figures and simulations. Crucially, the code depends on the following `R` packages:
 
 ```{r}
 #| warning: false
