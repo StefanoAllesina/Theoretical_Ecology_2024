@@ -230,7 +230,7 @@ Thus, the doubling time does not depend on the initial condition: the population
 While at the University of Chicago, Willard Libby (Nobel Laureate in Chemistry, 1960) pioneered radiocarbon dating. The carbon isotope ${}^{14}$C is constantly being created in the Earth's atmosphere by the interaction of cosmic rays with atmospheric nitrogen. The carbon combines with oxygen, to form CO${}_2$ that is then absorbed by plants. When plants die, the isotope decays in their tissues. Radioactive decay follows the exponential model:
 
 $$
-N(t) = e^{\lambda t} N(0)
+N(t) =  N(0)e^{\lambda t}
 $$
 
 where $\lambda < 0$ is the decay rate of the isotope. The half-life of a radioisotope is the time it takes to be reduced to half of the original concentration, and is 5,730 years for ${}^{14}$C. 
@@ -308,7 +308,7 @@ Ecological models can have many parameters, and the goal of nondimensionalizatio
 To perform nondimensionalization:
 
 - identify all the variables that depend on time ($X(\tau)$, $Y(\tau)$, etc.), as well as the independent variable (the time, $\tau$)
-- replace each of them by a scaled version: $X = c_x x$, $Y = c_y y$, $t = c_t \tau$, in which $c_i$ are positive constants to be determined, and rewrite the equations for the new variables 
+- replace each of them by a scaled version: $X = c_x x$, $Y = c_y y$, $\tau = c_t t$, in which $c_i$ are positive constants to be determined, and rewrite the equations for the new variables 
 - choose the values for the constants to eliminate as many parameters as possible. Generally, one should be able to remove one parameter for each dependent variable, plus one parameter by scaling the time. 
 
 **Example**

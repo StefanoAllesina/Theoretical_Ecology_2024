@@ -434,7 +434,7 @@ Exercise: Radiocarbon dating
 <div class="callout-body-container callout-body">
 <p>While at the University of Chicago, Willard Libby (Nobel Laureate in Chemistry, 1960) pioneered radiocarbon dating. The carbon isotope <span class="math inline">\({}^{14}\)</span>C is constantly being created in the Earth’s atmosphere by the interaction of cosmic rays with atmospheric nitrogen. The carbon combines with oxygen, to form CO<span class="math inline">\({}_2\)</span> that is then absorbed by plants. When plants die, the isotope decays in their tissues. Radioactive decay follows the exponential model:</p>
 <p><span class="math display">\[
-N(t) = e^{\lambda t} N(0)
+N(t) =  N(0)e^{\lambda t}
 \]</span></p>
 <p>where <span class="math inline">\(\lambda &lt; 0\)</span> is the decay rate of the isotope. The half-life of a radioisotope is the time it takes to be reduced to half of the original concentration, and is 5,730 years for <span class="math inline">\({}^{14}\)</span>C.</p>
 <ul>
@@ -516,7 +516,7 @@ Nondimensionalization
 <p>To perform nondimensionalization:</p>
 <ul>
 <li>identify all the variables that depend on time (<span class="math inline">\(X(\tau)\)</span>, <span class="math inline">\(Y(\tau)\)</span>, etc.), as well as the independent variable (the time, <span class="math inline">\(\tau\)</span>)</li>
-<li>replace each of them by a scaled version: <span class="math inline">\(X = c_x x\)</span>, <span class="math inline">\(Y = c_y y\)</span>, <span class="math inline">\(t = c_t \tau\)</span>, in which <span class="math inline">\(c_i\)</span> are positive constants to be determined, and rewrite the equations for the new variables</li>
+<li>replace each of them by a scaled version: <span class="math inline">\(X = c_x x\)</span>, <span class="math inline">\(Y = c_y y\)</span>, <span class="math inline">\(\tau = c_t t\)</span>, in which <span class="math inline">\(c_i\)</span> are positive constants to be determined, and rewrite the equations for the new variables</li>
 <li>choose the values for the constants to eliminate as many parameters as possible. Generally, one should be able to remove one parameter for each dependent variable, plus one parameter by scaling the time.</li>
 </ul>
 <p><strong>Example</strong></p>
